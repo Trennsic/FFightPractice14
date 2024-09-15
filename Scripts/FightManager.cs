@@ -1,18 +1,23 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using static UnityEditor.PlayerSettings;
 
 public class FightManager : MonoBehaviour
 {
     public enum FightEnum
     {
-        Titan_Story, Titan_Hard, Titan_Extreme,
         M1N, M2N, M3N, M4N,
-        M1S, M2S, M3S, M4S
+        M1S, M2S, M3S, M4S,
+        Titan_Story, Titan_Hard, Titan_Extreme,
     }
 
     public FightEnum currentFight;
     public GameObject fightTextGameObject; // Reference to the GameObject in the Inspector
+    public GameObject MarkerManager; // Reference to the GameObject in the Inspector
+    private Waymarks waymarks; // Reference to the GameObject in the Inspector
+    public GameObject Boss; // Reference to the GameObject in the Inspector
+    private BossManager bossManager; // Reference to the GameObject in the Inspector
     private TMP_Text fightText;  // Internal reference to the TextMeshPro component
 
     private Dictionary<FightEnum, List<string>> fightAttacks = new Dictionary<FightEnum, List<string>>();
@@ -33,6 +38,15 @@ public class FightManager : MonoBehaviour
         {
             Debug.LogError("No GameObject assigned for fightTextGameObject.");
         }
+        if (MarkerManager != null)
+        {
+            waymarks = MarkerManager.GetComponent<Waymarks>();
+        }
+        if (Boss != null)
+        {
+            bossManager = Boss.GetComponent<BossManager>();
+        }
+
 
         InitializeFights();
         StartFight();  // Starts with the default fight (M4S) unless another is passed later
@@ -44,6 +58,11 @@ public class FightManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             ProcessNextStep();
+        }
+        // Check if Left Control + R is pressed for resetting the fight
+        if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.R))
+        {
+            ResetFight();
         }
     }
 
@@ -73,7 +92,7 @@ public class FightManager : MonoBehaviour
         };
         #region // M4S
         /* 
-         * Bewitching Flight                    - P1 Lines, R1 Lines, P2, R2, P3 + Mechanic, R3;
+         * Bewitching Flight                    - Move N, P1 Lines, R1 Lines, P2, R2, P3 + Mechanic, R3;
          * Witch Hunt                           - P1, R1, P2, R2, P3, R3, P4, R4;
          * Electrope Edge 1                     - Pos Cardinals, Gleam 1, Gleam 2, Gleam 3, Gleam 4, SideSpark, Pos 2, Res;
          * Electrope Edge 2 (Lightning Cage)    - P Clocks,R Gleam 1 - 4,R2 Lightning Cage, P2 Major 1, R3 Major 1,R4 SideSpark, P3 StackOrSpread, R5 StackOrSpread, R6 Lightning Cage 2, P4, Major 2, R5 Major 2;
@@ -134,7 +153,10 @@ public class FightManager : MonoBehaviour
         currentFight = selectedFight;  // Set the current fight to the selected fight
         currentAttackIndex = 0;
         currentStep = 0;
-        UpdateFightText();  // Update the text with the initial attack and step
+        SetBoss();              // Update Boss
+        SetWaymarks();          // Update waymarks
+        UpdateFightActions();   //Update inital fight action
+        UpdateFightText();      // Update the text with the initial attack and step
     }
 
     // Function to advance to the next step of the current attack
@@ -168,6 +190,8 @@ public class FightManager : MonoBehaviour
             Debug.Log($"Executing step {currentStep + 1} of attack: {fightAttacks[currentFight][currentAttackIndex]}");
             UpdateFightText();  // Update text after each step or attack change
         }
+        //Update fight actions
+        UpdateFightActions();
     }
 
     // Function to get if the current step of the current attack is awaiting input
@@ -191,6 +215,134 @@ public class FightManager : MonoBehaviour
             fightText.text = $"Fight: {currentFight}\nAttack: {currentAttack}\nStep: {currentStep + 1} of {totalSteps}";
         }
     }
+    // Function to get the current fight
+    public FightEnum GetCurrentFight()
+    {
+        return currentFight;
+    }
+    // Function to get the current attack (returns the name of the current attack)
+    public string GetCurrentAttack()
+    {
+        if (currentAttackIndex < fightAttacks[currentFight].Count)
+        {
+            return fightAttacks[currentFight][currentAttackIndex];
+        }
+        return null; // Return null if no valid attack exists
+    }
+    // Function to get the current step (returns the current step number starting from 1)
+    public int GetCurrentStep()
+    {
+        return currentStep + 1; // Returning 1-based step instead of 0-based
+    }
+    private void SetBoss()
+    {
+        //Default start
+        BossManager.Bosses whichBoss = BossManager.Bosses.Wicked_Thunder;
+
+        if (bossManager != null)
+        {
+            // M4S
+            whichBoss = BossManager.Bosses.Wicked_Thunder;
+            if (currentFight == FightEnum.M4S) { bossManager.SetupBoss(whichBoss); }
+        }
+    }
+    private void SetWaymarks()
+    {
+        //Default start
+        Waymarks.WaymarkSets whichWaymarks = Waymarks.WaymarkSets.M4S_Hector;
+
+        if (waymarks != null)
+        {
+            //M4S
+            if (currentFight == FightEnum.M4S) { waymarks.SetWaymarkUsingSets(whichWaymarks); }
+            
+        }
+
+    }
+
+    //This is run everytime the step is changed in a fight
+    private void UpdateFightActions()
+    {
+        // Get the current fight, attack, and step from FightManager
+        FightManager.FightEnum currentFight = GetCurrentFight();
+        string currentAttack = GetCurrentAttack();
+        int currentStep = GetCurrentStep();
+        Debug.Log("Updating fight actions");
+        Debug.Log($"Current Fight: {currentFight}");
+        Debug.Log($"Current Attack: {currentAttack}");
+        Debug.Log($"Current Step: {currentStep}");
+
+
+
+        if (bossManager == null) { Debug.LogError("BossManager isn't found"); return; }
+        BossManager bm = bossManager;
+        float zp = transform.position.z;
+        //Specific fight action
+
+        #region//M4S
+        //Goes from x: -5 to 5, 
+        if (currentFight == FightEnum.M4S)
+        {
+            if (currentAttack == "Bewitching Flight")
+            {
+                if (currentStep == 1)
+                {
+                    //Move Boss To Center
+                    bm.MoveBoss(new Vector3(0f, 0f, zp), 180, 0f);
+                    //Change boss to base form
+                    WickedThunderSettings wts = bm.wickedThunderSettings;
+                    bm.UpdateBossSprite(wts.Wicked_Thunder_Base_Image, wts.Wicked_Thunder_Xscale, wts.Wicked_Thunder_Yscale);
+                }
+                // Move North
+                else if (currentStep == 2)
+                {
+                    bm.MoveBoss( new Vector3( 0f, 4f, zp), 0, 1f);
+                    WickedThunderSettings wts = bm.wickedThunderSettings;
+                    bm.UpdateBossSprite(wts.Wicked_Thunder_Wings_Image, wts.Wicked_Thunder_Xscale, wts.Wicked_Thunder_Yscale);
+                }
+                //Set Lines - 3
+                // Move Mid
+                else if (currentStep == 4)
+                {
+                    bm.MoveBoss(new Vector3(0f, 0f, zp), 180, 1f);
+                    //Change boss to base form
+                    WickedThunderSettings wts = bm.wickedThunderSettings;
+                    bm.UpdateBossSprite(wts.Wicked_Thunder_Base_Image, wts.Wicked_Thunder_Xscale, wts.Wicked_Thunder_Yscale);
+                }
+            }
+            else if (currentAttack == "Witch Hunt")
+            {
+                if (currentStep == 1)
+                {
+
+                }
+            }
+            else if (currentAttack == "Electrope Edge 1")
+            {
+                if (currentStep == 6)
+                {
+                    int RandomDir = Random.Range(1, 2);
+                    float dir;
+                    if (RandomDir == 1) { dir = 0; } else { dir = 180; }
+                    //Move Boss To Center
+                    bm.MoveBoss(new Vector3(0f, 0f, zp), dir, .25f);
+                    //Change boss to base form
+                    WickedThunderSettings wts = bm.wickedThunderSettings;
+                    bm.UpdateBossSprite(wts.Wicked_Thunder_Base_Image, wts.Wicked_Thunder_Xscale, wts.Wicked_Thunder_Yscale);
+                }
+            }
+        }
+        #endregion
+    }
+    #region // Reset Fight
+    // Function to reset the current fight
+    public void ResetFight()
+    {
+        Debug.Log("Resetting the fight.");
+        StartFight(currentFight);  // Restart the current fight
+    }
+    #endregion
+
 }
 
 
