@@ -125,7 +125,7 @@ public class PlayerPositionManager : MonoBehaviour
 
             // Define the direction along the Z-axis for 10 units
             Vector3 rayDirection = Camera.main.transform.forward; // Along the Z-axis in 3D space
-
+             
             // Cast a ray for a distance of 10 units in 3D space
             RaycastHit[] hits = Physics.RaycastAll(rayOrigin, rayDirection, 10f);
 
