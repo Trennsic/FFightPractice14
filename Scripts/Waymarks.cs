@@ -32,6 +32,9 @@ public class Waymarks : MonoBehaviour
     {
         // Initialize waymark positions array
         waymarkPositions = new Vector3[8];
+        #region // Set the Z position
+        transform.position = new Vector3(transform.position.x, transform.position.y, zPosition);
+        #endregion
     }
 
     public void SetWaymarkUsingSets(WaymarkSets whichSet)

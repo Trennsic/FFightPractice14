@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.RuleTile.TilingRuleOutput;
+using UnityEngine.UIElements;
 
 public class BackgroundFiller : MonoBehaviour
 {
@@ -10,6 +12,7 @@ public class BackgroundFiller : MonoBehaviour
 
     private Camera cam;
     private GameObject backgroundQuad;
+    [SerializeField] private float zPosition = 1.5f;
 
     void Start()
     {
@@ -27,6 +30,10 @@ public class BackgroundFiller : MonoBehaviour
             Debug.LogError("The target GameObject does not have a Camera component!");
             return;
         }
+
+        #region // Set the Z position
+        transform.position = new Vector3(transform.position.x, transform.position.y, zPosition);
+        #endregion
 
         // Create a quad that will act as the background
         backgroundQuad = GameObject.CreatePrimitive(PrimitiveType.Quad);

@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.RuleTile.TilingRuleOutput;
+using UnityEngine.UIElements;
 
 public class BackgroundArena : MonoBehaviour
 {
@@ -25,6 +27,7 @@ public class BackgroundArena : MonoBehaviour
 
     private FightManager fightManager;     // Reference to the FightManager component
     private SpriteRenderer spriteRenderer; // The SpriteRenderer on BackgroundArena
+    [SerializeField] private float zPosition = 1.5f;
 
     void Start()
     {
@@ -38,6 +41,9 @@ public class BackgroundArena : MonoBehaviour
             Debug.LogError("FightManagerObject is not set.");
             return;
         }
+        #region // Set the Z position
+        transform.position = new Vector3(transform.position.x, transform.position.y, zPosition);
+        #endregion
 
         // Get the SpriteRenderer component
         spriteRenderer = GetComponent<SpriteRenderer>();

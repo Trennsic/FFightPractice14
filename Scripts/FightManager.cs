@@ -1,10 +1,12 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using static UnityEditor.PlayerSettings;
+using static EffectsManager;
+using UnityEngine.UIElements;
 
 public class FightManager : MonoBehaviour
 {
+    #region // Definitions
     public enum FightEnum
     {
         M1N, M2N, M3N, M4N,
@@ -13,30 +15,34 @@ public class FightManager : MonoBehaviour
     }
 
     public FightEnum currentFight;
-    public GameObject fightTextGameObject; // Reference to the GameObject in the Inspector
-    public GameObject MarkerManager; // Reference to the GameObject in the Inspector
-    private Waymarks waymarks; // Reference to the GameObject in the Inspector
-    public GameObject Boss; // Reference to the GameObject in the Inspector
-    private BossManager bossManager; // Reference to the GameObject in the Inspector
-    private TMP_Text fightText;  // Internal reference to the TextMeshPro component
+    #region // References
+    public GameObject fightTextGameObject;
+    public GameObject MarkerManager;
+    private Waymarks waymarks;
+    public GameObject Boss;
+    public GameObject EffectsManager;
+    private EffectsManager effects;
+    private BossManager bossManager;
+
+    private TMP_Text fightText;
+    #endregion
 
     private Dictionary<FightEnum, List<string>> fightAttacks = new Dictionary<FightEnum, List<string>>();
     private Dictionary<string, int> attackSteps = new Dictionary<string, int>();
-    private Dictionary<FightEnum, List<List<bool>>> fightAwaitingSteps = new Dictionary<FightEnum, List<List<bool>>>(); // Stores isAwaiting for each step of each attack
+    private Dictionary<FightEnum, List<List<bool>>> fightAwaitingSteps = new Dictionary<FightEnum, List<List<bool>>>();
 
     private int currentAttackIndex = 0;
     private int currentStep = 0;
+    private bool isFirstStep = true;
 
+    [SerializeField] private float zPosition = 0f;
+    #endregion
+    #region // Functions
     void Start()
     {
-        // Search for the TextMeshPro component on the assigned GameObject
         if (fightTextGameObject != null)
         {
             fightText = fightTextGameObject.GetComponent<TMP_Text>();
-        }
-        else
-        {
-            Debug.LogError("No GameObject assigned for fightTextGameObject.");
         }
         if (MarkerManager != null)
         {
@@ -46,27 +52,32 @@ public class FightManager : MonoBehaviour
         {
             bossManager = Boss.GetComponent<BossManager>();
         }
+        if (EffectsManager != null)
+        {
+            effects = EffectsManager.GetComponent<EffectsManager>();
+        }
 
-
+        transform.position = new Vector3(transform.position.x, transform.position.y, zPosition);
         InitializeFights();
-        StartFight();  // Starts with the default fight (M4S) unless another is passed later
+        StartFight();
     }
 
     void Update()
     {
-        // Check if the spacebar is pressed
         if (Input.GetKeyDown(KeyCode.Space))
         {
             ProcessNextStep();
         }
-        // Check if Left Control + R is pressed for resetting the fight
+
         if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.R))
         {
             ResetFight();
         }
+
+        // Execute the middle step logic continuously in Update
+        ExecuteMiddleOfStep();
     }
 
-    // Initialize fight data, attack steps, and isAwaiting steps
     void InitializeFights()
     {
         // Initialize Titan Story Attacks (as previously done)
@@ -115,18 +126,18 @@ public class FightManager : MonoBehaviour
         };
 
         // Set the number of steps for each attack (M4S)
-        attackSteps["Bewitching Flight"]                    = 7;
-        attackSteps["Witch Hunt"]                           = 8;
-        attackSteps["Electrope Edge 1"]                     = 8;
-        attackSteps["Electrope Edge 2 (Lightning Cage)"]    = 15; 
-        attackSteps["Ion Cluster (Ion Cannon)"]             = 16; 
-        attackSteps["Electrope Transplant"]                 = 32;
-        attackSteps["Cross Tail Switch"]                    = 3;
-        attackSteps["Twilight Sabbath"]                     = 3;
-        attackSteps["Midnight Sabbath"]                     = 3;
-        attackSteps["Raining Swords (Chain Lightning)"]     = 3;
-        attackSteps["Sunrise Sabbath"]                      = 3;
-        attackSteps["Sword Quiver"]                         = 3;
+        attackSteps["Bewitching Flight"] = 7;
+        attackSteps["Witch Hunt"] = 8;
+        attackSteps["Electrope Edge 1"] = 8;
+        attackSteps["Electrope Edge 2 (Lightning Cage)"] = 15;
+        attackSteps["Ion Cluster (Ion Cannon)"] = 16;
+        attackSteps["Electrope Transplant"] = 32;
+        attackSteps["Cross Tail Switch"] = 3;
+        attackSteps["Twilight Sabbath"] = 3;
+        attackSteps["Midnight Sabbath"] = 3;
+        attackSteps["Raining Swords (Chain Lightning)"] = 3;
+        attackSteps["Sunrise Sabbath"] = 3;
+        attackSteps["Sword Quiver"] = 3;
 
         // Initialize the awaiting steps for M4S
         fightAwaitingSteps[FightEnum.M4S] = new List<List<bool>>()
@@ -147,19 +158,19 @@ public class FightManager : MonoBehaviour
         #endregion
     }
 
-    // Start the selected fight with an optional parameter, default to M4S
     public void StartFight(FightEnum selectedFight = FightEnum.M4S)
     {
-        currentFight = selectedFight;  // Set the current fight to the selected fight
+        currentFight = selectedFight;
         currentAttackIndex = 0;
         currentStep = 0;
-        SetBoss();              // Update Boss
-        SetWaymarks();          // Update waymarks
-        UpdateFightActions();   //Update inital fight action
-        UpdateFightText();      // Update the text with the initial attack and step
+        isFirstStep = true;
+        SetBoss();
+        SetWaymarks();
+        UpdateFightActions();
+        UpdateFightText();
+        ExecuteStartOfStep();  // Execute StartOfStep when starting the fight
     }
 
-    // Function to advance to the next step of the current attack
     public void ProcessNextStep()
     {
         if (currentAttackIndex >= fightAttacks[currentFight].Count)
@@ -172,29 +183,40 @@ public class FightManager : MonoBehaviour
             return;
         }
 
+        // Only execute EndOfStep when moving to the next step after the first step
+        if (!isFirstStep)
+        {
+            ExecuteEndOfStep();
+        }
+
         string currentAttack = fightAttacks[currentFight][currentAttackIndex];
         int steps = attackSteps[currentAttack];
 
         if (currentStep < steps - 1)
         {
-            currentStep++;  // Move to the next step if there are more steps in the current attack
+            currentStep++;  // Move to the next step
         }
         else
         {
-            currentStep = 0;  // Reset steps for the next attack
+            currentStep = 0;  // Reset step
             currentAttackIndex++;  // Move to the next attack
         }
 
         if (currentAttackIndex < fightAttacks[currentFight].Count)
         {
             Debug.Log($"Executing step {currentStep + 1} of attack: {fightAttacks[currentFight][currentAttackIndex]}");
-            UpdateFightText();  // Update text after each step or attack change
+            UpdateFightText();
         }
-        //Update fight actions
+
         UpdateFightActions();
+
+        // Execute StartOfStep when moving to the new step
+        ExecuteStartOfStep();
+
+        // Once we’ve processed the first step, mark it as false so EndOfStep is called afterward
+        isFirstStep = false;
     }
 
-    // Function to get if the current step of the current attack is awaiting input
     public bool GetIsCurrentStepAwaiting()
     {
         if (currentAttackIndex < fightAwaitingSteps[currentFight].Count && currentStep < fightAwaitingSteps[currentFight][currentAttackIndex].Count)
@@ -202,10 +224,9 @@ public class FightManager : MonoBehaviour
             return fightAwaitingSteps[currentFight][currentAttackIndex][currentStep];
         }
 
-        return false;  // Return false if out of bounds
+        return false;
     }
 
-    // Update TextMeshPro with the current fight, attack, and step
     void UpdateFightText()
     {
         if (fightText != null && fightAttacks[currentFight].Count > currentAttackIndex)
@@ -215,26 +236,8 @@ public class FightManager : MonoBehaviour
             fightText.text = $"Fight: {currentFight}\nAttack: {currentAttack}\nStep: {currentStep + 1} of {totalSteps}";
         }
     }
-    // Function to get the current fight
-    public FightEnum GetCurrentFight()
-    {
-        return currentFight;
-    }
-    // Function to get the current attack (returns the name of the current attack)
-    public string GetCurrentAttack()
-    {
-        if (currentAttackIndex < fightAttacks[currentFight].Count)
-        {
-            return fightAttacks[currentFight][currentAttackIndex];
-        }
-        return null; // Return null if no valid attack exists
-    }
-    // Function to get the current step (returns the current step number starting from 1)
-    public int GetCurrentStep()
-    {
-        return currentStep + 1; // Returning 1-based step instead of 0-based
-    }
-    private void SetBoss()
+
+    private void SetBoss() 
     {
         //Default start
         BossManager.Bosses whichBoss = BossManager.Bosses.Wicked_Thunder;
@@ -246,7 +249,7 @@ public class FightManager : MonoBehaviour
             if (currentFight == FightEnum.M4S) { bossManager.SetupBoss(whichBoss); }
         }
     }
-    private void SetWaymarks()
+    private void SetWaymarks() 
     {
         //Default start
         Waymarks.WaymarkSets whichWaymarks = Waymarks.WaymarkSets.M4S_Hector;
@@ -255,14 +258,29 @@ public class FightManager : MonoBehaviour
         {
             //M4S
             if (currentFight == FightEnum.M4S) { waymarks.SetWaymarkUsingSets(whichWaymarks); }
-            
-        }
 
+        }
     }
 
-    //This is run everytime the step is changed in a fight
     private void UpdateFightActions()
     {
+
+    }
+    #region // Reset Fight
+    // Function to reset the current fight
+    public void ResetFight()
+    {
+        Debug.Log("Resetting the fight.");
+        StartFight(currentFight);  // Restart the current fight
+    }
+    #endregion
+    // New functions
+
+    // Called at the start of each new step
+    private void ExecuteStartOfStep()
+    {
+        Debug.Log("Executing Start of Step");
+        // Add custom behavior for start of step
         // Get the current fight, attack, and step from FightManager
         FightManager.FightEnum currentFight = GetCurrentFight();
         string currentAttack = GetCurrentAttack();
@@ -276,6 +294,7 @@ public class FightManager : MonoBehaviour
 
         if (bossManager == null) { Debug.LogError("BossManager isn't found"); return; }
         BossManager bm = bossManager;
+        EffectsManager em = effects;
         float zp = transform.position.z;
         //Specific fight action
 
@@ -296,10 +315,23 @@ public class FightManager : MonoBehaviour
                 // Move North
                 else if (currentStep == 2)
                 {
-                    bm.MoveBoss( new Vector3( 0f, 4f, zp), 0, 1f);
+                    bm.MoveBoss(new Vector3(0f, 4.8f, zp), 0, 1f);
                     WickedThunderSettings wts = bm.wickedThunderSettings;
                     bm.UpdateBossSprite(wts.Wicked_Thunder_Wings_Image, wts.Wicked_Thunder_Xscale, wts.Wicked_Thunder_Yscale);
                 }
+                // Start Lasters
+                else if (currentStep == 3)
+                {
+                    bm.MoveBoss(new Vector3(0f, 5.1f, zp), 0, 0f);
+                    WickedThunderSettings wts = bm.wickedThunderSettings;
+                    bm.UpdateBossSprite(wts.Wicked_Thunder_Wings_Image, wts.Wicked_Thunder_Xscale, wts.Wicked_Thunder_Yscale, 1f, .8f, 0f, .2f);
+                    //Spawn lasers
+                    em.CreateFX(Effects.WickedThunderBeam1, FxLifeTimeType.Step, new Vector3(-.2f, 4.85f, -1f), 0, 4);
+                    em.CreateFX(Effects.WickedThunderBeam2, FxLifeTimeType.Step, new Vector3(-1.8f, 4.9f, -.4f), 0, 4);
+                    em.CreateFX(Effects.WickedThunderBeam3, FxLifeTimeType.Step, new Vector3(-2.5f, 5.2f, -.4f), 0, 4);
+                    em.CreateFX(Effects.WickedThunderBeam4, FxLifeTimeType.Step, new Vector3(1.2f, 4.9f, -.4f), 0, 4);
+                    em.CreateFX(Effects.WickedThunderBeam5, FxLifeTimeType.Step, new Vector3(2f, 5.2f, -.4f), 0, 4);
+                    }
                 //Set Lines - 3
                 // Move Mid
                 else if (currentStep == 4)
@@ -334,25 +366,23 @@ public class FightManager : MonoBehaviour
         }
         #endregion
     }
-    #region // Reset Fight
-    // Function to reset the current fight
-    public void ResetFight()
+
+    // Called every frame during the middle of each step
+    private void ExecuteMiddleOfStep()
     {
-        Debug.Log("Resetting the fight.");
-        StartFight(currentFight);  // Restart the current fight
+        Debug.Log("Executing Middle of Step");
+        // Add custom behavior for the middle of each step
     }
+
+    // Called before proceeding to the next step, but not on the first step
+    private void ExecuteEndOfStep()
+    {
+        Debug.Log("Executing End of Step");
+        // Add custom behavior for the end of step
+    }
+
+    public FightEnum GetCurrentFight() => currentFight;
+    public string GetCurrentAttack() => fightAttacks[currentFight][currentAttackIndex];
+    public int GetCurrentStep() => currentStep + 1;
     #endregion
-
 }
-
-
-
-
-
-
-
-
-
-
-
-
