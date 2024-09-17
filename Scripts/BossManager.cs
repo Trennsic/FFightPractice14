@@ -40,8 +40,8 @@ public class BossManager : MonoBehaviour
 
     [SerializeField] private SpriteRenderer spriteRenderer;
     [SerializeField] private BossImageStages spriteImageStage;
-    [SerializeField] private float percentWidthOfSpriteToDraw = 1f;
-    [SerializeField] private float percentHeightOfSpriteToDraw = 1f;
+    //[SerializeField] private float percentWidthOfSpriteToDraw = 1f;
+    //[SerializeField] private float percentHeightOfSpriteToDraw = 1f;
     private Vector3 targetPosition;
     private float targetRotation;
     private float moveDuration;
@@ -68,6 +68,10 @@ public class BossManager : MonoBehaviour
     void Update()
     {
         // Optional: Smooth movement and rotation could be handled here if not using coroutines
+        if (spriteImageStage != BossImageStages.First)
+        {
+            //
+        }
     }
     public void UpdateBoss()
     {

@@ -3,7 +3,31 @@ using TMPro;
 using UnityEngine;
 using static EffectsManager;
 using UnityEngine.UIElements;
+using static FightManager;
 
+[System.Serializable]
+public class CurrentFightInfo
+{
+    [SerializeField] private FightEnum currentFight;
+    [SerializeField] private string currentAttack;
+    [SerializeField] private int currentStep;
+    [SerializeField] private int currentAttackIndex;
+
+
+    // Expose these values via properties (optional)
+    public FightEnum CurrentFight   => currentFight;
+    public string CurrentAttack     => currentAttack;
+    public int CurrentStep          => currentStep;
+    public int CurrentAttackIndex   => currentAttackIndex;
+
+    public void SetCurrentFight(FightEnum newFight) { currentFight = newFight;  }
+    public void SetCurrentAttack(string newAttack) { currentAttack = newAttack;  }
+    public void SetCurrentStep(int newStep) { currentStep = newStep;  }
+    public void SetCurrentAttackIndex(int newAtkIndex) { currentAttackIndex = newAtkIndex;  }
+    public void GotoNexAttackIndex() { currentAttackIndex++;  }
+    public void ResetStepIndex() { currentStep = 0;  }
+    public void GotoNextStepIndex() { currentStep++;  }
+}
 public class FightManager : MonoBehaviour
 {
     #region // Definitions
@@ -15,14 +39,20 @@ public class FightManager : MonoBehaviour
     }
 
     public FightEnum currentFight;
+   
+    [SerializeField] public CurrentFightInfo currentFightInfo;
     #region // References
     public GameObject fightTextGameObject;
     public GameObject MarkerManager;
     private Waymarks waymarks;
     public GameObject Boss;
     public GameObject EffectsManager;
+    public GameObject PPositionManager;
+    public GameObject PlayerManager;
     private EffectsManager effects;
     private BossManager bossManager;
+    private PlayerPositionManager playerPositionManager;
+    private PlayerManager playerManager;
 
     private TMP_Text fightText;
     #endregion
@@ -31,32 +61,46 @@ public class FightManager : MonoBehaviour
     private Dictionary<string, int> attackSteps = new Dictionary<string, int>();
     private Dictionary<FightEnum, List<List<bool>>> fightAwaitingSteps = new Dictionary<FightEnum, List<List<bool>>>();
 
-    private int currentAttackIndex = 0;
-    private int currentStep = 0;
-    private bool isFirstStep = true;
+    private bool isStartOfFight = true;
 
     [SerializeField] private float zPosition = 0f;
     #endregion
     #region // Functions
     void Start()
     {
+        #region // References
         if (fightTextGameObject != null)
         {
             fightText = fightTextGameObject.GetComponent<TMP_Text>();
-        }
+            if (fightText == null) { Debug.LogError(" Unable to find fightText component"); }
+        } else { Debug.LogError(" Unable to find FightTextGameObject"); }
         if (MarkerManager != null)
         {
             waymarks = MarkerManager.GetComponent<Waymarks>();
+            if (fightText == null) { Debug.LogError(" Unable to find waymarks component"); }
         }
+        else { Debug.LogError(" Unable to find MarkerManager"); }
         if (Boss != null)
         {
             bossManager = Boss.GetComponent<BossManager>();
-        }
+            if (fightText == null) { Debug.LogError(" Unable to find bossManager component"); }
+        } else { Debug.LogError(" Unable to find Boss"); }
         if (EffectsManager != null)
         {
             effects = EffectsManager.GetComponent<EffectsManager>();
-        }
-
+            if (fightText == null) { Debug.LogError(" Unable to find effects component"); }
+        } else { Debug.LogError(" Unable to find EffectsManager"); }
+        if (PPositionManager != null)
+        {
+            playerPositionManager = PPositionManager.GetComponent<PlayerPositionManager>();
+            if (fightText == null) { Debug.LogError(" Unable to find playerPositionManager component"); }
+        } else { Debug.LogError(" Unable to find PPositionManager"); }        
+        if (PlayerManager != null)
+        {
+            playerManager = PlayerManager.GetComponent<PlayerManager>();
+            if (fightText == null) { Debug.LogError(" Unable to find playerManager component"); }
+        } else { Debug.LogError(" Unable to find PlayerManager"); }
+        #endregion
         transform.position = new Vector3(transform.position.x, transform.position.y, zPosition);
         InitializeFights();
         StartFight();
@@ -160,20 +204,21 @@ public class FightManager : MonoBehaviour
 
     public void StartFight(FightEnum selectedFight = FightEnum.M4S)
     {
-        currentFight = selectedFight;
-        currentAttackIndex = 0;
-        currentStep = 0;
-        isFirstStep = true;
-        SetBoss();
+        currentFightInfo.SetCurrentFight(selectedFight);
+        currentFightInfo.SetCurrentAttackIndex(0);
+        currentFightInfo.SetCurrentStep(0);
+        isStartOfFight = true;
+        SetBoss(); SetPlayer();
         SetWaymarks();
         UpdateFightActions();
+        UpdateFightAttackString();
         UpdateFightText();
         ExecuteStartOfStep();  // Execute StartOfStep when starting the fight
     }
 
     public void ProcessNextStep()
     {
-        if (currentAttackIndex >= fightAttacks[currentFight].Count)
+        if (currentFightInfo.CurrentAttackIndex >= fightAttacks[currentFightInfo.CurrentFight].Count)
         {
             Debug.Log("Fight Completed");
             if (fightText != null)
@@ -184,44 +229,48 @@ public class FightManager : MonoBehaviour
         }
 
         // Only execute EndOfStep when moving to the next step after the first step
-        if (!isFirstStep)
+        if (!isStartOfFight)
         {
             ExecuteEndOfStep();
         }
 
-        string currentAttack = fightAttacks[currentFight][currentAttackIndex];
+        string currentAttack = fightAttacks[currentFightInfo.CurrentFight][currentFightInfo.CurrentAttackIndex];
         int steps = attackSteps[currentAttack];
 
-        if (currentStep < steps - 1)
+
+        if (currentFightInfo.CurrentStep < steps - 1)
         {
-            currentStep++;  // Move to the next step
+            currentFightInfo.GotoNextStepIndex();  // Move to the next step
         }
         else
         {
-            currentStep = 0;  // Reset step
-            currentAttackIndex++;  // Move to the next attack
+            currentFightInfo.ResetStepIndex();  // Reset step
+            currentFightInfo.GotoNexAttackIndex();  // Move to the next attack
         }
-
-        if (currentAttackIndex < fightAttacks[currentFight].Count)
+      
+        if (currentFightInfo.CurrentAttackIndex < fightAttacks[currentFightInfo.CurrentFight].Count)
         {
-            Debug.Log($"Executing step {currentStep + 1} of attack: {fightAttacks[currentFight][currentAttackIndex]}");
+            Debug.Log($"Executing step {currentFightInfo.CurrentStep + 1} of attack: {fightAttacks[currentFightInfo.CurrentFight][currentFightInfo.CurrentAttackIndex]}");
             UpdateFightText();
         }
+        //Update fight attack string
+        UpdateFightAttackString();
 
+        //
         UpdateFightActions();
 
         // Execute StartOfStep when moving to the new step
         ExecuteStartOfStep();
 
-        // Once we’ve processed the first step, mark it as false so EndOfStep is called afterward
-        isFirstStep = false;
+        // Once we’ve processed the start of fight, mark it as false so EndOfStep is called afterward
+        isStartOfFight = false;
     }
 
     public bool GetIsCurrentStepAwaiting()
     {
-        if (currentAttackIndex < fightAwaitingSteps[currentFight].Count && currentStep < fightAwaitingSteps[currentFight][currentAttackIndex].Count)
+        if (currentFightInfo.CurrentAttackIndex < fightAwaitingSteps[currentFightInfo.CurrentFight].Count && currentFightInfo.CurrentStep < fightAwaitingSteps[currentFightInfo.CurrentFight][currentFightInfo.CurrentAttackIndex].Count)
         {
-            return fightAwaitingSteps[currentFight][currentAttackIndex][currentStep];
+            return fightAwaitingSteps[currentFightInfo.CurrentFight][currentFightInfo.CurrentAttackIndex][currentFightInfo.CurrentStep];
         }
 
         return false;
@@ -229,12 +278,18 @@ public class FightManager : MonoBehaviour
 
     void UpdateFightText()
     {
-        if (fightText != null && fightAttacks[currentFight].Count > currentAttackIndex)
+        
+        if (fightText != null && fightAttacks[currentFightInfo.CurrentFight].Count > currentFightInfo.CurrentAttackIndex)
         {
-            string currentAttack = fightAttacks[currentFight][currentAttackIndex];
+            string currentAttack = fightAttacks[currentFightInfo.CurrentFight][currentFightInfo.CurrentAttackIndex];
             int totalSteps = attackSteps[currentAttack];
-            fightText.text = $"Fight: {currentFight}\nAttack: {currentAttack}\nStep: {currentStep + 1} of {totalSteps}";
+            fightText.text = $"Fight: {currentFightInfo.CurrentFight}\nAttack: {currentAttack}\nStep: {currentFightInfo.CurrentStep} of {totalSteps}";
         }
+    }
+    private void UpdateFightAttackString()
+    {
+        //Update fight attack string
+        currentFightInfo.SetCurrentAttack(fightAttacks[currentFightInfo.CurrentFight][currentFightInfo.CurrentAttackIndex]);
     }
 
     private void SetBoss() 
@@ -246,7 +301,19 @@ public class FightManager : MonoBehaviour
         {
             // M4S
             whichBoss = BossManager.Bosses.Wicked_Thunder;
-            if (currentFight == FightEnum.M4S) { bossManager.SetupBoss(whichBoss); }
+            if (currentFightInfo.CurrentFight == FightEnum.M4S) { bossManager.SetupBoss(whichBoss); }
+        }
+    }    
+    private void SetPlayer() 
+    {
+
+        //Default start
+        PlayerInfo.Jobs whichJob = PlayerInfo.Jobs.WHM;
+        PlayerInfo.RolePositions whichRolePos = PlayerInfo.RolePositions.H1;
+
+        if (playerManager != null)
+        {
+            playerManager.SetupPlayer(whichJob, whichRolePos);
         }
     }
     private void SetWaymarks() 
@@ -257,7 +324,7 @@ public class FightManager : MonoBehaviour
         if (waymarks != null)
         {
             //M4S
-            if (currentFight == FightEnum.M4S) { waymarks.SetWaymarkUsingSets(whichWaymarks); }
+            if (currentFightInfo.CurrentFight == FightEnum.M4S) { waymarks.SetWaymarkUsingSets(whichWaymarks); }
 
         }
     }
@@ -271,7 +338,7 @@ public class FightManager : MonoBehaviour
     public void ResetFight()
     {
         Debug.Log("Resetting the fight.");
-        StartFight(currentFight);  // Restart the current fight
+        StartFight(currentFightInfo.CurrentFight);  // Restart the current fight
     }
     #endregion
     // New functions
@@ -282,29 +349,27 @@ public class FightManager : MonoBehaviour
         Debug.Log("Executing Start of Step");
         // Add custom behavior for start of step
         // Get the current fight, attack, and step from FightManager
-        FightManager.FightEnum currentFight = GetCurrentFight();
-        string currentAttack = GetCurrentAttack();
-        int currentStep = GetCurrentStep();
         Debug.Log("Updating fight actions");
-        Debug.Log($"Current Fight: {currentFight}");
-        Debug.Log($"Current Attack: {currentAttack}");
-        Debug.Log($"Current Step: {currentStep}");
+        Debug.Log($"Current Fight: {currentFightInfo.CurrentFight}");
+        Debug.Log($"Current Attack: {currentFightInfo.CurrentAttack}");
+        Debug.Log($"Current Step: {currentFightInfo.CurrentStep}");
 
 
 
         if (bossManager == null) { Debug.LogError("BossManager isn't found"); return; }
         BossManager bm = bossManager;
         EffectsManager em = effects;
+        PlayerPositionManager ppm = playerPositionManager;
         float zp = transform.position.z;
         //Specific fight action
 
         #region//M4S
         //Goes from x: -5 to 5, 
-        if (currentFight == FightEnum.M4S)
+        if (currentFightInfo.CurrentFight == FightEnum.M4S)
         {
-            if (currentAttack == "Bewitching Flight")
+            if (currentFightInfo.CurrentAttack == "Bewitching Flight")
             {
-                if (currentStep == 1)
+                if (currentFightInfo.CurrentStep == 0)
                 {
                     //Move Boss To Center
                     bm.MoveBoss(new Vector3(0f, 0f, zp), 180, 0f);
@@ -313,28 +378,48 @@ public class FightManager : MonoBehaviour
                     bm.UpdateBossSprite(wts.Wicked_Thunder_Base_Image, wts.Wicked_Thunder_Xscale, wts.Wicked_Thunder_Yscale);
                 }
                 // Move North
-                else if (currentStep == 2)
+                else if (currentFightInfo.CurrentStep == 1)
                 {
                     bm.MoveBoss(new Vector3(0f, 4.8f, zp), 0, 1f);
                     WickedThunderSettings wts = bm.wickedThunderSettings;
                     bm.UpdateBossSprite(wts.Wicked_Thunder_Wings_Image, wts.Wicked_Thunder_Xscale, wts.Wicked_Thunder_Yscale);
                 }
                 // Start Lasters
-                else if (currentStep == 3)
+                else if (currentFightInfo.CurrentStep == 2)
                 {
                     bm.MoveBoss(new Vector3(0f, 5.1f, zp), 0, 0f);
                     WickedThunderSettings wts = bm.wickedThunderSettings;
                     bm.UpdateBossSprite(wts.Wicked_Thunder_Wings_Image, wts.Wicked_Thunder_Xscale, wts.Wicked_Thunder_Yscale, 1f, .8f, 0f, .2f);
                     //Spawn lasers
-                    em.CreateFX(Effects.WickedThunderBeam1, FxLifeTimeType.Step, new Vector3(-.2f, 4.85f, -1f), 0, 4);
-                    em.CreateFX(Effects.WickedThunderBeam2, FxLifeTimeType.Step, new Vector3(-1.8f, 4.9f, -.4f), 0, 4);
-                    em.CreateFX(Effects.WickedThunderBeam3, FxLifeTimeType.Step, new Vector3(-2.5f, 5.2f, -.4f), 0, 4);
-                    em.CreateFX(Effects.WickedThunderBeam4, FxLifeTimeType.Step, new Vector3(1.2f, 4.9f, -.4f), 0, 4);
-                    em.CreateFX(Effects.WickedThunderBeam5, FxLifeTimeType.Step, new Vector3(2f, 5.2f, -.4f), 0, 4);
+                    em.CreateFX(Effects.WickedThunderBeam1, FxLifeTimeType.Step, new Vector3(-.2f, 4.85f, -1f), 0, 3);
+                    em.CreateFX(Effects.WickedThunderBeam2, FxLifeTimeType.Step, new Vector3(-1.8f, 4.9f, -.4f), 0, 3);
+                    em.CreateFX(Effects.WickedThunderBeam3, FxLifeTimeType.Step, new Vector3(-2.5f, 5.2f, -.4f), 0, 3);
+                    em.CreateFX(Effects.WickedThunderBeam4, FxLifeTimeType.Step, new Vector3(1.2f, 4.9f, -.4f), 0, 3);
+                    em.CreateFX(Effects.WickedThunderBeam5, FxLifeTimeType.Step, new Vector3(2f, 5.2f, -.4f), 0, 3);
+
+                    int ran = 1;
+                    if (ran == 0)
+                    {
+                        em.CreateFX(Effects.WickedThunderElectromine, FxLifeTimeType.Step, new Vector3(-5f, 2.5f, -.4f), 0, 3);
+                        em.CreateFX(Effects.WickedThunderElectromine, FxLifeTimeType.Step, new Vector3(-5f, .5f, -.4f), 0, 3);
+                        em.CreateFX(Effects.WickedThunderElectromine, FxLifeTimeType.Step, new Vector3(-5f, -1.5f, -.4f), 0, 3);
+                        em.CreateFX(Effects.WickedThunderElectromine, FxLifeTimeType.Step, new Vector3(-5f, -3.5f, -.4f), 0, 3);
                     }
+                    else if (ran == 1)
+                    {
+                        em.CreateFX(Effects.WickedThunderElectromine, FxLifeTimeType.Step, new Vector3(-5f, 3.6f, -.4f), 0, 3);
+                        em.CreateFX(Effects.WickedThunderElectromine, FxLifeTimeType.Step, new Vector3(-5f, 1.6f, -.4f), 0, 3);
+                        em.CreateFX(Effects.WickedThunderElectromine, FxLifeTimeType.Step, new Vector3(-5f, -.4f, -.4f), 0, 3);
+                        em.CreateFX(Effects.WickedThunderElectromine, FxLifeTimeType.Step, new Vector3(-5f, -2.4f, -.4f), 0, 3);
+                    }
+
+                    //Setup guide points
+                    Debug.Log("Sending Debug Log stuff over");
+                    ppm.SetupGuidePoints();
+                }
                 //Set Lines - 3
                 // Move Mid
-                else if (currentStep == 4)
+                else if (currentFightInfo.CurrentStep == 3)
                 {
                     bm.MoveBoss(new Vector3(0f, 0f, zp), 180, 1f);
                     //Change boss to base form
@@ -342,16 +427,16 @@ public class FightManager : MonoBehaviour
                     bm.UpdateBossSprite(wts.Wicked_Thunder_Base_Image, wts.Wicked_Thunder_Xscale, wts.Wicked_Thunder_Yscale);
                 }
             }
-            else if (currentAttack == "Witch Hunt")
+            else if (currentFightInfo.CurrentAttack == "Witch Hunt")
             {
-                if (currentStep == 1)
+                if (currentFightInfo.CurrentStep == 1)
                 {
 
                 }
             }
-            else if (currentAttack == "Electrope Edge 1")
+            else if (currentFightInfo.CurrentAttack == "Electrope Edge 1")
             {
-                if (currentStep == 6)
+                if (currentFightInfo.CurrentStep == 6)
                 {
                     int RandomDir = Random.Range(1, 2);
                     float dir;
@@ -370,7 +455,7 @@ public class FightManager : MonoBehaviour
     // Called every frame during the middle of each step
     private void ExecuteMiddleOfStep()
     {
-        Debug.Log("Executing Middle of Step");
+        //Debug.Log("Executing Middle of Step");
         // Add custom behavior for the middle of each step
     }
 
@@ -381,8 +466,9 @@ public class FightManager : MonoBehaviour
         // Add custom behavior for the end of step
     }
 
-    public FightEnum GetCurrentFight() => currentFight;
-    public string GetCurrentAttack() => fightAttacks[currentFight][currentAttackIndex];
-    public int GetCurrentStep() => currentStep + 1;
+    public FightEnum GetCurrentFight() => currentFightInfo.CurrentFight;
+    public string GetCurrentAttack() => currentFightInfo.CurrentAttack;
+    public int GetAttackIndex() => currentFightInfo.CurrentAttackIndex;
+    public int GetCurrentStep() => currentFightInfo.CurrentStep;
     #endregion
 }

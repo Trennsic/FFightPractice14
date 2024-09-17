@@ -198,7 +198,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: cc19c63a0affb894abd0e83a5c5d9e11, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 57306ffeca3a3ce42915a23fd5f2b5a1, type: 2}
+      objectReference: {fileID: 2100000, guid: 6c46da835c48aa0438fc7ac287577282, type: 2}
     - target: {fileID: 919132149155446097, guid: cc19c63a0affb894abd0e83a5c5d9e11, type: 3}
       propertyPath: m_Name
       value: RightTriFar

@@ -11,6 +11,7 @@ public class WickedThunderEffects
     [SerializeField] private GameObject wickedThunderFX_BF_Beam3;
     [SerializeField] private GameObject wickedThunderFX_BF_Beam4;
     [SerializeField] private GameObject wickedThunderFX_BF_Beam5;
+    [SerializeField] private GameObject wickedThunderFX_BF_Electromine;
 
     // Expose these values via properties (optional)
     public GameObject WickedThunderFX_BF_Beam1 => wickedThunderFX_BF_Beam1;
@@ -18,6 +19,7 @@ public class WickedThunderEffects
     public GameObject WickedThunderFX_BF_Beam3 => wickedThunderFX_BF_Beam3;
     public GameObject WickedThunderFX_BF_Beam4 => wickedThunderFX_BF_Beam4;
     public GameObject WickedThunderFX_BF_Beam5 => wickedThunderFX_BF_Beam5;
+    public GameObject WickedThunderFX_BF_Electromine => wickedThunderFX_BF_Electromine;
 }
 
 
@@ -31,6 +33,7 @@ public class EffectsManager : MonoBehaviour
         WickedThunderBeam3,
         WickedThunderBeam4,
         WickedThunderBeam5,
+        WickedThunderElectromine,
     }
     [SerializeField] private Effects whichEffects;
     public enum FxLifeTimeType
@@ -90,6 +93,9 @@ public class EffectsManager : MonoBehaviour
                 break;            
             case Effects.WickedThunderBeam5:
                 effectInstance = Instantiate(wickedThunderEffects.WickedThunderFX_BF_Beam5, position, Quaternion.identity);
+                break;            
+            case Effects.WickedThunderElectromine:
+                effectInstance = Instantiate(wickedThunderEffects.WickedThunderFX_BF_Electromine, position, Quaternion.identity);
                 break;
             default:
                 Debug.LogWarning("Unknown effect type");
