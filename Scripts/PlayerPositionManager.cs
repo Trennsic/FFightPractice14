@@ -122,13 +122,12 @@ public class PlayerPositionManager : MonoBehaviour
             // Get the mouse position in world space (X, Y from mouse, Z from camera)
             Vector3 mousePosition = Input.mousePosition;
             Vector3 rayOrigin = Camera.main.ScreenToWorldPoint(new Vector3(mousePosition.x, mousePosition.y, Camera.main.transform.position.z));
-
+            float rayLength = 10f;
             // Define the direction along the Z-axis for 10 units
             Vector3 rayDirection = Camera.main.transform.forward; // Along the Z-axis in 3D space
-             
-            // Cast a ray for a distance of 10 units in 3D space
-            RaycastHit[] hits = Physics.RaycastAll(rayOrigin, rayDirection, 10f);
 
+            // Cast a ray for a distance of 10 units in 3D space
+            RaycastHit2D hits = Physics2D.Raycast(rayOrigin, rayDirection, rayLength);
             // Show the debug line (only visible in Scene view) for 2 seconds
             if (isDebugging)
             {
