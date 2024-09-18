@@ -4,6 +4,7 @@ using UnityEngine;
 using static EffectsManager;
 using UnityEngine.UIElements;
 using static FightManager;
+using static BossManager;
 
 [System.Serializable]
 public class CurrentFightInfo
@@ -309,7 +310,76 @@ public class FightManager : MonoBehaviour
 
         //Default start
         PlayerInfo.Jobs whichJob = PlayerInfo.Jobs.WHM;
-        PlayerInfo.RolePositions whichRolePos = PlayerInfo.RolePositions.H1;
+        PlayerInfo.RolePositions whichRolePos = PlayerInfo.RolePositions.R1;
+        // the grid will always be 1, 2, 3, 4, or 5 prefabs wide
+        int role = Random.Range(0, 8);
+        switch (role)
+        {
+            case 0: whichRolePos = PlayerInfo.RolePositions.MT; break;
+            case 1: whichRolePos = PlayerInfo.RolePositions.OT; break;
+            case 2: whichRolePos = PlayerInfo.RolePositions.H1; break;
+            case 3: whichRolePos = PlayerInfo.RolePositions.H2; break;
+            case 4: whichRolePos = PlayerInfo.RolePositions.M1; break;
+            case 5: whichRolePos = PlayerInfo.RolePositions.M2; break;
+            case 6: whichRolePos = PlayerInfo.RolePositions.R1; break;
+            default : whichRolePos = PlayerInfo.RolePositions.R2; break;
+        }
+
+        int job = 0;
+        //Tanks
+        if (whichRolePos == PlayerInfo.RolePositions.MT || whichRolePos == PlayerInfo.RolePositions.OT)
+        {
+            job = Random.Range(0, 4);
+            switch (role)
+            {
+                case 0: whichJob = PlayerInfo.Jobs.PLD; break;
+                case 1: whichJob = PlayerInfo.Jobs.WAR; break;
+                case 2: whichJob = PlayerInfo.Jobs.DRK; break;
+                default: whichJob = PlayerInfo.Jobs.GNB; break;
+            }
+        }
+        //Heals
+        if (whichRolePos == PlayerInfo.RolePositions.H1 || whichRolePos == PlayerInfo.RolePositions.H2)
+        {
+            job = Random.Range(0,4);
+            switch (role)
+            {
+                case 0: whichJob  = PlayerInfo.Jobs.WHM; break;
+                case 1: whichJob  = PlayerInfo.Jobs.SCH; break;
+                case 2: whichJob  = PlayerInfo.Jobs.AST; break;
+                default: whichJob = PlayerInfo.Jobs.SGE; break;
+            }
+        }
+        //M Dps
+        if (whichRolePos == PlayerInfo.RolePositions.M1 || whichRolePos == PlayerInfo.RolePositions.M2)
+        {
+            job = Random.Range(0, 6);
+            switch (role)
+            {
+                case 0: whichJob = whichJob  = PlayerInfo.Jobs.MNK; break;
+                case 1: whichJob = whichJob  = PlayerInfo.Jobs.DRG; break;
+                case 2: whichJob = whichJob  = PlayerInfo.Jobs.NIN; break;
+                case 3: whichJob = whichJob  = PlayerInfo.Jobs.SAM; break;
+                case 4: whichJob = whichJob  = PlayerInfo.Jobs.RPR; break;
+                default: whichJob = whichJob  = PlayerInfo.Jobs.VIP; break;
+            }
+        }
+        //R Dps
+        if (whichRolePos == PlayerInfo.RolePositions.R1 || whichRolePos == PlayerInfo.RolePositions.R2)
+        {
+            job = Random.Range(0, 7);
+            switch (role)
+            {
+                case 0: whichJob = whichJob = PlayerInfo.Jobs.BRD; break;
+                case 1: whichJob = whichJob  = PlayerInfo.Jobs.MCH; break;
+                case 2: whichJob = whichJob  = PlayerInfo.Jobs.DNC; break;
+                case 3: whichJob = whichJob  = PlayerInfo.Jobs.PIC; break;
+                case 4: whichJob = whichJob  = PlayerInfo.Jobs.BLM; break;
+                case 5: whichJob = whichJob  = PlayerInfo.Jobs.SMN; break;
+                default: whichJob = whichJob  = PlayerInfo.Jobs.RDM; break;
+            }
+        }
+
 
         if (playerManager != null)
         {
@@ -470,5 +540,32 @@ public class FightManager : MonoBehaviour
     public string GetCurrentAttack() => currentFightInfo.CurrentAttack;
     public int GetAttackIndex() => currentFightInfo.CurrentAttackIndex;
     public int GetCurrentStep() => currentFightInfo.CurrentStep;
+
+    public Vector3 GetPlayerPosition()
+    {
+        //Initalize a player position var
+        Vector3 playerPos = new Vector3(0, 0, 0);
+        //Find player transform position
+        if (playerManager != null)
+        {
+            playerPos = playerManager.transform.position;
+        }
+        else { Debug.LogWarning("Unable to find player position due to not finding playerManager"); }
+        //Return player position
+        return playerPos;
+    }
+    public Vector3 GetBossPosition()
+    {
+        //Initalize a boss position var
+        Vector3 bossPos = new Vector3(0, 0, 0);
+        //Find boss transform position
+        if (bossManager != null)
+        {
+            bossPos = bossManager.transform.position;
+        }
+        else { Debug.LogWarning("Unable to find boss position due to not finding bossManager"); }
+        //Return boss position
+        return bossPos;
+    }
     #endregion
 }

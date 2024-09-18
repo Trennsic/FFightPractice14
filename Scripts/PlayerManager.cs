@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Rendering.VirtualTexturing;
+using static PlayerInfo;
 
 [System.Serializable]
 public class PlayerInfo
@@ -49,15 +50,20 @@ public class PlayerInfo
     }
     public enum RolePositions
     {
-        None,
-        MT,
-        OT,
-        H1,
-        H2,
-        M1,
-        M2,
-        R1,
+        None    ,
+        MT      ,
+        OT      ,
+        H1      ,
+        H2      ,
+        M1      ,
+        M2      ,
+        R1      ,
         R2
+    }
+    public enum FacingDirections
+    {
+        Left,
+        Right
     }
 
     [SerializeField] private float posX;
@@ -70,6 +76,7 @@ public class PlayerInfo
     [SerializeField] private float chibiYscale = .25f;
     [SerializeField] private float iconXscale = .25f;
     [SerializeField] private float iconYscale = .25f;
+    [SerializeField] private FacingDirections facing = FacingDirections.Left;
 
     public float PosX => posX;
     public float PosY => posY;
@@ -77,6 +84,7 @@ public class PlayerInfo
     public Roles Role => role;
     public Jobs Job => job;
     public RolePositions RolePosition => rolePosition;
+    public FacingDirections Facing => facing;
     public float ChibiXscale => chibiXscale;
     public float ChibiYscale => chibiYscale;
     public float IconXscale => iconXscale;
@@ -86,12 +94,13 @@ public class PlayerInfo
     public void SetRole(Roles whichRoles) { role = whichRoles; }
     public void SetJob(Jobs whichJob) { job = whichJob; }
     public void SetRolePosition(RolePositions whichRolePos) { rolePosition = whichRolePos; }
+    public void SetFacing(FacingDirections facingDirection) { facing = facingDirection; }
 }
 
 public class PlayerManager : MonoBehaviour
 {
     #region // References
-    private PlayerInfo playerInfo = new PlayerInfo();
+    public PlayerInfo playerInfo = new PlayerInfo();
     [SerializeField] private SpriteRenderer spriteRenderer;
     [SerializeField] private float zPosition = -2f;
     [SerializeField] private FightManager fm;
@@ -179,6 +188,26 @@ public class PlayerManager : MonoBehaviour
         playerInfo.SetRolePosition(whichRolePos);
         // Update the sprite based on the info
         UpdatePlayerSprite();
+
+        //Move player to starting postion
+        Vector3 startPos = new Vector3(transform.position.x, transform.position.y, transform.position.z);
+        float startRot = 0;
+        switch (whichRolePos)
+        {
+            case PlayerInfo.RolePositions.MT: startPos.x = -.1f;    startPos.y = 2.2f;      playerInfo.SetFacing(PlayerInfo.FacingDirections.Left);   break;
+            case PlayerInfo.RolePositions.OT: startPos.x = -.1f;    startPos.y = -2.0f;     playerInfo.SetFacing(PlayerInfo.FacingDirections.Right);   break;
+            case PlayerInfo.RolePositions.H1: startPos.x = -2.35f;  startPos.y = .1f;       playerInfo.SetFacing(PlayerInfo.FacingDirections.Right);   break;
+            case PlayerInfo.RolePositions.H2: startPos.x = 2.15f;   startPos.y = .1f;       playerInfo.SetFacing(PlayerInfo.FacingDirections.Left);   break;
+            case PlayerInfo.RolePositions.M1: startPos.x = -2.35f;  startPos.y = -2.0f;     playerInfo.SetFacing(PlayerInfo.FacingDirections.Right);   break;
+            case PlayerInfo.RolePositions.M2: startPos.x = 2.15f;   startPos.y = -2.0f;     playerInfo.SetFacing(PlayerInfo.FacingDirections.Left);   break;
+            case PlayerInfo.RolePositions.R1: startPos.x = -2.35f;  startPos.y = 2.2f;      playerInfo.SetFacing(PlayerInfo.FacingDirections.Right);   break;
+            case PlayerInfo.RolePositions.R2: startPos.x = 2.15f;   startPos.y = 2.2f;      playerInfo.SetFacing(PlayerInfo.FacingDirections.Left); break;
+        }
+        //Move player to starting position
+        MovePlayer(startPos, startRot, 0f);
+
+        //Update the facing
+        UpdatePlayerSprite();
     }
 
     public void MovePlayer(Vector3 goalPosition, float goalRotation, float duration)
@@ -194,7 +223,30 @@ public class PlayerManager : MonoBehaviour
         // Start the coroutine to move the player
         StartCoroutine(MovePlayerCoroutine());
     }
+    // Helper function to update player's facing direction based on position relative to the boss
+    private void UpdateFacingDirection()
+    {
+        Vector3 playerPos = transform.position;
+        Vector3 bossPos = GetBossPosition();
 
+        if (playerPos.x < bossPos.x)
+        {
+            // Player is to the left of the boss, so face right
+            playerInfo.SetFacing(FacingDirections.Right);
+        }
+        else if (playerPos.x > bossPos.x)
+        {
+            // Player is to the right of the boss, so face left
+            playerInfo.SetFacing(FacingDirections.Left);
+        }
+        //Update the sprite
+        UpdatePlayerSprite();
+        if (isDebugging)
+        {
+            Debug.Log($"Player position: {playerPos}, Boss position: {bossPos}");
+            Debug.Log($"Player is now facing: {(playerPos.x < bossPos.x ? "Right" : "Left")}");
+        }
+    }
     public void UpdatePlayerSprite()
     {
         Sprite selectedSprite = null;
@@ -213,6 +265,18 @@ public class PlayerManager : MonoBehaviour
             transform.localScale = new Vector3(playerInfo.IconXscale, playerInfo.IconYscale, 1);
         }
 
+        // Flip the sprite if the player is facing right
+        if (playerInfo.Facing == PlayerInfo.FacingDirections.Right)
+        {
+            // Flip the sprite by inverting the X scale
+            transform.localScale = new Vector3(-Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
+        }
+        else
+        {
+            // Ensure the sprite is not flipped when facing left
+            transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
+        }
+
         // Set the sprite renderer to the selected sprite
         if (selectedSprite != null)
         {
@@ -223,6 +287,7 @@ public class PlayerManager : MonoBehaviour
             Debug.LogWarning($"No sprite found for job {job} and sprite type {spriteType}");
         }
     }
+
 
     private Sprite GetChibiSprite(PlayerInfo.Jobs job)
     {
@@ -304,7 +369,10 @@ public class PlayerManager : MonoBehaviour
         // Ensure final position and rotation are exactly the target values
         transform.position = targetPosition;
         transform.rotation = Quaternion.Euler(0, 0, targetRotation);
+        // After moving, check player and boss positions
+        UpdateFacingDirection();
     }
+ 
     // Enable or disable debugging
     public void SetIsDebugging(bool IsDebugging)
     {
@@ -315,5 +383,18 @@ public class PlayerManager : MonoBehaviour
     public bool GetIsDebugging()
     {
         return isDebugging;
+    }
+    public Vector3 GetBossPosition()
+    {
+        //Initalize a boss position var
+        Vector3 bossPos = new Vector3(0, 0, 0);
+        //Find boss transform position
+        if (fm != null)
+        {
+            bossPos = fm.GetBossPosition();
+        }
+        else { Debug.LogWarning("Unable to find boss position due to not finding fight manager"); }
+        //Return boss position
+        return bossPos;
     }
 }

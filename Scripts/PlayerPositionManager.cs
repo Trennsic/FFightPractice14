@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static PlayerInfo;
 
 public class PlayerPositionManager : MonoBehaviour
 {
@@ -88,10 +89,125 @@ public class PlayerPositionManager : MonoBehaviour
                 if (cfi.CurrentStep == 2)
                 {
                     // Populate Guide Point list with instantiations of Guide point objects at set locations
-                    guidePointList.Add(Instantiate(guidePointObject, new Vector3(-4, 3.5f, gpz), Quaternion.identity));
-                    guidePointList.Add(Instantiate(guidePointObject, new Vector3(-3, 3.5f, gpz), Quaternion.identity));
-                    guidePointList.Add(Instantiate(guidePointObject, new Vector3(-0, 3, gpz), Quaternion.identity));
-                    guidePointList.Add(Instantiate(guidePointObject, new Vector3(2, 3, gpz), Quaternion.identity));
+                    #region // Far Top Points
+                    //Far Top Far Left Square
+                    guidePointList.Add(Instantiate(guidePointObject, new Vector3(-4     , 3.5f, gpz), Quaternion.identity));
+                    guidePointList.Add(Instantiate(guidePointObject, new Vector3(-3.1f  , 3.5f, gpz), Quaternion.identity));
+                    guidePointList.Add(Instantiate(guidePointObject, new Vector3(-2.25f  , 3.5f, gpz), Quaternion.identity));
+                    guidePointList.Add(Instantiate(guidePointObject, new Vector3(-4     , 2.5f, gpz), Quaternion.identity));
+                    guidePointList.Add(Instantiate(guidePointObject, new Vector3(-3.1f  , 2.5f, gpz), Quaternion.identity));
+                    guidePointList.Add(Instantiate(guidePointObject, new Vector3(-2.25f  , 2.5f, gpz), Quaternion.identity));
+
+                    //Far Top near Left Square
+                    guidePointList.Add(Instantiate(guidePointObject, new Vector3(-1.3f, 3.5f, gpz), Quaternion.identity));
+                    guidePointList.Add(Instantiate(guidePointObject, new Vector3(-0.4f, 3.5f, gpz), Quaternion.identity));
+                    guidePointList.Add(Instantiate(guidePointObject, new Vector3(-1.3f, 2.5f, gpz), Quaternion.identity));
+                    guidePointList.Add(Instantiate(guidePointObject, new Vector3(-0.4f, 2.5f, gpz), Quaternion.identity));
+
+                    //Far Top Far Right Square
+                    guidePointList.Add(Instantiate(guidePointObject, new Vector3(4, 3.5f, gpz), Quaternion.identity));
+                    guidePointList.Add(Instantiate(guidePointObject, new Vector3(3.1f, 3.5f, gpz), Quaternion.identity));
+                    guidePointList.Add(Instantiate(guidePointObject, new Vector3(2.25f, 3.5f, gpz), Quaternion.identity));
+                    guidePointList.Add(Instantiate(guidePointObject, new Vector3(4, 2.5f, gpz), Quaternion.identity));
+                    guidePointList.Add(Instantiate(guidePointObject, new Vector3(3.1f, 2.5f, gpz), Quaternion.identity));
+                    guidePointList.Add(Instantiate(guidePointObject, new Vector3(2.25f, 2.5f, gpz), Quaternion.identity));
+
+                    //Far Top near Right Square
+                    guidePointList.Add(Instantiate(guidePointObject, new Vector3(1.3f, 3.5f, gpz), Quaternion.identity));
+                    guidePointList.Add(Instantiate(guidePointObject, new Vector3(0.4f, 3.5f, gpz), Quaternion.identity));
+                    guidePointList.Add(Instantiate(guidePointObject, new Vector3(1.3f, 2.5f, gpz), Quaternion.identity));
+                    guidePointList.Add(Instantiate(guidePointObject, new Vector3(0.4f, 2.5f, gpz), Quaternion.identity));
+                    #endregion
+
+                    #region // Near Top Points
+                    //Far Top Far Left Square
+                    guidePointList.Add(Instantiate(guidePointObject, new Vector3(-4     , 1.5f, gpz), Quaternion.identity));
+                    guidePointList.Add(Instantiate(guidePointObject, new Vector3(-3.1f  , 1.5f, gpz), Quaternion.identity));
+                    guidePointList.Add(Instantiate(guidePointObject, new Vector3(-2.25f , 1.5f, gpz), Quaternion.identity));
+                    guidePointList.Add(Instantiate(guidePointObject, new Vector3(-4     , 0.5f, gpz), Quaternion.identity));
+                    guidePointList.Add(Instantiate(guidePointObject, new Vector3(-3.1f  , 0.5f, gpz), Quaternion.identity));
+                    guidePointList.Add(Instantiate(guidePointObject, new Vector3(-2.25f , 0.5f, gpz), Quaternion.identity));
+
+                    //Far Top near Left Square
+                    guidePointList.Add(Instantiate(guidePointObject, new Vector3(-1.3f  , 1.5f, gpz), Quaternion.identity));
+                    guidePointList.Add(Instantiate(guidePointObject, new Vector3(-0.4f  , 1.5f, gpz), Quaternion.identity));
+                    guidePointList.Add(Instantiate(guidePointObject, new Vector3(-1.3f  , 0.5f, gpz), Quaternion.identity));
+                    guidePointList.Add(Instantiate(guidePointObject, new Vector3(-0.4f  , 0.5f, gpz), Quaternion.identity));
+
+                    //Far Top Far Right Square
+                    guidePointList.Add(Instantiate(guidePointObject, new Vector3(4      , 1.5f, gpz), Quaternion.identity));
+                    guidePointList.Add(Instantiate(guidePointObject, new Vector3(3.1f   , 1.5f, gpz), Quaternion.identity));
+                    guidePointList.Add(Instantiate(guidePointObject, new Vector3(2.25f  , 1.5f, gpz), Quaternion.identity));
+                    guidePointList.Add(Instantiate(guidePointObject, new Vector3(4      , 0.5f, gpz), Quaternion.identity));
+                    guidePointList.Add(Instantiate(guidePointObject, new Vector3(3.1f   , 0.5f, gpz), Quaternion.identity));
+                    guidePointList.Add(Instantiate(guidePointObject, new Vector3(2.25f  , 0.5f, gpz), Quaternion.identity));
+
+                    //Far Top near Right Square
+                    guidePointList.Add(Instantiate(guidePointObject, new Vector3(1.3f   , 1.5f, gpz), Quaternion.identity));
+                    guidePointList.Add(Instantiate(guidePointObject, new Vector3(0.4f   , 1.5f, gpz), Quaternion.identity));
+                    guidePointList.Add(Instantiate(guidePointObject, new Vector3(1.3f   , 0.5f, gpz), Quaternion.identity));
+                    guidePointList.Add(Instantiate(guidePointObject, new Vector3(0.4f   , 0.5f, gpz), Quaternion.identity));
+                    #endregion
+
+                    #region // Near Bottom Points
+                    //Far Top Far Left Square
+                    guidePointList.Add(Instantiate(guidePointObject, new Vector3(-4     , -0.5f, gpz), Quaternion.identity));
+                    guidePointList.Add(Instantiate(guidePointObject, new Vector3(-3.1f  , -0.5f, gpz), Quaternion.identity));
+                    guidePointList.Add(Instantiate(guidePointObject, new Vector3(-2.25f , -0.5f, gpz), Quaternion.identity));
+                    guidePointList.Add(Instantiate(guidePointObject, new Vector3(-4     , -1.5f, gpz), Quaternion.identity));
+                    guidePointList.Add(Instantiate(guidePointObject, new Vector3(-3.1f  , -1.5f, gpz), Quaternion.identity));
+                    guidePointList.Add(Instantiate(guidePointObject, new Vector3(-2.25f , -1.5f, gpz), Quaternion.identity));
+
+                    //Far Top near Left Square
+                    guidePointList.Add(Instantiate(guidePointObject, new Vector3(-1.3f, -0.5f, gpz), Quaternion.identity));
+                    guidePointList.Add(Instantiate(guidePointObject, new Vector3(-0.4f, -0.5f, gpz), Quaternion.identity));
+                    guidePointList.Add(Instantiate(guidePointObject, new Vector3(-1.3f, -1.5f, gpz), Quaternion.identity));
+                    guidePointList.Add(Instantiate(guidePointObject, new Vector3(-0.4f, -1.5f, gpz), Quaternion.identity));
+
+                    //Far Top Far Right Square
+                    guidePointList.Add(Instantiate(guidePointObject, new Vector3(4      , -0.5f, gpz), Quaternion.identity));
+                    guidePointList.Add(Instantiate(guidePointObject, new Vector3(3.1f   , -0.5f, gpz), Quaternion.identity));
+                    guidePointList.Add(Instantiate(guidePointObject, new Vector3(2.25f  , -0.5f, gpz), Quaternion.identity));
+                    guidePointList.Add(Instantiate(guidePointObject, new Vector3(4      , -1.5f, gpz), Quaternion.identity));
+                    guidePointList.Add(Instantiate(guidePointObject, new Vector3(3.1f   , -1.5f, gpz), Quaternion.identity));
+                    guidePointList.Add(Instantiate(guidePointObject, new Vector3(2.25f  , -1.5f, gpz), Quaternion.identity));
+
+                    //Far Top near Right Square
+                    guidePointList.Add(Instantiate(guidePointObject, new Vector3(1.3f, -0.5f, gpz), Quaternion.identity));
+                    guidePointList.Add(Instantiate(guidePointObject, new Vector3(0.4f, -0.5f, gpz), Quaternion.identity));
+                    guidePointList.Add(Instantiate(guidePointObject, new Vector3(1.3f, -1.5f, gpz), Quaternion.identity));
+                    guidePointList.Add(Instantiate(guidePointObject, new Vector3(0.4f, -1.5f, gpz), Quaternion.identity));
+                    #endregion
+
+                    #region // Near Bottom Points
+                    //Far Top Far Left Square
+                    guidePointList.Add(Instantiate(guidePointObject, new Vector3(-4     , -2.5f, gpz), Quaternion.identity));
+                    guidePointList.Add(Instantiate(guidePointObject, new Vector3(-3.1f  , -2.5f, gpz), Quaternion.identity));
+                    guidePointList.Add(Instantiate(guidePointObject, new Vector3(-2.25f , -2.5f, gpz), Quaternion.identity));
+                    guidePointList.Add(Instantiate(guidePointObject, new Vector3(-4     , -3.5f, gpz), Quaternion.identity));
+                    guidePointList.Add(Instantiate(guidePointObject, new Vector3(-3.1f  , -3.5f, gpz), Quaternion.identity));
+                    guidePointList.Add(Instantiate(guidePointObject, new Vector3(-2.25f , -3.5f, gpz), Quaternion.identity));
+
+                    //Far Top near Left Square
+                    guidePointList.Add(Instantiate(guidePointObject, new Vector3(-1.3f  , -2.5f, gpz), Quaternion.identity));
+                    guidePointList.Add(Instantiate(guidePointObject, new Vector3(-0.4f  , -2.5f, gpz), Quaternion.identity));
+                    guidePointList.Add(Instantiate(guidePointObject, new Vector3(-1.3f  , -3.5f, gpz), Quaternion.identity));
+                    guidePointList.Add(Instantiate(guidePointObject, new Vector3(-0.4f  , -3.5f, gpz), Quaternion.identity));
+
+                    //Far Top Far Right Square
+                    guidePointList.Add(Instantiate(guidePointObject, new Vector3(4      , -2.5f, gpz), Quaternion.identity));
+                    guidePointList.Add(Instantiate(guidePointObject, new Vector3(3.1f   , -2.5f, gpz), Quaternion.identity));
+                    guidePointList.Add(Instantiate(guidePointObject, new Vector3(2.25f  , -2.5f, gpz), Quaternion.identity));
+                    guidePointList.Add(Instantiate(guidePointObject, new Vector3(4      , -3.5f, gpz), Quaternion.identity));
+                    guidePointList.Add(Instantiate(guidePointObject, new Vector3(3.1f   , -3.5f, gpz), Quaternion.identity));
+                    guidePointList.Add(Instantiate(guidePointObject, new Vector3(2.25f  , -3.5f, gpz), Quaternion.identity));
+
+                    //Far Top near Right Square
+                    guidePointList.Add(Instantiate(guidePointObject, new Vector3(1.3f   , -2.5f, gpz), Quaternion.identity));
+                    guidePointList.Add(Instantiate(guidePointObject, new Vector3(0.4f   , -2.5f, gpz), Quaternion.identity));
+                    guidePointList.Add(Instantiate(guidePointObject, new Vector3(1.3f   , -3.5f, gpz), Quaternion.identity));
+                    guidePointList.Add(Instantiate(guidePointObject, new Vector3(0.4f   , -3.5f, gpz), Quaternion.identity));
+                    #endregion
 
                     // Picking Position should be set to true
                     StartPickingPosition();
@@ -111,7 +227,7 @@ public class PlayerPositionManager : MonoBehaviour
         guidePointList.Clear();
     }
 
-    // Handles player picking a position
+    // Handles player picking a position using 3D Physics
     public void PickingPosition()
     {
         if (!pickingPosition) return;
@@ -121,26 +237,29 @@ public class PlayerPositionManager : MonoBehaviour
         {
             // Get the mouse position in world space (X, Y from mouse, Z from camera)
             Vector3 mousePosition = Input.mousePosition;
-            Vector3 rayOrigin = Camera.main.ScreenToWorldPoint(new Vector3(mousePosition.x, mousePosition.y, Camera.main.transform.position.z));
+            Vector3 rayOrigin = Camera.main.ScreenToWorldPoint(new Vector3(mousePosition.x, mousePosition.y, Camera.main.nearClipPlane));
             float rayLength = 10f;
-            // Define the direction along the Z-axis for 10 units
-            Vector3 rayDirection = Camera.main.transform.forward; // Along the Z-axis in 3D space
+
+            // Define the direction along the Z-axis for the ray
+            Vector3 rayDirection = Camera.main.transform.forward; // Along the camera's forward direction
 
             // Cast a ray for a distance of 10 units in 3D space
-            RaycastHit2D hits = Physics2D.Raycast(rayOrigin, rayDirection, rayLength);
+            Ray ray = new Ray(rayOrigin, rayDirection);
+            RaycastHit hit;
+
+            // Perform the 3D raycast
+            bool isHit = Physics.Raycast(ray, out hit, rayLength);
+
             // Show the debug line (only visible in Scene view) for 2 seconds
             if (isDebugging)
             {
-                Debug.DrawLine(rayOrigin, rayOrigin + rayDirection * 30f, Color.green, 2f);
+                Debug.DrawLine(rayOrigin, rayOrigin + rayDirection * rayLength, Color.green, 2f);
                 Debug.Log($"Raycast sent from {rayOrigin} along the Z-axis");
 
-                // Log each object hit by the raycast
-                if (hits.Length > 0)
+                // Log the object hit by the raycast, if any
+                if (isHit && hit.collider != null)
                 {
-                    foreach (RaycastHit hit in hits)
-                    {
-                        Debug.Log($"Raycast hit: {hit.collider.gameObject.name}");
-                    }
+                    Debug.Log($"Raycast hit: {hit.collider.gameObject.name}");
                 }
                 else
                 {
@@ -148,10 +267,10 @@ public class PlayerPositionManager : MonoBehaviour
                 }
             }
 
-            // Process the first object hit
-            if (hits.Length > 0 && hits[0].collider != null)
+            // Process the object hit
+            if (isHit && hit.collider != null)
             {
-                GameObject clickedObject = hits[0].collider.gameObject;
+                GameObject clickedObject = hit.collider.gameObject;
 
                 // If using guide points
                 if (usingGuidePoints)
@@ -164,9 +283,11 @@ public class PlayerPositionManager : MonoBehaviour
                         {
                             Debug.Log($"Valid position selected: {selectedPosition}");
                         }
+
                         // Move Player to the position
                         Vector3 newPosition = new Vector3(selectedPosition.x, selectedPosition.y, player.transform.position.z);
                         player.MovePlayer(newPosition, 0, 1f);
+
                         // Clear guide points when one is chosen
                         ClearGuidePoints();
                         // Picking positions is done
@@ -184,18 +305,27 @@ public class PlayerPositionManager : MonoBehaviour
                 else
                 {
                     selectedPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                    selectedPosition.z = 0; // Make sure it's at the correct z position
+                    selectedPosition.z = 0; // Ensure it's at the correct z position
 
                     if (isDebugging)
                     {
                         Debug.Log($"Position selected: {selectedPosition}");
                     }
 
+                    // Move Player to the position
+                    Vector3 newPosition = new Vector3(selectedPosition.x, selectedPosition.y, player.transform.position.z);
+                    player.MovePlayer(newPosition, 0, 1f);
+
                     pickingPosition = false;
+
+                    
                 }
             }
         }
     }
+
+    
+
 
 
     // Enable or disable debugging
@@ -214,5 +344,31 @@ public class PlayerPositionManager : MonoBehaviour
     public Vector3 GetSelectedPosition()
     {
         return selectedPosition;
+    }
+    public Vector3 GetBossPosition()
+    {
+        //Initalize a boss position var
+        Vector3 bossPos = new Vector3(0, 0, 0);
+        //Find boss transform position
+        if (fm != null)
+        {
+            bossPos = fm.GetBossPosition();
+        }
+        else { Debug.LogWarning("Unable to find boss position due to not finding fight manager"); }
+        //Return boss position
+        return bossPos;
+    }
+    public Vector3 GetPlayerPosition()
+    {
+        //Initalize a boss position var
+        Vector3 playerPos = new Vector3(0, 0, 0);
+        //Find boss transform position
+        if (fm != null)
+        {
+            playerPos = fm.GetPlayerPosition();
+        }
+        else { Debug.LogWarning("Unable to find player position due to not finding fight manager"); }
+        //Return boss position
+        return playerPos;
     }
 }
