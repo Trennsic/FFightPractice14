@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using static UnityEngine.RuleTile.TilingRuleOutput;
 using UnityEngine.UIElements;
+using static FightManager;
 
 [System.Serializable]
 public class WickedThunderEffects
@@ -48,6 +49,8 @@ public class EffectsManager : MonoBehaviour
     // Declare an instance of WickedThunderEffects
     [SerializeField] private WickedThunderEffects wickedThunderEffects;
 
+    [SerializeField] private bool IsDebugging;
+
     #endregion
     #region // Functions
     // Start is called before the first frame update
@@ -72,8 +75,14 @@ public class EffectsManager : MonoBehaviour
         
     }
 
-    public void CreateFX(Effects whichFx, FxLifeTimeType lifetimeType, Vector3 position, float lifetimeTimer = 0, int lifetimeStep = 0)
+    public void CreateFX( Effects whichFx, FxLifeTimeType lifetimeType, Vector3 position, float lifetimeTimer = 0,
+    FightEnum? lifetimeFight = null, string lifetimeAttack = null, int lifetimeStep = 0)
     {
+        if (IsDebugging)
+        {
+            Debug.Log($"CreateFX called with parameters: {whichFx}, {lifetimeType}, {position}, {lifetimeTimer}, {lifetimeFight}, {lifetimeAttack}, {lifetimeStep}");
+        }
+
         GameObject effectInstance = null;
 
         // Determine which effect to instantiate
@@ -81,21 +90,27 @@ public class EffectsManager : MonoBehaviour
         {
             case Effects.WickedThunderBeam1:
                 effectInstance = Instantiate(wickedThunderEffects.WickedThunderFX_BF_Beam1, position, Quaternion.identity);
+                if (IsDebugging) Debug.Log("Instantiated WickedThunderFX_BF_Beam1");
                 break;
             case Effects.WickedThunderBeam2:
                 effectInstance = Instantiate(wickedThunderEffects.WickedThunderFX_BF_Beam2, position, Quaternion.identity);
+                if (IsDebugging) Debug.Log("Instantiated WickedThunderFX_BF_Beam2");
                 break;
             case Effects.WickedThunderBeam3:
                 effectInstance = Instantiate(wickedThunderEffects.WickedThunderFX_BF_Beam3, position, Quaternion.identity);
-                break;            
+                if (IsDebugging) Debug.Log("Instantiated WickedThunderFX_BF_Beam3");
+                break;
             case Effects.WickedThunderBeam4:
                 effectInstance = Instantiate(wickedThunderEffects.WickedThunderFX_BF_Beam4, position, Quaternion.identity);
-                break;            
+                if (IsDebugging) Debug.Log("Instantiated WickedThunderFX_BF_Beam4");
+                break;
             case Effects.WickedThunderBeam5:
                 effectInstance = Instantiate(wickedThunderEffects.WickedThunderFX_BF_Beam5, position, Quaternion.identity);
-                break;            
+                if (IsDebugging) Debug.Log("Instantiated WickedThunderFX_BF_Beam5");
+                break;
             case Effects.WickedThunderElectromine:
                 effectInstance = Instantiate(wickedThunderEffects.WickedThunderFX_BF_Electromine, position, Quaternion.identity);
+                if (IsDebugging) Debug.Log("Instantiated WickedThunderFX_BF_Electromine");
                 break;
             default:
                 Debug.LogWarning("Unknown effect type");
@@ -105,20 +120,30 @@ public class EffectsManager : MonoBehaviour
         // Handle effect's lifetime based on the chosen lifetime type
         if (effectInstance != null)
         {
+            if (IsDebugging) Debug.Log("Effect instance created successfully.");
+
             switch (lifetimeType)
             {
                 case FxLifeTimeType.None:
-                    // The effect stays indefinitely
+                    if (IsDebugging) Debug.Log("Lifetime type is None, effect will stay indefinitely.");
                     break;
 
                 case FxLifeTimeType.Timer:
-                    // Destroy after a specified time (lifetimeTimer)
+                    if (IsDebugging) Debug.Log($"Lifetime type is Timer, effect will be destroyed in {lifetimeTimer} seconds.");
                     Destroy(effectInstance, lifetimeTimer);
                     break;
 
                 case FxLifeTimeType.Step:
-                    // Store the effect instance and its associated step for future destruction
-                    StartCoroutine(HandleStepDestruction(effectInstance, lifetimeStep));
+                    if (IsDebugging)
+                    {
+                        Debug.Log("Lifetime type is Step, creating CurrentFightInfo and starting step destruction.");
+                        Debug.Log($"Setting CurrentFight: {lifetimeFight}, CurrentAttack: {lifetimeAttack}, CurrentStep: {lifetimeStep}");
+                    }
+                    CurrentFightInfo lifeTimeFightInfo = new CurrentFightInfo();
+                    lifeTimeFightInfo.SetCurrentFight(lifetimeFight.Value);
+                    lifeTimeFightInfo.SetCurrentAttack(lifetimeAttack);
+                    lifeTimeFightInfo.SetCurrentStep(lifetimeStep);
+                    StartCoroutine(HandleStepDestruction(effectInstance, lifeTimeFightInfo));
                     break;
 
                 default:
@@ -128,17 +153,95 @@ public class EffectsManager : MonoBehaviour
         }
     }
 
-    private IEnumerator HandleStepDestruction(GameObject effectInstance, int lifetimeStep)
+
+
+    private IEnumerator HandleStepDestruction(GameObject effectInstance, CurrentFightInfo lifeTimeFightInfo)
     {
-        // Wait until the current step in the FightManager reaches or exceeds the lifetimeStep
-        while (fm.GetCurrentStep() < lifetimeStep)
+        if (IsDebugging)
         {
+            Debug.Log($"HandleStepDestruction started with: \n" +
+                      $"Fight: {lifeTimeFightInfo.CurrentFight}, \n" +
+                      $"Attack: {lifeTimeFightInfo.CurrentAttack}, \n" +
+                      $"Step: {lifeTimeFightInfo.CurrentStep}");
+        }
+
+        // Simulate pulling current fight, attack, and step
+        CurrentFightInfo finfo = new CurrentFightInfo();
+        finfo.SetCurrentFight(fm.GetCurrentFight());
+        finfo.SetCurrentAttack(fm.GetCurrentAttack());
+        finfo.SetCurrentStep(fm.GetCurrentStep());
+
+        FightEnum? currentFight = finfo.CurrentFight;
+        string currentAttack = finfo.CurrentAttack;
+        int currentStep = finfo.CurrentStep;
+
+        if (IsDebugging)
+        {
+            Debug.Log($"Current state pulled from fm: \n" +
+                      $"Fight: {currentFight}, \n" +
+                      $"Attack: {currentAttack}, \n" +
+                      $"Step: {currentStep}");
+        }
+
+        bool fightsMatch = (lifeTimeFightInfo.CurrentFight == currentFight);
+        bool attacksMatch = (lifeTimeFightInfo.CurrentAttack == currentAttack);
+        bool stepsMatch = (lifeTimeFightInfo.CurrentStep == currentStep);
+
+        if (IsDebugging)
+        {
+            Debug.Log($"Initial match check: \n" +
+                      $"FightsMatch: {fightsMatch}, \n" +
+                      $"AttacksMatch: {attacksMatch}, \n" +
+                      $"StepsMatch: {stepsMatch}");
+        }
+
+        // Check for matches in a loop
+        while (fightsMatch && attacksMatch && stepsMatch)
+        {
+            if (IsDebugging)
+            {
+                Debug.Log($"Match in progress: \n" +
+                          $"Fight: {lifeTimeFightInfo.CurrentFight} == {currentFight}, \n" +
+                          $"Attack: {lifeTimeFightInfo.CurrentAttack} == {currentAttack}, \n" +
+                          $"Step: {lifeTimeFightInfo.CurrentStep} == {currentStep}");
+                Debug.Log("Step matches, continuing...");
+            }
+
+            // Update matches in each iteration
+            finfo.SetCurrentFight(fm.GetCurrentFight());
+            finfo.SetCurrentAttack(fm.GetCurrentAttack());
+            finfo.SetCurrentStep(fm.GetCurrentStep());
+            currentFight = finfo.CurrentFight;
+            currentAttack = finfo.CurrentAttack;
+            currentStep = finfo.CurrentStep;
+
+            fightsMatch = (lifeTimeFightInfo.CurrentFight == currentFight);
+            attacksMatch = (lifeTimeFightInfo.CurrentAttack == currentAttack);
+            stepsMatch = (lifeTimeFightInfo.CurrentStep == currentStep);
+
             yield return null;  // Wait for the next frame
+
+            if (IsDebugging)
+            {
+                Debug.Log($"Updated matches after frame: \n" +
+                          $"FightsMatch: {fightsMatch}, \n" +
+                          $"AttacksMatch: {attacksMatch}, \n" +
+                          $"StepsMatch: {stepsMatch}");
+            }
+        }
+
+        if (IsDebugging)
+        {
+            Debug.Log("Step no longer matches, destroying the effect.");
         }
 
         // Once the step is reached, destroy the effect
         Destroy(effectInstance);
     }
+
+
+    public void SetIsDebugging(bool debugging) {  IsDebugging = debugging; }
+    public bool GetIsDebugging() { return IsDebugging; }
     
     public void CheckForFxDestroyStep()
     {

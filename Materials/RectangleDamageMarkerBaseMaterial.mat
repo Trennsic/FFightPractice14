@@ -1,0 +1,253 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: RectangleDamageMarkerBaseMaterial
+  m_Shader: {fileID: 4800000, guid: 8037764b87dc40746ba12682be6ee852, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords:
+  - _DISSOLVETEXTUREFLIP_ON
+  - _VERTICALGRADIENTENABLED_ON
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _Albedo:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _AppearGradientProfile:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _BumpMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Detail:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailAlbedoMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailMask:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailNormalMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DissolveTexture:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _HeightMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Metallic:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MetallicGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NoiseTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Normal:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Normals:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Occlusion:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _OcclusionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _OffsetTexture:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ParallaxMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Ramp:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SnowNormal:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TrisGlareTexture:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _VerticalGradientProfile:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _tex4coord:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _tex4coord2:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _texcoord:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _texcoord2:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _texcoord3:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _Alpha: 0
+    - _Amplitude: 1
+    - _AppearGradientAbsSwitch: 1
+    - _AppearGradientClampSwitch: 0
+    - _AppearGradientDistortionAmount: 0
+    - _AppearGradientDynamicsNegate: 0
+    - _AppearGradientFlipSwitch: 0
+    - _AppearGradientOffset: 0
+    - _AppearGradientRemapMax: 1
+    - _BlurAmount: 0
+    - _BumpScale: 1
+    - _Cull: 2
+    - _Cutoff: 0.53
+    - _DepthMaskDistance: 1
+    - _DepthMaskEnabled: 0
+    - _DepthMaskExp: 2
+    - _DepthMaskMultiply: 0.25
+    - _DepthMaskRemapMax: 1
+    - _DetailNormalMapScale: 1
+    - _DissolveExp: 2
+    - _DissolveExpReversed: 2
+    - _DissolveTextureFlip: 1
+    - _DissolveTextureScale: 1
+    - _DstBlend: 0
+    - _EdgeWidth: 0.89
+    - _FinalOpacityPower: 1
+    - _FinalPower: 12.5
+    - _FlipbookColums: 1
+    - _FlipbookRows: 1
+    - _FresnelPower: 0.73
+    - _GlossMapScale: 1
+    - _Glossiness: 0.5
+    - _GlossyReflections: 1
+    - _InnerRimEnabled: 0
+    - _InnerRimExp: 4
+    - _InnerRimFlipSwitch: 1
+    - _MainTexRotation: 0
+    - _MainTexScrollSpeed: 0
+    - _Metallic: 0
+    - _Mode: 0
+    - _OcclusionStrength: 1
+    - _OffsetGChannelMasking: 0
+    - _OffsetPower: 0
+    - _OffsetStyle: 0.047
+    - _OffsetTextureScaleU: 1
+    - _OffsetTextureScaleV: 1
+    - _OffsetTextureScrollSpeedU: 0
+    - _OffsetTextureScrollSpeedV: 0
+    - _OffsetToOpacityExp: 1
+    - _OffsetToOpacityNegate: 1
+    - _OffsetToOpacityTopFixExp: 8
+    - _OffsetToOpacityTopFixValue: 0.25
+    - _OutlineWidth: 0
+    - _Parallax: 0.02
+    - _RadiusTweak: 0.9
+    - _RampAffectedByDynamics: 1
+    - _RampAffectedByVertexColor: 0
+    - _RampEnabled: 0
+    - _RampOffsetExp: 2.2
+    - _RampOffsetMultiply: 1
+    - _RimGlow: 9
+    - _RimPower: 0.37
+    - _RimWidth: 5.74
+    - _Smoothness: 0.5
+    - _SmoothnessTextureChannel: 0
+    - _SnowAmount: 0.75
+    - _SnowGlossiness: 0.5
+    - _SnowMetallic: 0
+    - _SpecularHighlights: 1
+    - _Speed: 1.25
+    - _SrcBlend: 1
+    - _TileSize: 10
+    - _TrisGlareEnabled: 0
+    - _TrisGlareNegate: 1
+    - _TrisGlareTextureScaleU: 1
+    - _TrisGlareTextureScaleV: 1
+    - _UVSec: 0
+    - _VerticalGradientAbsSwitch: 1
+    - _VerticalGradientClampSwitch: 0
+    - _VerticalGradientEnabled: 1
+    - _VerticalGradientFlipSwitch: 0
+    - _VerticalGradientOffset: 0
+    - _VerticalGradientRemapMax: 1
+    - _WavesEnabled: 0
+    - _WavesScale: 8
+    - _WavesSpeed: 4
+    - _ZWrite: 1
+    - __dirty: 1
+    m_Colors:
+    - _BoxDims: {r: 5, g: 5, b: 5, a: 1}
+    - _Color: {r: 1, g: 0.585702, b: 0, a: 1}
+    - _EdgeColor: {r: 1, g: 1, b: 1, a: 1}
+    - _Emission1: {r: 2.56, g: 0, b: 0, a: 1}
+    - _Emission2: {r: 0, g: 1.95, b: 2.52, a: 1}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _FinalColor: {r: 1, g: 1, b: 1, a: 1}
+    - _FlowDirection: {r: 1, g: 0, b: 0, a: 0}
+    - _InBetweenColor: {r: 0, g: 0, b: 0, a: 0}
+    - _InnerColor: {r: 1, g: 0.93226576, b: 0, a: 1}
+    - _MainTexChannels: {r: 1, g: 0, b: 0, a: 0}
+    - _MovementDirection: {r: 0, g: -1, b: 0, a: 1}
+    - _OutlineColor: {r: 1, g: 1, b: 1, a: 1}
+    - _RampColorTint: {r: 1, g: 1, b: 1, a: 1}
+    - _RimColor: {r: 0, g: 0.41659737, b: 1, a: 0}
+    - _ScrollDirection: {r: 0.09, g: 0.09, b: 0.09, a: 0}
+    - _SnowColor: {r: 1, g: 1, b: 1, a: 1}
+    - _SnowDirection: {r: 0, g: 1, b: 0, a: 1}
+  m_BuildTextureStacks: []

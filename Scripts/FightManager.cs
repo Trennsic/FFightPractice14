@@ -42,7 +42,8 @@ public class FightManager : MonoBehaviour
     public FightEnum currentFight;
    
     [SerializeField] public CurrentFightInfo currentFightInfo;
-    #region // References
+    #region // References 
+    [Header("References")]
     public GameObject fightTextGameObject;
     public GameObject MarkerManager;
     private Waymarks waymarks;
@@ -50,10 +51,12 @@ public class FightManager : MonoBehaviour
     public GameObject EffectsManager;
     public GameObject PPositionManager;
     public GameObject PlayerManager;
+    public GameObject DamageMarkerManager;
     private EffectsManager effects;
     private BossManager bossManager;
     private PlayerPositionManager playerPositionManager;
     private PlayerManager playerManager;
+    private DamageMarkerManager damageManager;
 
     private TMP_Text fightText;
     #endregion
@@ -78,29 +81,35 @@ public class FightManager : MonoBehaviour
         if (MarkerManager != null)
         {
             waymarks = MarkerManager.GetComponent<Waymarks>();
-            if (fightText == null) { Debug.LogError(" Unable to find waymarks component"); }
+            if (waymarks == null) { Debug.LogError(" Unable to find waymarks component"); }
         }
         else { Debug.LogError(" Unable to find MarkerManager"); }
         if (Boss != null)
         {
             bossManager = Boss.GetComponent<BossManager>();
-            if (fightText == null) { Debug.LogError(" Unable to find bossManager component"); }
+            if (bossManager == null) { Debug.LogError(" Unable to find bossManager component"); }
         } else { Debug.LogError(" Unable to find Boss"); }
         if (EffectsManager != null)
         {
             effects = EffectsManager.GetComponent<EffectsManager>();
-            if (fightText == null) { Debug.LogError(" Unable to find effects component"); }
+            if (effects == null) { Debug.LogError(" Unable to find effects component"); }
         } else { Debug.LogError(" Unable to find EffectsManager"); }
         if (PPositionManager != null)
         {
             playerPositionManager = PPositionManager.GetComponent<PlayerPositionManager>();
-            if (fightText == null) { Debug.LogError(" Unable to find playerPositionManager component"); }
+            if (playerPositionManager == null) { Debug.LogError(" Unable to find playerPositionManager component"); }
         } else { Debug.LogError(" Unable to find PPositionManager"); }        
         if (PlayerManager != null)
         {
             playerManager = PlayerManager.GetComponent<PlayerManager>();
-            if (fightText == null) { Debug.LogError(" Unable to find playerManager component"); }
+            if (playerManager == null) { Debug.LogError(" Unable to find playerManager component"); }
         } else { Debug.LogError(" Unable to find PlayerManager"); }
+        if (DamageMarkerManager != null)
+        {
+            damageManager = DamageMarkerManager.GetComponent<DamageMarkerManager>();
+            if (damageManager == null) { Debug.LogError(" Unable to find damageManager component"); }
+        }
+        else { Debug.LogError(" Unable to find DamageMarkerManager"); }
         #endregion
         transform.position = new Vector3(transform.position.x, transform.position.y, zPosition);
         InitializeFights();
@@ -251,7 +260,7 @@ public class FightManager : MonoBehaviour
       
         if (currentFightInfo.CurrentAttackIndex < fightAttacks[currentFightInfo.CurrentFight].Count)
         {
-            Debug.Log($"Executing step {currentFightInfo.CurrentStep + 1} of attack: {fightAttacks[currentFightInfo.CurrentFight][currentFightInfo.CurrentAttackIndex]}");
+            Debug.Log($"Executing step {currentFightInfo.CurrentStep} of attack: {fightAttacks[currentFightInfo.CurrentFight][currentFightInfo.CurrentAttackIndex]}");
             UpdateFightText();
         }
         //Update fight attack string
@@ -380,6 +389,10 @@ public class FightManager : MonoBehaviour
             }
         }
 
+        //Default start
+        //whichJob = PlayerInfo.Jobs.WHM;
+        //whichRolePos = PlayerInfo.RolePositions.H1;
+
 
         if (playerManager != null)
         {
@@ -430,6 +443,8 @@ public class FightManager : MonoBehaviour
         BossManager bm = bossManager;
         EffectsManager em = effects;
         PlayerPositionManager ppm = playerPositionManager;
+        CurrentFightInfo cfi = currentFightInfo;
+        DamageMarkerManager dm = damageManager;
         float zp = transform.position.z;
         //Specific fight action
 
@@ -460,27 +475,32 @@ public class FightManager : MonoBehaviour
                     bm.MoveBoss(new Vector3(0f, 5.1f, zp), 0, 0f);
                     WickedThunderSettings wts = bm.wickedThunderSettings;
                     bm.UpdateBossSprite(wts.Wicked_Thunder_Wings_Image, wts.Wicked_Thunder_Xscale, wts.Wicked_Thunder_Yscale, 1f, .8f, 0f, .2f);
+                    #region // Initalize effects vars
+                    FightEnum fight = cfi.CurrentFight;
+                    string attack = cfi.CurrentAttack;
+                    int step = cfi.CurrentStep;
+                    #endregion
                     //Spawn lasers
-                    em.CreateFX(Effects.WickedThunderBeam1, FxLifeTimeType.Step, new Vector3(-.2f, 4.85f, -1f), 0, 3);
-                    em.CreateFX(Effects.WickedThunderBeam2, FxLifeTimeType.Step, new Vector3(-1.8f, 4.9f, -.4f), 0, 3);
-                    em.CreateFX(Effects.WickedThunderBeam3, FxLifeTimeType.Step, new Vector3(-2.5f, 5.2f, -.4f), 0, 3);
-                    em.CreateFX(Effects.WickedThunderBeam4, FxLifeTimeType.Step, new Vector3(1.2f, 4.9f, -.4f), 0, 3);
-                    em.CreateFX(Effects.WickedThunderBeam5, FxLifeTimeType.Step, new Vector3(2f, 5.2f, -.4f), 0, 3);
+                    em.CreateFX(Effects.WickedThunderBeam1, FxLifeTimeType.Step, new Vector3(-.2f, 4.85f, -1f), 0, fight, attack, step);
+                    em.CreateFX(Effects.WickedThunderBeam2, FxLifeTimeType.Step, new Vector3(-1.8f, 4.9f, -.4f), 0, fight, attack, step);
+                    em.CreateFX(Effects.WickedThunderBeam3, FxLifeTimeType.Step, new Vector3(-2.5f, 5.2f, -.4f), 0, fight, attack, step);
+                    em.CreateFX(Effects.WickedThunderBeam4, FxLifeTimeType.Step, new Vector3(1.2f, 4.9f, -.4f), 0, fight, attack, step);
+                    em.CreateFX(Effects.WickedThunderBeam5, FxLifeTimeType.Step, new Vector3(2f, 5.2f, -.4f), 0, fight, attack, step);
 
                     int ran = 1;
                     if (ran == 0)
                     {
-                        em.CreateFX(Effects.WickedThunderElectromine, FxLifeTimeType.Step, new Vector3(-5f, 2.5f, -.4f), 0, 3);
-                        em.CreateFX(Effects.WickedThunderElectromine, FxLifeTimeType.Step, new Vector3(-5f, .5f, -.4f), 0, 3);
-                        em.CreateFX(Effects.WickedThunderElectromine, FxLifeTimeType.Step, new Vector3(-5f, -1.5f, -.4f), 0, 3);
-                        em.CreateFX(Effects.WickedThunderElectromine, FxLifeTimeType.Step, new Vector3(-5f, -3.5f, -.4f), 0, 3);
+                        em.CreateFX(Effects.WickedThunderElectromine, FxLifeTimeType.Step, new Vector3(-5f, 2.5f, -.4f), 0, fight, attack, step);
+                        em.CreateFX(Effects.WickedThunderElectromine, FxLifeTimeType.Step, new Vector3(-5f, .5f, -.4f), 0, fight, attack, step);
+                        em.CreateFX(Effects.WickedThunderElectromine, FxLifeTimeType.Step, new Vector3(-5f, -1.5f, -.4f), 0, fight, attack, step);
+                        em.CreateFX(Effects.WickedThunderElectromine, FxLifeTimeType.Step, new Vector3(-5f, -3.5f, -.4f), 0, fight, attack, step);
                     }
                     else if (ran == 1)
                     {
-                        em.CreateFX(Effects.WickedThunderElectromine, FxLifeTimeType.Step, new Vector3(-5f, 3.6f, -.4f), 0, 3);
-                        em.CreateFX(Effects.WickedThunderElectromine, FxLifeTimeType.Step, new Vector3(-5f, 1.6f, -.4f), 0, 3);
-                        em.CreateFX(Effects.WickedThunderElectromine, FxLifeTimeType.Step, new Vector3(-5f, -.4f, -.4f), 0, 3);
-                        em.CreateFX(Effects.WickedThunderElectromine, FxLifeTimeType.Step, new Vector3(-5f, -2.4f, -.4f), 0, 3);
+                        em.CreateFX(Effects.WickedThunderElectromine, FxLifeTimeType.Step, new Vector3(-5f, 3.6f, -.4f), 0, fight, attack, step);
+                        em.CreateFX(Effects.WickedThunderElectromine, FxLifeTimeType.Step, new Vector3(-5f, 1.6f, -.4f), 0, fight, attack, step);
+                        em.CreateFX(Effects.WickedThunderElectromine, FxLifeTimeType.Step, new Vector3(-5f, -.4f, -.4f), 0, fight, attack, step);
+                        em.CreateFX(Effects.WickedThunderElectromine, FxLifeTimeType.Step, new Vector3(-5f, -2.4f, -.4f), 0, fight, attack, step);
                     }
 
                     //Setup guide points
@@ -495,6 +515,14 @@ public class FightManager : MonoBehaviour
                     //Change boss to base form
                     WickedThunderSettings wts = bm.wickedThunderSettings;
                     bm.UpdateBossSprite(wts.Wicked_Thunder_Base_Image, wts.Wicked_Thunder_Xscale, wts.Wicked_Thunder_Yscale);
+                    //Create damage markers
+                    dm.CreateDamageMarkerCircle(new Vector3(-4f, -0f, zp), 4f, 8f); 
+                    dm.CreateDamageMarkerRectangle(new Vector3(-4f, -0f, zp), 1f, 8f, 5f);
+                    dm.CreateDamageMarkerRectangle(new Vector3(-4f, -0f, zp), 1f, 8f, 5f);
+                    dm.CreateDamageMarkerRectangle(new Vector3(-2.3f, -0f, zp), 1f, 8f, 5f);
+                    dm.CreateDamageMarkerRectangle(new Vector3(-.3f, -0f, zp), 1f, 8f, 5f);
+                    dm.CreateDamageMarkerRectangle(new Vector3(1.75f, -0f, zp), 1f, 8f, 5f);
+                    dm.CreateDamageMarkerRectangle(new Vector3(3.45f, -0f, zp), 1f, 8f, 5f);
                 }
             }
             else if (currentFightInfo.CurrentAttack == "Witch Hunt")
@@ -535,7 +563,7 @@ public class FightManager : MonoBehaviour
         Debug.Log("Executing End of Step");
         // Add custom behavior for the end of step
     }
-
+    public CurrentFightInfo GetFightInfo() { return currentFightInfo; } 
     public FightEnum GetCurrentFight() => currentFightInfo.CurrentFight;
     public string GetCurrentAttack() => currentFightInfo.CurrentAttack;
     public int GetAttackIndex() => currentFightInfo.CurrentAttackIndex;
