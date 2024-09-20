@@ -6,14 +6,17 @@ using UnityEngine.UIElements;
 using static FightManager;
 using static BossManager;
 
+#region // Current Fight Info
 [System.Serializable]
 public class CurrentFightInfo
 {
+    #region // Definitions
     [SerializeField] private FightEnum currentFight;
     [SerializeField] private string currentAttack;
     [SerializeField] private int currentStep;
     [SerializeField] private int currentAttackIndex;
-
+    #endregion
+    #region // Functions
 
     // Expose these values via properties (optional)
     public FightEnum CurrentFight   => currentFight;
@@ -28,7 +31,10 @@ public class CurrentFightInfo
     public void GotoNexAttackIndex() { currentAttackIndex++;  }
     public void ResetStepIndex() { currentStep = 0;  }
     public void GotoNextStepIndex() { currentStep++;  }
+    #endregion
 }
+#endregion
+#region // Fight Manager
 public class FightManager : MonoBehaviour
 {
     #region // Definitions
@@ -40,6 +46,7 @@ public class FightManager : MonoBehaviour
     }
 
     public FightEnum currentFight;
+    [SerializeField] private bool isDebugging;
    
     [SerializeField] public CurrentFightInfo currentFightInfo;
     #region // References 
@@ -68,8 +75,16 @@ public class FightManager : MonoBehaviour
     private bool isStartOfFight = true;
 
     [SerializeField] private float zPosition = 0f;
+    [SerializeField] private int seedValue = 12345; // Your specific seed value
     #endregion
     #region // Functions
+    private void Awake()
+    {
+        seedValue = System.Guid.NewGuid().GetHashCode(); // Using a random GUID hash as seed
+        Random.InitState(seedValue);
+
+
+    }
     void Start()
     {
         #region // References
@@ -230,7 +245,7 @@ public class FightManager : MonoBehaviour
     {
         if (currentFightInfo.CurrentAttackIndex >= fightAttacks[currentFightInfo.CurrentFight].Count)
         {
-            Debug.Log("Fight Completed");
+            if (GetIsDebugging()) { Debug.Log("Fight Completed"); }
             if (fightText != null)
             {
                 fightText.text = "Fight Completed";
@@ -260,7 +275,10 @@ public class FightManager : MonoBehaviour
       
         if (currentFightInfo.CurrentAttackIndex < fightAttacks[currentFightInfo.CurrentFight].Count)
         {
-            Debug.Log($"Executing step {currentFightInfo.CurrentStep} of attack: {fightAttacks[currentFightInfo.CurrentFight][currentFightInfo.CurrentAttackIndex]}");
+            if (GetIsDebugging())
+            {
+                Debug.Log($"Executing step {currentFightInfo.CurrentStep} of attack: {fightAttacks[currentFightInfo.CurrentFight][currentFightInfo.CurrentAttackIndex]}");
+            }
             UpdateFightText();
         }
         //Update fight attack string
@@ -429,13 +447,16 @@ public class FightManager : MonoBehaviour
     // Called at the start of each new step
     private void ExecuteStartOfStep()
     {
-        Debug.Log("Executing Start of Step");
-        // Add custom behavior for start of step
-        // Get the current fight, attack, and step from FightManager
-        Debug.Log("Updating fight actions");
-        Debug.Log($"Current Fight: {currentFightInfo.CurrentFight}");
-        Debug.Log($"Current Attack: {currentFightInfo.CurrentAttack}");
-        Debug.Log($"Current Step: {currentFightInfo.CurrentStep}");
+        if (GetIsDebugging())
+        { 
+            Debug.Log("Executing Start of Step");
+            // Add custom behavior for start of step
+            // Get the current fight, attack, and step from FightManager
+            Debug.Log("Updating fight actions");
+            Debug.Log($"Current Fight: {currentFightInfo.CurrentFight}");
+            Debug.Log($"Current Attack: {currentFightInfo.CurrentAttack}");
+            Debug.Log($"Current Step: {currentFightInfo.CurrentStep}");
+        }
 
 
 
@@ -472,57 +493,116 @@ public class FightManager : MonoBehaviour
                 // Start Lasters
                 else if (currentFightInfo.CurrentStep == 2)
                 {
+                    #region // Move Boss North
                     bm.MoveBoss(new Vector3(0f, 5.1f, zp), 0, 0f);
+                    #endregion
+                    #region // Get Wicked Thunder Settings
                     WickedThunderSettings wts = bm.wickedThunderSettings;
                     bm.UpdateBossSprite(wts.Wicked_Thunder_Wings_Image, wts.Wicked_Thunder_Xscale, wts.Wicked_Thunder_Yscale, 1f, .8f, 0f, .2f);
+                    #endregion
                     #region // Initalize effects vars
                     FightEnum fight = cfi.CurrentFight;
                     string attack = cfi.CurrentAttack;
                     int step = cfi.CurrentStep;
                     #endregion
-                    //Spawn lasers
-                    em.CreateFX(Effects.WickedThunderBeam1, FxLifeTimeType.Step, new Vector3(-.2f, 4.85f, -1f), 0, fight, attack, step);
-                    em.CreateFX(Effects.WickedThunderBeam2, FxLifeTimeType.Step, new Vector3(-1.8f, 4.9f, -.4f), 0, fight, attack, step);
-                    em.CreateFX(Effects.WickedThunderBeam3, FxLifeTimeType.Step, new Vector3(-2.5f, 5.2f, -.4f), 0, fight, attack, step);
-                    em.CreateFX(Effects.WickedThunderBeam4, FxLifeTimeType.Step, new Vector3(1.2f, 4.9f, -.4f), 0, fight, attack, step);
-                    em.CreateFX(Effects.WickedThunderBeam5, FxLifeTimeType.Step, new Vector3(2f, 5.2f, -.4f), 0, fight, attack, step);
+                    #region// Spawn laser
+                    int laserRand = wts.Bf_LaserDashRand;
+                    if (laserRand == 0)
+                    {
+                        em.CreateFX(Effects.WickedThunderBeam1, FxLifeTimeType.Step, new Vector3(-.2f, 4.85f, -1f), 0, fight, attack, step);
+                        em.CreateFX(Effects.WickedThunderBeam2, FxLifeTimeType.Step, new Vector3(-1.8f, 4.9f, -.4f), 0, fight, attack, step);
+                        em.CreateFX(Effects.WickedThunderBeam3, FxLifeTimeType.Step, new Vector3(-2.5f, 5.2f, -.4f), 0, fight, attack, step);
+                        em.CreateFX(Effects.WickedThunderBeam4, FxLifeTimeType.Step, new Vector3(0.9f, 4.9f, -.4f), 0, fight, attack, step);
+                        em.CreateFX(Effects.WickedThunderBeam5, FxLifeTimeType.Step, new Vector3(1.9f, 5.2f, -.4f), 0, fight, attack, step);
+                    } else
+                    {
+                        GameObject inst, inst1, inst2, inst3, inst4;
+                        inst  = em.CreateFX(Effects.WickedThunderBeam1, FxLifeTimeType.Step, new Vector3(.3f    , 4.85f, -01f), 0, fight, attack, step);
+                        inst1 = em.CreateFX(Effects.WickedThunderBeam2, FxLifeTimeType.Step, new Vector3(1.9f   , 4.90f, -.4f), 0, fight, attack, step);
+                        inst2 = em.CreateFX(Effects.WickedThunderBeam3, FxLifeTimeType.Step, new Vector3(2.6f   , 5.20f, -.4f), 0, fight, attack, step);
+                        inst3 = em.CreateFX(Effects.WickedThunderBeam4, FxLifeTimeType.Step, new Vector3(-0.8f  , 4.90f, -.4f), 0, fight, attack, step);
+                        inst4 = em.CreateFX(Effects.WickedThunderBeam5, FxLifeTimeType.Step, new Vector3(-1.8f  , 5.20f, -.4f), 0, fight, attack, step);
 
-                    int ran = 1;
-                    if (ran == 0)
+                        // Set a new local rotation using a Quaternion
+                        inst.transform.localRotation = Quaternion.Euler(0, -180, 0); // Replace with desired rotation angles (x, y, z)
+                        inst1.transform.localRotation = Quaternion.Euler(0, -180, 0); // Replace with desired rotation angles (x, y, z)
+                        inst2.transform.localRotation = Quaternion.Euler(0, -180, 0); // Replace with desired rotation angles (x, y, z)
+                        inst3.transform.localRotation = Quaternion.Euler(0, -180, 0); // Replace with desired rotation angles (x, y, z)
+                        inst4.transform.localRotation = Quaternion.Euler(0, -180, 0); // Replace with desired rotation angles (x, y, z)
+                    }
+                    #endregion
+                    #region // Spawn Elctromines
+                    int electroIan =  wts.Bf_ElctroMineRand;
+                    if (electroIan == 0)
                     {
                         em.CreateFX(Effects.WickedThunderElectromine, FxLifeTimeType.Step, new Vector3(-5f, 2.5f, -.4f), 0, fight, attack, step);
                         em.CreateFX(Effects.WickedThunderElectromine, FxLifeTimeType.Step, new Vector3(-5f, .5f, -.4f), 0, fight, attack, step);
                         em.CreateFX(Effects.WickedThunderElectromine, FxLifeTimeType.Step, new Vector3(-5f, -1.5f, -.4f), 0, fight, attack, step);
                         em.CreateFX(Effects.WickedThunderElectromine, FxLifeTimeType.Step, new Vector3(-5f, -3.5f, -.4f), 0, fight, attack, step);
                     }
-                    else if (ran == 1)
+                    else
                     {
                         em.CreateFX(Effects.WickedThunderElectromine, FxLifeTimeType.Step, new Vector3(-5f, 3.6f, -.4f), 0, fight, attack, step);
                         em.CreateFX(Effects.WickedThunderElectromine, FxLifeTimeType.Step, new Vector3(-5f, 1.6f, -.4f), 0, fight, attack, step);
                         em.CreateFX(Effects.WickedThunderElectromine, FxLifeTimeType.Step, new Vector3(-5f, -.4f, -.4f), 0, fight, attack, step);
                         em.CreateFX(Effects.WickedThunderElectromine, FxLifeTimeType.Step, new Vector3(-5f, -2.4f, -.4f), 0, fight, attack, step);
                     }
-
-                    //Setup guide points
-                    Debug.Log("Sending Debug Log stuff over");
+                    #endregion
+                    #region // Setup guide points
                     ppm.SetupGuidePoints();
+                    #endregion
                 }
                 //Set Lines - 3
                 // Move Mid
                 else if (currentFightInfo.CurrentStep == 3)
                 {
+                    #region // Move Boss back to mid
                     bm.MoveBoss(new Vector3(0f, 0f, zp), 180, 1f);
-                    //Change boss to base form
+                    #endregion
+                    #region // Get Wicked Thunder Settings
                     WickedThunderSettings wts = bm.wickedThunderSettings;
                     bm.UpdateBossSprite(wts.Wicked_Thunder_Base_Image, wts.Wicked_Thunder_Xscale, wts.Wicked_Thunder_Yscale);
-                    //Create damage markers
-                    dm.CreateDamageMarkerCircle(new Vector3(-4f, -0f, zp), 4f, 8f); 
-                    dm.CreateDamageMarkerRectangle(new Vector3(-4f, -0f, zp), 1f, 8f, 5f);
-                    dm.CreateDamageMarkerRectangle(new Vector3(-4f, -0f, zp), 1f, 8f, 5f);
-                    dm.CreateDamageMarkerRectangle(new Vector3(-2.3f, -0f, zp), 1f, 8f, 5f);
-                    dm.CreateDamageMarkerRectangle(new Vector3(-.3f, -0f, zp), 1f, 8f, 5f);
-                    dm.CreateDamageMarkerRectangle(new Vector3(1.75f, -0f, zp), 1f, 8f, 5f);
-                    dm.CreateDamageMarkerRectangle(new Vector3(3.45f, -0f, zp), 1f, 8f, 5f);
+                    #endregion
+
+                    #region// Create damage markers
+                    float lasterTimer = 1f;
+                    int laserRand = wts.Bf_LaserDashRand;
+                    if (laserRand == 0)
+                    {
+                        dm.CreateDamageMarkerRectangle(new Vector3(-4.60f, -0f, zp), .8f, 8f, lasterTimer);
+                        dm.CreateDamageMarkerRectangle(new Vector3(-2.75f, -0f, zp), .8f, 8f, lasterTimer);
+                        dm.CreateDamageMarkerRectangle(new Vector3(-0.90f, -0f, zp), .8f, 8f, lasterTimer);
+                        dm.CreateDamageMarkerRectangle(new Vector3(+0.95f, -0f, zp), .8f, 8f, lasterTimer);
+                        dm.CreateDamageMarkerRectangle(new Vector3(+2.80f, -0f, zp), .8f, 8f, lasterTimer);
+                    }
+                    else
+                    {
+                        dm.CreateDamageMarkerRectangle(new Vector3(-3.60f, -0f, zp), .8f, 8f, lasterTimer);
+                        dm.CreateDamageMarkerRectangle(new Vector3(-1.75f, -0f, zp), .8f, 8f, lasterTimer);
+                        dm.CreateDamageMarkerRectangle(new Vector3(+0.01f, -0f, zp), .8f, 8f, lasterTimer);
+                        dm.CreateDamageMarkerRectangle(new Vector3(+1.95f, -0f, zp), .8f, 8f, lasterTimer);
+                        dm.CreateDamageMarkerRectangle(new Vector3(+3.80f, -0f, zp), .8f, 8f, lasterTimer);
+                    }
+                    #endregion
+
+                    #region// Create damage markers for electromines
+                    float mineTimer = 1f;
+                    int mineRand = wts.Bf_ElctroMineRand;
+                    if (mineRand == 0)
+                    {
+                        dm.CreateDamageMarkerRectangle(new Vector3(-0.50f, .5f, zp), 9f, 1f, mineTimer);
+                        dm.CreateDamageMarkerRectangle(new Vector3(-0.50f, 2.5f, zp), 9f, 1f, mineTimer);
+                        dm.CreateDamageMarkerRectangle(new Vector3(-0.50f, -1.5f, zp), 9f, 1f, mineTimer);
+                        dm.CreateDamageMarkerRectangle(new Vector3(-0.50f, -3.5f, zp), 9f, 1f, mineTimer);
+                    }
+                    else
+                    {
+                        dm.CreateDamageMarkerRectangle(new Vector3(-0.50f, 1.5f, zp), 9f, 1f, mineTimer);
+                        dm.CreateDamageMarkerRectangle(new Vector3(-0.50f, 3.5f, zp), 9f, 1f, mineTimer);
+                        dm.CreateDamageMarkerRectangle(new Vector3(-0.50f, -0.5f, zp), 9f, 1f, mineTimer);
+                        dm.CreateDamageMarkerRectangle(new Vector3(-0.50f, -2.5f, zp), 9f, 1f, mineTimer);
+                    }
+                    #endregion
                 }
             }
             else if (currentFightInfo.CurrentAttack == "Witch Hunt")
@@ -560,7 +640,10 @@ public class FightManager : MonoBehaviour
     // Called before proceeding to the next step, but not on the first step
     private void ExecuteEndOfStep()
     {
-        Debug.Log("Executing End of Step");
+        if (GetIsDebugging()) 
+        { 
+            Debug.Log("Executing End of Step");
+        }
         // Add custom behavior for the end of step
     }
     public CurrentFightInfo GetFightInfo() { return currentFightInfo; } 
@@ -596,4 +679,9 @@ public class FightManager : MonoBehaviour
         return bossPos;
     }
     #endregion
+    #region // Debugging
+    private void SetIsDebugging(bool debugging) { isDebugging = debugging; }
+    private bool GetIsDebugging() { return isDebugging; }
+    #endregion
 }
+#endregion

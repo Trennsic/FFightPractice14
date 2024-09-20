@@ -7,12 +7,100 @@ public class DamageMarkerManager : MonoBehaviour
     [SerializeField] private float setPositionZ = -0.1f;
     [SerializeField] private bool isDebugging;
     [SerializeField] private GameObject damageMarkerObjectPrefab; // Prefab with DamageMarkerAddon attached
+
+    // Define custom orange color
+    private Color customOrange = new Color(1f, 0.5f, 0f);
+
+    // Method to create a circle damage marker
+    public void CreateDamageMarkerCircle(Vector3 position, float radius, float lifetime)
+    {
+        GameObject damageMarker = Instantiate(damageMarkerObjectPrefab, new Vector3(position.x, position.y, setPositionZ), Quaternion.identity);
+        DamageMarkerAddon addon = damageMarker.GetComponent<DamageMarkerAddon>();
+
+        if (addon != null)
+        {
+            addon.SetMarketType(DamageMarkerAddon.MarkerTypes.Circle);
+            Transform sphereTransform = addon.damageMarkerSphereObject.transform;
+
+            // Set the position, scale, and rotation
+            damageMarker.transform.localRotation = Quaternion.Euler(0, 180, 0);
+            sphereTransform.localScale = new Vector3(radius, radius, 1f); // Keeping Z scale 1 as it's only a flat 2D circle.
+            addon.SetLifetime(lifetime);
+        }
+    }
+
+    // Method to create a rectangle damage marker
+    public void CreateDamageMarkerRectangle(Vector3 position, float width, float height, float lifetime)
+    {
+        GameObject damageMarker = Instantiate(damageMarkerObjectPrefab, new Vector3(position.x, position.y, setPositionZ), Quaternion.identity);
+        DamageMarkerAddon addon = damageMarker.GetComponent<DamageMarkerAddon>();
+
+        if (addon != null)
+        {
+            addon.SetMarketType(DamageMarkerAddon.MarkerTypes.Rectangle);
+            Transform boxTransform = addon.damageMarkerBoxObject.transform;
+
+            // Set the position, scale, and rotation
+            boxTransform.localScale = new Vector3(width, height, 0.1f); // Z scale is 0.1f as specified
+            addon.SetLifetime(lifetime);
+        }
+    }
+
+    // Method to create a cone damage marker
+    public void CreateDamageMarkerCone(Vector3 position, float direction, float length, float angle, float lifetime)
+    {
+        GameObject damageMarker = Instantiate(damageMarkerObjectPrefab, new Vector3(position.x, position.y, setPositionZ), Quaternion.identity);
+        DamageMarkerAddon addon = damageMarker.GetComponent<DamageMarkerAddon>();
+
+        if (addon != null)
+        {
+            addon.SetMarketType(DamageMarkerAddon.MarkerTypes.Cone);
+            Transform coneTransform = addon.damageMarkerPrismObject.transform;
+
+            // Clear existing prisms if any
+            foreach (Transform child in addon.damageMarkerPrismObject.transform)
+            {
+                Destroy(child.gameObject);
+            }
+
+            // Set the base prism object scale
+            coneTransform.localScale = new Vector3(length, length, 1f); // Scale for each individual prism
+
+            // Create and rotate the prism objects
+            int prismCount = Mathf.CeilToInt(angle / 15f);
+            float baseRotation = direction - (angle / 2);
+
+            for (int i = 0; i < prismCount; i++)
+            {
+                float currentRotation = baseRotation + (i * 15f);
+                GameObject prism = Instantiate(addon.damageMarkerPrismObject, coneTransform);
+                prism.transform.localRotation = Quaternion.Euler(0, 0, currentRotation);
+                prism.SetActive(true); // Make sure the instantiated prism is active
+            }
+
+            addon.SetLifetime(lifetime);
+        }
+    }
+}
+
+/*
+ using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class DamageMarkerManager : MonoBehaviour
+{
+    [SerializeField] private float setPositionZ = -0.1f;
+    [SerializeField] private bool isDebugging;
+    [SerializeField] private GameObject damageMarkerObjectPrefab; // Prefab with DamageMarkerAddon attached
     [SerializeField] private Material damageMarkerCircleEdgeMaterial; // Material for circle edges
     [SerializeField] private Material damageMarkerCircleBaseMaterial; // Material for circle base
     [SerializeField] private Material damageMarkerRectangleEdgeMaterial; // Material for rectangle
     [SerializeField] private Material damageMarkerRectangleBaseMaterial; // Material for rectangle
     [SerializeField] private Material damageMarkerConeEdgeMaterial; // Material for cone edges
     [SerializeField] private Material damageMarkerConeBaseMaterial; // Material for cone base
+
+
 
     // Define custom orange color
     private Color customOrange = new Color(1f, 0.5f, 0f);
@@ -264,3 +352,5 @@ public class DamageMarkerManager : MonoBehaviour
 
 
 }
+
+*/

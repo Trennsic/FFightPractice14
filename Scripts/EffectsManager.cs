@@ -75,7 +75,7 @@ public class EffectsManager : MonoBehaviour
         
     }
 
-    public void CreateFX( Effects whichFx, FxLifeTimeType lifetimeType, Vector3 position, float lifetimeTimer = 0,
+    public GameObject CreateFX( Effects whichFx, FxLifeTimeType lifetimeType, Vector3 position, float lifetimeTimer = 0,
     FightEnum? lifetimeFight = null, string lifetimeAttack = null, int lifetimeStep = 0)
     {
         if (IsDebugging)
@@ -114,7 +114,7 @@ public class EffectsManager : MonoBehaviour
                 break;
             default:
                 Debug.LogWarning("Unknown effect type");
-                return;
+                return effectInstance;
         }
 
         // Handle effect's lifetime based on the chosen lifetime type
@@ -151,6 +151,7 @@ public class EffectsManager : MonoBehaviour
                     break;
             }
         }
+        return effectInstance;
     }
 
 

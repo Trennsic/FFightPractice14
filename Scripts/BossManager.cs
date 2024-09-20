@@ -12,11 +12,32 @@ public class WickedThunderSettings
     [SerializeField] private float wicked_Thunder_Xscale = 1f;
     [SerializeField] private float wicked_Thunder_Yscale = 1f;
 
+    [SerializeField] private int bf_LaserDashRand = 0;
+    [SerializeField] private int bf_ElctroMineRand = 0;
+    [SerializeField] private int bf_LaserExplodeRand = 0;
+    [SerializeField] private int bf_NearFarRand = 0;
+
+
+
     // Expose these values via properties (optional)
     public Sprite Wicked_Thunder_Base_Image => wicked_Thunder_Base_Image;
     public Sprite Wicked_Thunder_Wings_Image => wicked_Thunder_Wings_Image;
     public float Wicked_Thunder_Xscale => wicked_Thunder_Xscale;
     public float Wicked_Thunder_Yscale => wicked_Thunder_Yscale;
+    public int Bf_LaserDashRand => bf_LaserDashRand;
+    public int Bf_ElctroMineRand => bf_ElctroMineRand;
+    public int Bf_LaserExplodeRand => bf_LaserExplodeRand;
+    public int Bf_NearFarRand => bf_NearFarRand;
+
+    public void WickedThunderRandomize()
+    {
+
+        // Bewitching Flight
+        bf_LaserDashRand    = Random.Range(0, 2);
+        bf_ElctroMineRand   = Random.Range(0, 2);
+        bf_LaserExplodeRand = Random.Range(0, 2);
+        bf_NearFarRand      = Random.Range(0, 2);
+    }
 }
 
 public class BossManager : MonoBehaviour
@@ -136,6 +157,7 @@ public class BossManager : MonoBehaviour
         if (whichBoss == Bosses.Wicked_Thunder)
         {
             WickedThunderSettings  wts = wickedThunderSettings;
+            wts.WickedThunderRandomize();
             UpdateBossSprite(wts.Wicked_Thunder_Base_Image, wts.Wicked_Thunder_Xscale, wts.Wicked_Thunder_Yscale);
         }
     }

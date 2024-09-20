@@ -113,13 +113,13 @@ public class PlayerPositionManager : MonoBehaviour
         PlayerInfo.RolePositions rp = GetPlayerRolePosition();
 
         #region // M4S
-        Debug.Log("Current Fight = " + cfi.CurrentFight);
+        if (GetIsDebugging()) { Debug.Log("Current Fight = " + cfi.CurrentFight); }
         if (cfi.CurrentFight == FightManager.FightEnum.M4S)
         {
-            Debug.Log("Current Fight = " + cfi.CurrentAttack);
+            if (GetIsDebugging()) { Debug.Log("Current Fight = " + cfi.CurrentAttack); }
             if (cfi.CurrentAttack == "Bewitching Flight")
             {
-                Debug.Log("Current Fight = " + cfi.CurrentStep);
+                if (GetIsDebugging()) { Debug.Log("Current Fight = " + cfi.CurrentStep); }
                 // Bewitching flight North Lines
                 if (cfi.CurrentStep == 2)
                 {
