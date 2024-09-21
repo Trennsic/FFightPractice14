@@ -204,7 +204,7 @@ public class FightManager : MonoBehaviour
         };
 
         // Set the number of steps for each attack (M4S)
-        attackSteps["Bewitching Flight"] = 7;
+        attackSteps["Bewitching Flight"] = 14;
         attackSteps["Witch Hunt"] = 8;
         attackSteps["Electrope Edge 1"] = 8;
         attackSteps["Electrope Edge 2 (Lightning Cage)"] = 15;
@@ -625,7 +625,7 @@ public class FightManager : MonoBehaviour
                     int step = cfi.CurrentStep;
                     #endregion
 
-                    float zp1 = -.05f;
+                    float zp1 = -.1f;
                     #region// Spawn ground lines
                     em.CreateFX(Effects.WickedThunderGroundline, FxLifeTimeType.Step, new Vector3(0.20f, 0f, zp1), 0, fight, attack, step);
                     em.CreateFX(Effects.WickedThunderGroundline, FxLifeTimeType.Step, new Vector3(-1.6f, 0f, zp1), 0, fight, attack, step);
@@ -671,7 +671,7 @@ public class FightManager : MonoBehaviour
                     int step = cfi.CurrentStep;
                     #endregion
 
-                    float zp1 = -.05f;
+                    float zp1 = -.1f;
                     #region// Flare up ground lines
                     int groundRand = wts.Bf_LaserExplodeRand;
                     if (groundRand == 0)
@@ -727,17 +727,58 @@ public class FightManager : MonoBehaviour
                     int step = cfi.CurrentStep;
                     #endregion
 
+                    float zp1 = -.1f;
                     #region// Flare up ground lines
                     int groundRand = wts.Bf_LaserExplodeRand;
                     if (groundRand == 0)
                     {
-                        em.CreateFX(Effects.WickedThunderGroundline, FxLifeTimeType.Step, new Vector3(-3.4f, 0f, -.4f), 0, fight, attack, step);
-                        em.CreateFX(Effects.WickedThunderGroundline, FxLifeTimeType.Step, new Vector3(3.80f, 0f, -.4f), 0, fight, attack, step);
-                    } else
+                        em.CreateFX(Effects.WickedThunderGroundline, FxLifeTimeType.Step, new Vector3(-3.4f, 0f, zp1), 0, fight, attack, step);
+                        em.CreateFX(Effects.WickedThunderGroundline, FxLifeTimeType.Step, new Vector3(3.80f, 0f, zp1), 0, fight, attack, step);
+
+                    }
+                    else
                     {
-                        em.CreateFX(Effects.WickedThunderGroundline, FxLifeTimeType.Step, new Vector3(0.20f, 0f, -.4f), 0, fight, attack, step);
-                        em.CreateFX(Effects.WickedThunderGroundline, FxLifeTimeType.Step, new Vector3(-1.6f, 0f, -.4f), 0, fight, attack, step);
-                        em.CreateFX(Effects.WickedThunderGroundline, FxLifeTimeType.Step, new Vector3(2.00f, 0f, -.4f), 0, fight, attack, step);
+                        em.CreateFX(Effects.WickedThunderGroundline, FxLifeTimeType.Step, new Vector3(0.20f, 0f, zp1), 0, fight, attack, step);
+                        em.CreateFX(Effects.WickedThunderGroundline, FxLifeTimeType.Step, new Vector3(-1.6f, 0f, zp1), 0, fight, attack, step);
+                        em.CreateFX(Effects.WickedThunderGroundline, FxLifeTimeType.Step, new Vector3(2.00f, 0f, zp1), 0, fight, attack, step);
+
+                    }
+                    #endregion
+
+                    #region// Create damage markers
+                    float groundTimer = 1f;
+                    if (groundRand == 0)
+                    {
+                        dm.CreateDamageMarkerRectangle(new Vector3(1.4f, -0f, zp), 4f, 8f, groundTimer);
+                        dm.CreateDamageMarkerRectangle(new Vector3(-2.40f, -0f, zp), 4f, 8f, groundTimer);
+                        
+                    }
+                    else
+                    {
+                        dm.CreateDamageMarkerRectangle(new Vector3(-0.4f, -0f, zp), 2f, 8f, groundTimer);
+
+
+                        dm.CreateDamageMarkerRectangle(new Vector3(-3.7f, -0f, zp), 2.6f, 8f, groundTimer);
+                        dm.CreateDamageMarkerRectangle(new Vector3(2.7f, -0f, zp), 2.6f, 8f, groundTimer);
+                    }
+                    #endregion
+
+                    #region// Create damage markers for electromines
+                    float mineTimer = 1f;
+                    int mineRand = wts.BF_ElctroMine2Rand;
+                    if (mineRand == 0)
+                    {
+                        dm.CreateDamageMarkerRectangle(new Vector3(-0.50f, .5f, zp), 9f, 1f, mineTimer);
+                        dm.CreateDamageMarkerRectangle(new Vector3(-0.50f, 2.5f, zp), 9f, 1f, mineTimer);
+                        dm.CreateDamageMarkerRectangle(new Vector3(-0.50f, -1.5f, zp), 9f, 1f, mineTimer);
+                        dm.CreateDamageMarkerRectangle(new Vector3(-0.50f, -3.5f, zp), 9f, 1f, mineTimer);
+                    }
+                    else
+                    {
+                        dm.CreateDamageMarkerRectangle(new Vector3(-0.50f, 1.5f, zp), 9f, 1f, mineTimer);
+                        dm.CreateDamageMarkerRectangle(new Vector3(-0.50f, 3.5f, zp), 9f, 1f, mineTimer);
+                        dm.CreateDamageMarkerRectangle(new Vector3(-0.50f, -0.5f, zp), 9f, 1f, mineTimer);
+                        dm.CreateDamageMarkerRectangle(new Vector3(-0.50f, -2.5f, zp), 9f, 1f, mineTimer);
                     }
                     #endregion
                 }
@@ -786,6 +827,12 @@ public class FightManager : MonoBehaviour
             if (currentFightInfo.CurrentAttack == "Bewitching Flight")
             {
                 if (currentFightInfo.CurrentStep == 3)
+                {
+                    //Show pass or fail after Electro mines
+                    phm.ShowPassOrFail();
+
+                }
+                else if (currentFightInfo.CurrentStep == 6)
                 {
                     //Show pass or fail after Electro mines
                     phm.ShowPassOrFail();
