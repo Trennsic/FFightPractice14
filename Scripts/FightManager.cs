@@ -5,6 +5,7 @@ using static EffectsManager;
 using UnityEngine.UIElements;
 using static FightManager;
 using static BossManager;
+using System.Collections;
 
 #region // Current Fight Info
 [System.Serializable]
@@ -59,11 +60,13 @@ public class FightManager : MonoBehaviour
     public GameObject PPositionManager;
     public GameObject PlayerManager;
     public GameObject DamageMarkerManager;
+    public GameObject PlayerHitManager;
     private EffectsManager effects;
     private BossManager bossManager;
     private PlayerPositionManager playerPositionManager;
     private PlayerManager playerManager;
     private DamageMarkerManager damageManager;
+    private PlayerHitManager playerHitManager;
 
     private TMP_Text fightText;
     #endregion
@@ -125,6 +128,12 @@ public class FightManager : MonoBehaviour
             if (damageManager == null) { Debug.LogError(" Unable to find damageManager component"); }
         }
         else { Debug.LogError(" Unable to find DamageMarkerManager"); }
+        if (PlayerHitManager != null)
+        {
+            playerHitManager = PlayerHitManager.GetComponent<PlayerHitManager>();
+            if (playerHitManager == null) { Debug.LogError(" Unable to find playerhitManager component"); }
+        }
+        else { Debug.LogError(" Unable to find PlayerHitManager"); }
         #endregion
         transform.position = new Vector3(transform.position.x, transform.position.y, zPosition);
         InitializeFights();
@@ -408,8 +417,8 @@ public class FightManager : MonoBehaviour
         }
 
         //Default start
-        //whichJob = PlayerInfo.Jobs.WHM;
-        //whichRolePos = PlayerInfo.RolePositions.H1;
+        whichJob = PlayerInfo.Jobs.WHM;
+        whichRolePos = PlayerInfo.RolePositions.H2;
 
 
         if (playerManager != null)
@@ -553,15 +562,10 @@ public class FightManager : MonoBehaviour
                     #endregion
                 }
                 //Set Lines - 3
-                // Move Mid
                 else if (currentFightInfo.CurrentStep == 3)
                 {
-                    #region // Move Boss back to mid
-                    bm.MoveBoss(new Vector3(0f, 0f, zp), 180, 1f);
-                    #endregion
                     #region // Get Wicked Thunder Settings
                     WickedThunderSettings wts = bm.wickedThunderSettings;
-                    bm.UpdateBossSprite(wts.Wicked_Thunder_Base_Image, wts.Wicked_Thunder_Xscale, wts.Wicked_Thunder_Yscale);
                     #endregion
 
                     #region// Create damage markers
@@ -604,6 +608,139 @@ public class FightManager : MonoBehaviour
                     }
                     #endregion
                 }
+                // Move Mid, Spawn ground lines
+                else if (currentFightInfo.CurrentStep == 4)
+                {
+                    #region // Move Boss back to mid
+                    bm.MoveBoss(new Vector3(0f, 0f, zp), 180, 1f);
+                    #endregion
+                    #region // Get Wicked Thunder Settings
+                    WickedThunderSettings wts = bm.wickedThunderSettings;
+                    bm.UpdateBossSprite(wts.Wicked_Thunder_Base_Image, wts.Wicked_Thunder_Xscale, wts.Wicked_Thunder_Yscale);
+                    #endregion
+
+                    #region // Initalize effects vars
+                    FightEnum fight = cfi.CurrentFight;
+                    string attack = cfi.CurrentAttack;
+                    int step = cfi.CurrentStep;
+                    #endregion
+
+                    float zp1 = -.05f;
+                    #region// Spawn ground lines
+                    em.CreateFX(Effects.WickedThunderGroundline, FxLifeTimeType.Step, new Vector3(0.20f, 0f, zp1), 0, fight, attack, step);
+                    em.CreateFX(Effects.WickedThunderGroundline, FxLifeTimeType.Step, new Vector3(-1.6f, 0f, zp1), 0, fight, attack, step);
+                    em.CreateFX(Effects.WickedThunderGroundline, FxLifeTimeType.Step, new Vector3(-3.4f, 0f, zp1), 0, fight, attack, step);
+                    em.CreateFX(Effects.WickedThunderGroundline, FxLifeTimeType.Step, new Vector3(2.00f, 0f, zp1), 0, fight, attack, step);
+                    em.CreateFX(Effects.WickedThunderGroundline, FxLifeTimeType.Step, new Vector3(3.80f, 0f, zp1), 0, fight, attack, step);
+                    #endregion
+
+                    #region // Spawn Elctromines
+                    int electroIan = wts.BF_ElctroMine2Rand;
+                    if (electroIan == 0)
+                    {
+                        em.CreateFX(Effects.WickedThunderElectromine, FxLifeTimeType.Step, new Vector3(5f, 2.5f, zp1), 0, fight, attack, step);
+                        em.CreateFX(Effects.WickedThunderElectromine, FxLifeTimeType.Step, new Vector3(5f, .5f, zp1), 0, fight, attack, step);
+                        em.CreateFX(Effects.WickedThunderElectromine, FxLifeTimeType.Step, new Vector3(5f, -1.5f, zp1), 0, fight, attack, step);
+                        em.CreateFX(Effects.WickedThunderElectromine, FxLifeTimeType.Step, new Vector3(5f, -3.5f, zp1), 0, fight, attack, step);
+                    }
+                    else
+                    {
+                        em.CreateFX(Effects.WickedThunderElectromine, FxLifeTimeType.Step, new Vector3(5f, 3.6f, zp1), 0, fight, attack, step);
+                        em.CreateFX(Effects.WickedThunderElectromine, FxLifeTimeType.Step, new Vector3(5f, 1.6f, zp1), 0, fight, attack, step);
+                        em.CreateFX(Effects.WickedThunderElectromine, FxLifeTimeType.Step, new Vector3(5f, zp1, zp1), 0, fight, attack, step);
+                        em.CreateFX(Effects.WickedThunderElectromine, FxLifeTimeType.Step, new Vector3(5f, -2.4f, zp1), 0, fight, attack, step);
+                    }
+                    em.CreateFX(Effects.WickedThunderElectromine, FxLifeTimeType.Step, new Vector3(0.1f, 4.4f, zp1), 0, fight, attack, step);
+                    #endregion
+
+                }
+                // Player move
+                else if (currentFightInfo.CurrentStep == 5)
+                {
+                    #region // Setup guide points
+                    ppm.SetupGuidePoints();
+                    #endregion
+
+                    #region // Get Wicked Thunder Settings
+                    WickedThunderSettings wts = bm.wickedThunderSettings;
+                    #endregion
+
+                    #region // Initalize effects vars
+                    FightEnum fight = cfi.CurrentFight;
+                    string attack = cfi.CurrentAttack;
+                    int step = cfi.CurrentStep;
+                    #endregion
+
+                    float zp1 = -.05f;
+                    #region// Flare up ground lines
+                    int groundRand = wts.Bf_LaserExplodeRand;
+                    if (groundRand == 0)
+                    {
+                        em.CreateFX(Effects.WickedThunderGroundline, FxLifeTimeType.Step, new Vector3(-3.4f, 0f, zp1), 0, fight, attack, step);
+                        em.CreateFX(Effects.WickedThunderGroundline, FxLifeTimeType.Step, new Vector3(3.80f, 0f, zp1), 0, fight, attack, step);
+
+                        em.CreateFX(Effects.WickedThunderGlFlare, FxLifeTimeType.Step, new Vector3(0.20f, 0f, zp1), 0, fight, attack, step);
+                        em.CreateFX(Effects.WickedThunderGlFlare, FxLifeTimeType.Step, new Vector3(-1.6f, 0f, zp1), 0, fight, attack, step);
+                        em.CreateFX(Effects.WickedThunderGlFlare, FxLifeTimeType.Step, new Vector3(2.00f, 0f, zp1), 0, fight, attack, step);
+                    }
+                    else
+                    {
+                        em.CreateFX(Effects.WickedThunderGroundline, FxLifeTimeType.Step, new Vector3(0.20f, 0f, zp1), 0, fight, attack, step);
+                        em.CreateFX(Effects.WickedThunderGroundline, FxLifeTimeType.Step, new Vector3(-1.6f, 0f, zp1), 0, fight, attack, step);
+                        em.CreateFX(Effects.WickedThunderGroundline, FxLifeTimeType.Step, new Vector3(2.00f, 0f, zp1), 0, fight, attack, step);
+
+                        em.CreateFX(Effects.WickedThunderGlFlare, FxLifeTimeType.Step, new Vector3(-3.4f, 0f, zp1), 0, fight, attack, step);
+                        em.CreateFX(Effects.WickedThunderGlFlare, FxLifeTimeType.Step, new Vector3(3.80f, 0f, zp1), 0, fight, attack, step);
+                    }
+                    #endregion
+
+                    #region // Spawn Elctromines
+                    int electroIan = wts.BF_ElctroMine2Rand;
+                    
+                    if (electroIan == 0)
+                    {
+                        em.CreateFX(Effects.WickedThunderElectromine, FxLifeTimeType.Step, new Vector3(5f, 2.5f, zp1), 0, fight, attack, step);
+                        em.CreateFX(Effects.WickedThunderElectromine, FxLifeTimeType.Step, new Vector3(5f, .5f, zp1), 0, fight, attack, step);
+                        em.CreateFX(Effects.WickedThunderElectromine, FxLifeTimeType.Step, new Vector3(5f, -1.5f, zp1), 0, fight, attack, step);
+                        em.CreateFX(Effects.WickedThunderElectromine, FxLifeTimeType.Step, new Vector3(5f, -3.5f, zp1), 0, fight, attack, step);
+                    }
+                    else
+                    {
+                        em.CreateFX(Effects.WickedThunderElectromine, FxLifeTimeType.Step, new Vector3(5f, 3.6f, zp1), 0, fight, attack, step);
+                        em.CreateFX(Effects.WickedThunderElectromine, FxLifeTimeType.Step, new Vector3(5f, 1.6f, zp1), 0, fight, attack, step);
+                        em.CreateFX(Effects.WickedThunderElectromine, FxLifeTimeType.Step, new Vector3(5f, zp1, zp1), 0, fight, attack, step);
+                        em.CreateFX(Effects.WickedThunderElectromine, FxLifeTimeType.Step, new Vector3(5f, -2.4f, zp1), 0, fight, attack, step);
+                    }
+                    em.CreateFX(Effects.WickedThunderElectromine, FxLifeTimeType.Step, new Vector3(0.1f, 4.4f, zp1), 0, fight, attack, step);
+                    #endregion
+                }
+                // Ground lines flare up
+                else if (currentFightInfo.CurrentStep == 6)
+                {
+                    #region // Get Wicked Thunder Settings
+                    WickedThunderSettings wts = bm.wickedThunderSettings;
+                    #endregion
+
+                    #region // Initalize effects vars
+                    FightEnum fight = cfi.CurrentFight;
+                    string attack = cfi.CurrentAttack;
+                    int step = cfi.CurrentStep;
+                    #endregion
+
+                    #region// Flare up ground lines
+                    int groundRand = wts.Bf_LaserExplodeRand;
+                    if (groundRand == 0)
+                    {
+                        em.CreateFX(Effects.WickedThunderGroundline, FxLifeTimeType.Step, new Vector3(-3.4f, 0f, -.4f), 0, fight, attack, step);
+                        em.CreateFX(Effects.WickedThunderGroundline, FxLifeTimeType.Step, new Vector3(3.80f, 0f, -.4f), 0, fight, attack, step);
+                    } else
+                    {
+                        em.CreateFX(Effects.WickedThunderGroundline, FxLifeTimeType.Step, new Vector3(0.20f, 0f, -.4f), 0, fight, attack, step);
+                        em.CreateFX(Effects.WickedThunderGroundline, FxLifeTimeType.Step, new Vector3(-1.6f, 0f, -.4f), 0, fight, attack, step);
+                        em.CreateFX(Effects.WickedThunderGroundline, FxLifeTimeType.Step, new Vector3(2.00f, 0f, -.4f), 0, fight, attack, step);
+                    }
+                    #endregion
+                }
             }
             else if (currentFightInfo.CurrentAttack == "Witch Hunt")
             {
@@ -635,6 +772,28 @@ public class FightManager : MonoBehaviour
     {
         //Debug.Log("Executing Middle of Step");
         // Add custom behavior for the middle of each step
+        #region // Check for hits
+        PlayerHitManager phm = playerHitManager;
+        // Check if player got hit
+        phm.CheckIfPlayerIsHit();
+        #endregion
+
+
+        #region//M4S
+        //Goes from x: -5 to 5, 
+        if (currentFightInfo.CurrentFight == FightEnum.M4S)
+        {
+            if (currentFightInfo.CurrentAttack == "Bewitching Flight")
+            {
+                if (currentFightInfo.CurrentStep == 3)
+                {
+                    //Show pass or fail after Electro mines
+                    phm.ShowPassOrFail();
+
+                }
+            }
+        }
+        #endregion
     }
 
     // Called before proceeding to the next step, but not on the first step
@@ -644,7 +803,24 @@ public class FightManager : MonoBehaviour
         { 
             Debug.Log("Executing End of Step");
         }
-        // Add custom behavior for the end of step
+        #region // Player hit detection
+        PlayerHitManager phm = playerHitManager;
+        // Check if player was hit
+        phm.CheckIfPlayerWasHit();
+        // Reset Check for hits
+        phm.ResetCheckedThisStep();
+        #endregion
+
+
+        BossManager bm = bossManager;
+        EffectsManager em = effects;
+        PlayerPositionManager ppm = playerPositionManager;
+        CurrentFightInfo cfi = currentFightInfo;
+        DamageMarkerManager dm = damageManager;
+        float zp = transform.position.z;
+        //Specific fight action
+
+
     }
     public CurrentFightInfo GetFightInfo() { return currentFightInfo; } 
     public FightEnum GetCurrentFight() => currentFightInfo.CurrentFight;

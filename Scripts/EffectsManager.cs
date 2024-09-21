@@ -13,6 +13,8 @@ public class WickedThunderEffects
     [SerializeField] private GameObject wickedThunderFX_BF_Beam4;
     [SerializeField] private GameObject wickedThunderFX_BF_Beam5;
     [SerializeField] private GameObject wickedThunderFX_BF_Electromine;
+    [SerializeField] private GameObject wickedThunderFX_BF_Groundline;
+    [SerializeField] private GameObject wickedThunderFX_BF_GlFlare;
 
     // Expose these values via properties (optional)
     public GameObject WickedThunderFX_BF_Beam1 => wickedThunderFX_BF_Beam1;
@@ -21,6 +23,8 @@ public class WickedThunderEffects
     public GameObject WickedThunderFX_BF_Beam4 => wickedThunderFX_BF_Beam4;
     public GameObject WickedThunderFX_BF_Beam5 => wickedThunderFX_BF_Beam5;
     public GameObject WickedThunderFX_BF_Electromine => wickedThunderFX_BF_Electromine;
+    public GameObject WickedThunderFX_BF_Groundline => wickedThunderFX_BF_Groundline;
+    public GameObject WickedThunderFX_BF_GlFlare => wickedThunderFX_BF_GlFlare;
 }
 
 
@@ -35,6 +39,8 @@ public class EffectsManager : MonoBehaviour
         WickedThunderBeam4,
         WickedThunderBeam5,
         WickedThunderElectromine,
+        WickedThunderGroundline,
+        WickedThunderGlFlare,
     }
     [SerializeField] private Effects whichEffects;
     public enum FxLifeTimeType
@@ -111,6 +117,14 @@ public class EffectsManager : MonoBehaviour
             case Effects.WickedThunderElectromine:
                 effectInstance = Instantiate(wickedThunderEffects.WickedThunderFX_BF_Electromine, position, Quaternion.identity);
                 if (IsDebugging) Debug.Log("Instantiated WickedThunderFX_BF_Electromine");
+                break;
+            case Effects.WickedThunderGroundline:
+                effectInstance = Instantiate(wickedThunderEffects.WickedThunderFX_BF_Groundline, position, Quaternion.identity);
+                if (IsDebugging) Debug.Log("Instantiated WickedThunderFX_BF_Groundline");
+                break;
+            case Effects.WickedThunderGlFlare:
+                effectInstance = Instantiate(wickedThunderEffects.WickedThunderFX_BF_GlFlare, position, Quaternion.identity);
+                if (IsDebugging) Debug.Log("Instantiated WickedThunderFX_BF_GlFlare");
                 break;
             default:
                 Debug.LogWarning("Unknown effect type");

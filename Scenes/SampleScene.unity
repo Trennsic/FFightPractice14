@@ -498,6 +498,60 @@ RectTransform:
   m_AnchoredPosition: {x: -6.943, y: 1.25}
   m_SizeDelta: {x: 20, y: 5}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &409650276
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 409650277}
+  - component: {fileID: 409650278}
+  m_Layer: 0
+  m_Name: PlayerHitDetection
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &409650277
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 409650276}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1974555494}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &409650278
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 409650276}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d2115d325ea8d344b2ae59a20284ac4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 1974555491}
+  isDebugging: 1
+  CheckedThisStep: 0
+  CheckAmountOfFramesToWait: 2
+  PoFDoneThisStep: 0
+  PoFAmountOfFramesToWait: 2
+  PlayerWasHit: 0
+  iconLifetime: 1.5
+  CheckmarkIconObject: {fileID: 5996646510269577523, guid: 27c922c931d2c1d4e90922cf18e82866, type: 3}
+  XIconObject: {fileID: 5959245685934460782, guid: 7335a59c071e6df4da30f71240795faa, type: 3}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -537,6 +591,38 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_RenderShadows: 1
+  m_RequiresDepthTextureOption: 2
+  m_RequiresOpaqueTextureOption: 2
+  m_CameraType: 0
+  m_Cameras: []
+  m_RendererIndex: -1
+  m_VolumeLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  m_VolumeTrigger: {fileID: 0}
+  m_VolumeFrameworkUpdateModeOption: 2
+  m_RenderPostProcessing: 0
+  m_Antialiasing: 0
+  m_AntialiasingQuality: 2
+  m_StopNaN: 0
+  m_Dithering: 0
+  m_ClearDepth: 1
+  m_AllowXRRendering: 1
+  m_AllowHDROutput: 1
+  m_UseScreenCoordOverride: 0
+  m_ScreenSizeOverride: {x: 0, y: 0, z: 0, w: 0}
+  m_ScreenCoordScaleBias: {x: 0, y: 0, z: 0, w: 0}
+  m_RequiresDepthTexture: 0
+  m_RequiresColorTexture: 0
+  m_Version: 2
+  m_TaaSettings:
+    m_Quality: 3
+    m_FrameInfluence: 0.1
+    m_JitterScale: 1
+    m_MipBias: 0
+    m_VarianceClampScale: 0.9
+    m_ContrastAdaptiveSharpening: 0
 --- !u!20 &519420031
 Camera:
   m_ObjectHideFlags: 0
@@ -716,6 +802,40 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 073797afb82c5a1438f328866b10b3f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_ComponentVersion: 1
+  m_LightType: 3
+  m_BlendStyleIndex: 0
+  m_FalloffIntensity: 0.5
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Intensity: 1
+  m_LightVolumeIntensity: 1
+  m_LightVolumeIntensityEnabled: 1
+  m_ApplyToSortingLayers: 00000000
+  m_LightCookieSprite: {fileID: 0}
+  m_DeprecatedPointLightCookieSprite: {fileID: 0}
+  m_LightOrder: 0
+  m_AlphaBlendOnOverlap: 0
+  m_OverlapOperation: 0
+  m_NormalMapDistance: 3
+  m_NormalMapQuality: 2
+  m_UseNormalMap: 0
+  m_ShadowIntensityEnabled: 1
+  m_ShadowIntensity: 0.75
+  m_ShadowVolumeIntensityEnabled: 1
+  m_ShadowVolumeIntensity: 0.75
+  m_LocalBounds:
+    m_Center: {x: 0, y: -0.00000011920929, z: 0}
+    m_Extent: {x: 0.9985302, y: 0.99853027, z: 0}
+  m_PointLightInnerAngle: 360
+  m_PointLightOuterAngle: 360
+  m_PointLightInnerRadius: 0
+  m_PointLightOuterRadius: 1
+  m_ShapeLightParametricSides: 5
+  m_ShapeLightParametricAngleOffset: 0
+  m_ShapeLightParametricRadius: 1
+  m_ShapeLightFalloffSize: 0.5
+  m_ShapeLightFalloffOffset: {x: 0, y: 0}
+  m_ShapePath: []
 --- !u!4 &619394802
 Transform:
   m_ObjectHideFlags: 0
@@ -785,6 +905,8 @@ MonoBehaviour:
     wickedThunderFX_BF_Beam4: {fileID: 8372381408513758297, guid: 78869ff26c4f9424088d1be300e5a3d3, type: 3}
     wickedThunderFX_BF_Beam5: {fileID: 8372381408513758297, guid: 8f703d3200c7f3d488811b3ddbfc46a3, type: 3}
     wickedThunderFX_BF_Electromine: {fileID: 6854958280339899396, guid: be46a6f64d9b9b043bbb9d4d45d63e5e, type: 3}
+    wickedThunderFX_BF_Groundline: {fileID: 407488106692172761, guid: 9f3caa1e794009c4888bb0e9512d6110, type: 3}
+    wickedThunderFX_BF_GlFlare: {fileID: 6032538991350625972, guid: ff2e9cf8d9b97e648893957e137bd642, type: 3}
   IsDebugging: 0
 --- !u!1 &800095358
 GameObject:
@@ -1386,6 +1508,7 @@ MonoBehaviour:
     wicked_Thunder_Yscale: 0.35
     bf_LaserDashRand: 0
     bf_ElctroMineRand: 0
+    bf_ElctroMine2Rand: 0
     bf_LaserExplodeRand: 0
     bf_NearFarRand: 0
   spriteRenderer: {fileID: 1260784634}
@@ -1680,12 +1803,12 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 381876639}
+  - {fileID: 1974555494}
   - {fileID: 1164627194}
   - {fileID: 1260784632}
   - {fileID: 380499201}
   - {fileID: 115894901}
   - {fileID: 646152313}
-  - {fileID: 1974555494}
   - {fileID: 1318438278}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1715,6 +1838,7 @@ MonoBehaviour:
   PPositionManager: {fileID: 259347627}
   PlayerManager: {fileID: 1974555491}
   DamageMarkerManager: {fileID: 1318438277}
+  PlayerHitManager: {fileID: 409650276}
   zPosition: 0
   seedValue: 12345
 --- !u!1 &1729170841
@@ -1955,6 +2079,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 259347628}
+  - {fileID: 409650277}
   m_Father: {fileID: 1592178532}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1660057539 &9223372036854775807

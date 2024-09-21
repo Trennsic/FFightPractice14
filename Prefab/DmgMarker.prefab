@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 6466014151203251347}
   m_Layer: 0
   m_Name: Prism
-  m_TagString: Untagged
+  m_TagString: DamageMarker
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -301,7 +301,7 @@ GameObject:
   - component: {fileID: 5913883159264602135}
   m_Layer: 0
   m_Name: Circle
-  m_TagString: Untagged
+  m_TagString: DamageMarker
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -407,7 +407,7 @@ GameObject:
   - component: {fileID: 6894962296737732524}
   m_Layer: 0
   m_Name: Cube
-  m_TagString: Untagged
+  m_TagString: DamageMarker
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -510,7 +510,7 @@ GameObject:
   - component: {fileID: 2760059033980594171}
   m_Layer: 0
   m_Name: DmgMarker
-  m_TagString: Untagged
+  m_TagString: DamageMarker
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -545,6 +545,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6d4d891c3615e24bbfb68c6c464f140, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lifetime: 0
+  lifetimeStarted: 0
   damageMarkerSphereObject: {fileID: 817117236996229253}
   damageMarkerBoxObject: {fileID: 987400067836577874}
   damageMarkerPrismObject: {fileID: 787705991706492374}

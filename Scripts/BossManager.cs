@@ -14,6 +14,7 @@ public class WickedThunderSettings
 
     [SerializeField] private int bf_LaserDashRand = 0;
     [SerializeField] private int bf_ElctroMineRand = 0;
+    [SerializeField] private int bf_ElctroMine2Rand = 0;
     [SerializeField] private int bf_LaserExplodeRand = 0;
     [SerializeField] private int bf_NearFarRand = 0;
 
@@ -26,6 +27,7 @@ public class WickedThunderSettings
     public float Wicked_Thunder_Yscale => wicked_Thunder_Yscale;
     public int Bf_LaserDashRand => bf_LaserDashRand;
     public int Bf_ElctroMineRand => bf_ElctroMineRand;
+    public int BF_ElctroMine2Rand => bf_ElctroMine2Rand;
     public int Bf_LaserExplodeRand => bf_LaserExplodeRand;
     public int Bf_NearFarRand => bf_NearFarRand;
 
@@ -36,6 +38,7 @@ public class WickedThunderSettings
         bf_LaserDashRand    = Random.Range(0, 2);
         bf_ElctroMineRand   = Random.Range(0, 2);
         bf_LaserExplodeRand = Random.Range(0, 2);
+        bf_ElctroMine2Rand  = Random.Range(0, 2);
         bf_NearFarRand      = Random.Range(0, 2);
     }
 }
