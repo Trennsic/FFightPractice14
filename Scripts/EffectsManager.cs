@@ -15,6 +15,9 @@ public class WickedThunderEffects
     [SerializeField] private GameObject wickedThunderFX_BF_Electromine;
     [SerializeField] private GameObject wickedThunderFX_BF_Groundline;
     [SerializeField] private GameObject wickedThunderFX_BF_GlFlare;
+    [SerializeField] private GameObject wickedThunderFX_BF_FourStar;
+    [SerializeField] private GameObject wickedThunderFX_BF_Near;
+    [SerializeField] private GameObject wickedThunderFX_BF_Far;
 
     // Expose these values via properties (optional)
     public GameObject WickedThunderFX_BF_Beam1 => wickedThunderFX_BF_Beam1;
@@ -25,6 +28,9 @@ public class WickedThunderEffects
     public GameObject WickedThunderFX_BF_Electromine => wickedThunderFX_BF_Electromine;
     public GameObject WickedThunderFX_BF_Groundline => wickedThunderFX_BF_Groundline;
     public GameObject WickedThunderFX_BF_GlFlare => wickedThunderFX_BF_GlFlare;
+    public GameObject WickedThunderFX_BF_FourStar => wickedThunderFX_BF_FourStar;
+    public GameObject WickedThunderFX_BF_Near => wickedThunderFX_BF_Near;
+    public GameObject WickedThunderFX_BF_Far => wickedThunderFX_BF_Far;
 }
 
 
@@ -41,6 +47,9 @@ public class EffectsManager : MonoBehaviour
         WickedThunderElectromine,
         WickedThunderGroundline,
         WickedThunderGlFlare,
+        WickedThunderFourStar,
+        WickedThunderFarMark,
+        WickedThunderNearMark,
     }
     [SerializeField] private Effects whichEffects;
     public enum FxLifeTimeType
@@ -125,6 +134,18 @@ public class EffectsManager : MonoBehaviour
             case Effects.WickedThunderGlFlare:
                 effectInstance = Instantiate(wickedThunderEffects.WickedThunderFX_BF_GlFlare, position, Quaternion.identity);
                 if (IsDebugging) Debug.Log("Instantiated WickedThunderFX_BF_GlFlare");
+                break;
+            case Effects.WickedThunderFourStar:
+                effectInstance = Instantiate(wickedThunderEffects.WickedThunderFX_BF_FourStar, position, Quaternion.identity);
+                if (IsDebugging) Debug.Log("Instantiated WickedThunderFX_BF_FourStar");
+                break;
+            case Effects.WickedThunderNearMark:
+                effectInstance = Instantiate(wickedThunderEffects.WickedThunderFX_BF_Near, position, Quaternion.identity);
+                if (IsDebugging) Debug.Log("Instantiated WickedThunderFX_BF_Near");
+                break;
+            case Effects.WickedThunderFarMark:
+                effectInstance = Instantiate(wickedThunderEffects.WickedThunderFX_BF_Far, position, Quaternion.identity);
+                if (IsDebugging) Debug.Log("Instantiated WickedThunderFX_BF_Far");
                 break;
             default:
                 Debug.LogWarning("Unknown effect type");

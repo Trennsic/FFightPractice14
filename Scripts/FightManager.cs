@@ -35,6 +35,20 @@ public class CurrentFightInfo
     #endregion
 }
 #endregion
+#region // Debug Info
+[System.Serializable]
+public class DebugInfo
+{
+    #region // Definitions
+    [SerializeField] public bool isDebugging;
+    // Enable or disable debugging
+    public void SetIsDebugging(bool IsDebugging) { isDebugging = IsDebugging; }
+
+    // Check if debugging is enabled
+    public bool GetIsDebugging() { return isDebugging; }
+    #endregion
+}
+#endregion
 #region // Fight Manager
 public class FightManager : MonoBehaviour
 {
@@ -61,12 +75,14 @@ public class FightManager : MonoBehaviour
     public GameObject PlayerManager;
     public GameObject DamageMarkerManager;
     public GameObject PlayerHitManager;
+    public GameObject NpcManager;
     private EffectsManager effects;
     private BossManager bossManager;
     private PlayerPositionManager playerPositionManager;
     private PlayerManager playerManager;
     private DamageMarkerManager damageManager;
     private PlayerHitManager playerHitManager;
+    private NpcManagers npcManager;
 
     private TMP_Text fightText;
     #endregion
@@ -133,7 +149,13 @@ public class FightManager : MonoBehaviour
             playerHitManager = PlayerHitManager.GetComponent<PlayerHitManager>();
             if (playerHitManager == null) { Debug.LogError(" Unable to find playerhitManager component"); }
         }
-        else { Debug.LogError(" Unable to find PlayerHitManager"); }
+        else { Debug.LogError(" Unable to find PlayerHitManager"); }        
+        if (NpcManager != null)
+        {
+            npcManager = NpcManager.GetComponent<NpcManagers>();
+            if (npcManager == null) { Debug.LogError(" Unable to find npcManager component"); }
+        }
+        else { Debug.LogError(" Unable to find NpcManager"); }
         #endregion
         transform.position = new Vector3(transform.position.x, transform.position.y, zPosition);
         InitializeFights();
@@ -204,7 +226,7 @@ public class FightManager : MonoBehaviour
         };
 
         // Set the number of steps for each attack (M4S)
-        attackSteps["Bewitching Flight"] = 14;
+        attackSteps["Bewitching Flight"] = 15;
         attackSteps["Witch Hunt"] = 8;
         attackSteps["Electrope Edge 1"] = 8;
         attackSteps["Electrope Edge 2 (Lightning Cage)"] = 15;
@@ -243,6 +265,7 @@ public class FightManager : MonoBehaviour
         currentFightInfo.SetCurrentStep(0);
         isStartOfFight = true;
         SetBoss(); SetPlayer();
+        SetupParty();
         SetWaymarks();
         UpdateFightActions();
         UpdateFightAttackString();
@@ -345,86 +368,93 @@ public class FightManager : MonoBehaviour
     {
 
         //Default start
-        PlayerInfo.Jobs whichJob = PlayerInfo.Jobs.WHM;
-        PlayerInfo.RolePositions whichRolePos = PlayerInfo.RolePositions.R1;
+        CharacterInfo.Jobs whichJob = CharacterInfo.Jobs.WHM;
+        CharacterInfo.RolePositions whichRolePos = CharacterInfo.RolePositions.R1;
         // the grid will always be 1, 2, 3, 4, or 5 prefabs wide
         int role = Random.Range(0, 8);
         switch (role)
         {
-            case 0: whichRolePos = PlayerInfo.RolePositions.MT; break;
-            case 1: whichRolePos = PlayerInfo.RolePositions.OT; break;
-            case 2: whichRolePos = PlayerInfo.RolePositions.H1; break;
-            case 3: whichRolePos = PlayerInfo.RolePositions.H2; break;
-            case 4: whichRolePos = PlayerInfo.RolePositions.M1; break;
-            case 5: whichRolePos = PlayerInfo.RolePositions.M2; break;
-            case 6: whichRolePos = PlayerInfo.RolePositions.R1; break;
-            default : whichRolePos = PlayerInfo.RolePositions.R2; break;
+            case 0: whichRolePos = CharacterInfo.RolePositions.MT; break;
+            case 1: whichRolePos = CharacterInfo.RolePositions.OT; break;
+            case 2: whichRolePos = CharacterInfo.RolePositions.H1; break;
+            case 3: whichRolePos = CharacterInfo.RolePositions.H2; break;
+            case 4: whichRolePos = CharacterInfo.RolePositions.M1; break;
+            case 5: whichRolePos = CharacterInfo.RolePositions.M2; break;
+            case 6: whichRolePos = CharacterInfo.RolePositions.R1; break;
+            default : whichRolePos = CharacterInfo.RolePositions.R2; break;
         }
 
         int job = 0;
         //Tanks
-        if (whichRolePos == PlayerInfo.RolePositions.MT || whichRolePos == PlayerInfo.RolePositions.OT)
+        if (whichRolePos == CharacterInfo.RolePositions.MT || whichRolePos == CharacterInfo.RolePositions.OT)
         {
             job = Random.Range(0, 4);
             switch (role)
             {
-                case 0: whichJob = PlayerInfo.Jobs.PLD; break;
-                case 1: whichJob = PlayerInfo.Jobs.WAR; break;
-                case 2: whichJob = PlayerInfo.Jobs.DRK; break;
-                default: whichJob = PlayerInfo.Jobs.GNB; break;
+                case 0: whichJob = CharacterInfo.Jobs.PLD; break;
+                case 1: whichJob = CharacterInfo.Jobs.WAR; break;
+                case 2: whichJob = CharacterInfo.Jobs.DRK; break;
+                default: whichJob = CharacterInfo.Jobs.GNB; break;
             }
         }
         //Heals
-        if (whichRolePos == PlayerInfo.RolePositions.H1 || whichRolePos == PlayerInfo.RolePositions.H2)
+        if (whichRolePos == CharacterInfo.RolePositions.H1 || whichRolePos == CharacterInfo.RolePositions.H2)
         {
             job = Random.Range(0,4);
             switch (role)
             {
-                case 0: whichJob  = PlayerInfo.Jobs.WHM; break;
-                case 1: whichJob  = PlayerInfo.Jobs.SCH; break;
-                case 2: whichJob  = PlayerInfo.Jobs.AST; break;
-                default: whichJob = PlayerInfo.Jobs.SGE; break;
+                case 0: whichJob  = CharacterInfo.Jobs.WHM; break;
+                case 1: whichJob  = CharacterInfo.Jobs.SCH; break;
+                case 2: whichJob  = CharacterInfo.Jobs.AST; break;
+                default: whichJob = CharacterInfo.Jobs.SGE; break;
             }
         }
         //M Dps
-        if (whichRolePos == PlayerInfo.RolePositions.M1 || whichRolePos == PlayerInfo.RolePositions.M2)
+        if (whichRolePos == CharacterInfo.RolePositions.M1 || whichRolePos == CharacterInfo.RolePositions.M2)
         {
             job = Random.Range(0, 6);
             switch (role)
             {
-                case 0: whichJob = whichJob  = PlayerInfo.Jobs.MNK; break;
-                case 1: whichJob = whichJob  = PlayerInfo.Jobs.DRG; break;
-                case 2: whichJob = whichJob  = PlayerInfo.Jobs.NIN; break;
-                case 3: whichJob = whichJob  = PlayerInfo.Jobs.SAM; break;
-                case 4: whichJob = whichJob  = PlayerInfo.Jobs.RPR; break;
-                default: whichJob = whichJob  = PlayerInfo.Jobs.VIP; break;
+                case 0: whichJob = whichJob  = CharacterInfo.Jobs.MNK; break;
+                case 1: whichJob = whichJob  = CharacterInfo.Jobs.DRG; break;
+                case 2: whichJob = whichJob  = CharacterInfo.Jobs.NIN; break;
+                case 3: whichJob = whichJob  = CharacterInfo.Jobs.SAM; break;
+                case 4: whichJob = whichJob  = CharacterInfo.Jobs.RPR; break;
+                default: whichJob = whichJob  = CharacterInfo.Jobs.VIP; break;
             }
         }
         //R Dps
-        if (whichRolePos == PlayerInfo.RolePositions.R1 || whichRolePos == PlayerInfo.RolePositions.R2)
+        if (whichRolePos == CharacterInfo.RolePositions.R1 || whichRolePos == CharacterInfo.RolePositions.R2)
         {
             job = Random.Range(0, 7);
             switch (role)
             {
-                case 0: whichJob = whichJob = PlayerInfo.Jobs.BRD; break;
-                case 1: whichJob = whichJob  = PlayerInfo.Jobs.MCH; break;
-                case 2: whichJob = whichJob  = PlayerInfo.Jobs.DNC; break;
-                case 3: whichJob = whichJob  = PlayerInfo.Jobs.PIC; break;
-                case 4: whichJob = whichJob  = PlayerInfo.Jobs.BLM; break;
-                case 5: whichJob = whichJob  = PlayerInfo.Jobs.SMN; break;
-                default: whichJob = whichJob  = PlayerInfo.Jobs.RDM; break;
+                case 0: whichJob = whichJob = CharacterInfo.Jobs.BRD; break;
+                case 1: whichJob = whichJob  = CharacterInfo.Jobs.MCH; break;
+                case 2: whichJob = whichJob  = CharacterInfo.Jobs.DNC; break;
+                case 3: whichJob = whichJob  = CharacterInfo.Jobs.PIC; break;
+                case 4: whichJob = whichJob  = CharacterInfo.Jobs.BLM; break;
+                case 5: whichJob = whichJob  = CharacterInfo.Jobs.SMN; break;
+                default: whichJob = whichJob  = CharacterInfo.Jobs.RDM; break;
             }
         }
 
         //Default start
-        whichJob = PlayerInfo.Jobs.WHM;
-        whichRolePos = PlayerInfo.RolePositions.H2;
+        whichJob = CharacterInfo.Jobs.WHM;
+        whichRolePos = CharacterInfo.RolePositions.H2;
 
 
         if (playerManager != null)
         {
             playerManager.SetupPlayer(whichJob, whichRolePos);
         }
+    }
+    private void SetupParty()
+    {
+        //Should be ran after Set Player
+        //Send Setup command to npc manager w/ which role player picked
+        PlayerManager pm = playerManager;
+        npcManager.SetupParty(pm.GetRolePosition(), pm.GetJob());
     }
     private void SetWaymarks() 
     {
@@ -473,8 +503,10 @@ public class FightManager : MonoBehaviour
         BossManager bm = bossManager;
         EffectsManager em = effects;
         PlayerPositionManager ppm = playerPositionManager;
+        PlayerManager pm = playerManager;
         CurrentFightInfo cfi = currentFightInfo;
         DamageMarkerManager dm = damageManager;
+        NpcManagers nm = npcManager;
         float zp = transform.position.z;
         //Specific fight action
 
@@ -486,21 +518,178 @@ public class FightManager : MonoBehaviour
             {
                 if (currentFightInfo.CurrentStep == 0)
                 {
+                    #region //Setup Party Start Positions
+                    #region // Move player to starting position
+                    Vector3 startPos = new Vector3(transform.position.x, transform.position.y, 0f); // Z Position is set in the player object
+                    float startRot = 0;
+                    CharacterInfo.RolePositions rolePos = pm.GetRolePosition();
+                    switch (rolePos)
+                    {
+                        case CharacterInfo.RolePositions.MT:
+                            startPos.x = -.1f; startPos.y = -2.05f; break;
+                        case CharacterInfo.RolePositions.OT:
+                            startPos.x = .1f; startPos.y = -3.75f; break;
+                        case CharacterInfo.RolePositions.H1:
+                            startPos.x = -0.8f; startPos.y = -2.9f; break;
+                        case CharacterInfo.RolePositions.H2:
+                            startPos.x = 0.8f; startPos.y = -2.9f; break;
+                        case CharacterInfo.RolePositions.M1:
+                            startPos.x = -0.8f; startPos.y = -3.75f; break;
+                        case CharacterInfo.RolePositions.M2:
+                            startPos.x = 0.8f; startPos.y = -3.75f; break;
+                        case CharacterInfo.RolePositions.R1:
+                            startPos.x = -0.8f; startPos.y = -2.05f; break;
+                        case CharacterInfo.RolePositions.R2:
+                            startPos.x = 0.8f; startPos.y = -2.05f; break;
+                        default: Debug.LogError("Unknown Role Position"); break;
+                    }
+                    if (isDebugging) { Debug.Log($"Moving player to start position: {startPos}, with rotation: {startRot}"); }
+                    // Move player to starting position
+                    pm.MovePlayer(startPos, startRot, 0f); // "Snap" to position
+                    #endregion
+                    #region // Move Party to starting position
+                    //MT Position
+                    startPos.x = 0f; startPos.y = -2.05f;
+                    nm.MoveNpc(startPos, startRot, 0f, CharacterInfo.RolePositions.MT);
+                    //OT Position
+                    startPos.x = 0f; startPos.y = -3.75f;
+                    nm.MoveNpc(startPos, startRot, 0f, CharacterInfo.RolePositions.OT);
+                    //H1 Position
+                    startPos.x = -0.8f; startPos.y = -2.9f;
+                    nm.MoveNpc(startPos, startRot, 0f, CharacterInfo.RolePositions.H1);
+                    //H2 Position
+                    startPos.x = 0.8f; startPos.y = -3.75f;
+                    nm.MoveNpc(startPos, startRot, 0f, CharacterInfo.RolePositions.H2);
+                    //M1 Position
+                    startPos.x = -0.8f; startPos.y = -3.75f;
+                    nm.MoveNpc(startPos, startRot, 0f, CharacterInfo.RolePositions.M1);
+                    //M2 Position
+                    startPos.x = 0.8f; startPos.y = -3.75f;
+                    nm.MoveNpc(startPos, startRot, 0f, CharacterInfo.RolePositions.M2);
+                    //R1 Position
+                    startPos.x = -0.8f; startPos.y = -2.05f;
+                    nm.MoveNpc(startPos, startRot, 0f, CharacterInfo.RolePositions.R1);
+                    //R2 Position
+                    startPos.x = 0.8f; startPos.y = -2.05f;
+                    nm.MoveNpc(startPos, startRot, 0f, CharacterInfo.RolePositions.R2);
+                    #endregion
+                    #endregion
                     //Move Boss To Center
                     bm.MoveBoss(new Vector3(0f, 0f, zp), 180, 0f);
                     //Change boss to base form
                     WickedThunderSettings wts = bm.wickedThunderSettings;
                     bm.UpdateBossSprite(wts.Wicked_Thunder_Base_Image, wts.Wicked_Thunder_Xscale, wts.Wicked_Thunder_Yscale);
                 }
-                // Move North
+                // Move Party to waypoints
                 else if (currentFightInfo.CurrentStep == 1)
                 {
+                    #region //Setup Party Waymark Positions
+                    #region // Move player to Waymark positions
+                    Vector3 startPos = new Vector3(transform.position.x, transform.position.y, 0f); // Z Position is set in the player object
+                    float startRot = 0;
+                    CharacterInfo.RolePositions rolePos = pm.GetRolePosition();
+                    switch (rolePos)
+                    {
+                        case CharacterInfo.RolePositions.MT:
+                            startPos.x = -.1f; startPos.y = 2.2f; break;
+                        case CharacterInfo.RolePositions.OT:
+                            startPos.x = -.1f; startPos.y = -2.0f; break;
+                        case CharacterInfo.RolePositions.H1:
+                            startPos.x = -2.35f; startPos.y = .1f; break;
+                        case CharacterInfo.RolePositions.H2:
+                            startPos.x = 2.25f; startPos.y = .0f; break;
+                        case CharacterInfo.RolePositions.M1:
+                            startPos.x = -2.35f; startPos.y = -2.0f; break;
+                        case CharacterInfo.RolePositions.M2:
+                            startPos.x = 2.15f; startPos.y = -2.0f; break;
+                        case CharacterInfo.RolePositions.R1:
+                            startPos.x = -2.35f; startPos.y = 2.2f; break;
+                        case CharacterInfo.RolePositions.R2:
+                            startPos.x = 2.15f; startPos.y = 2.2f; break;
+                        default: Debug.LogError("Unknown Role Position"); break;
+                    }
+                    if (isDebugging) { Debug.Log($"Moving player to start position: {startPos}, with rotation: {startRot}"); }
+                    // Move player to Waymark position
+                    pm.MovePlayer(startPos, startRot, 1f); // "Snap" to position
+                    #endregion
+                    #region // Move Party to waymark position
+                    #region // Setup position values
+                    Vector3 npcPos = new Vector3(transform.position.x, transform.position.y, 0f); // Z Position is set in the player object
+                    float xLeftNpcPos = -2.25f; float xMidNpcPos = -.00f; float xRightNpcPos = 2.25f;
+                    float yTopNpcPos = 2.0f; float yMidNpcPos = -.00f; float yBotNpcPos = -2.0f;
+                    float npcRot = 0; float npcTime = .75f;
+                    #endregion
+                    #region // Move Party to positions
+                    //MT Position
+                    npcPos.x = xMidNpcPos; npcPos.y = yTopNpcPos;
+                    nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.MT);
+                    //OT Position
+                    npcPos.x = xMidNpcPos; npcPos.y = yBotNpcPos;
+                    nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.OT);
+                    //H1 Position
+                    npcPos.x = xLeftNpcPos; npcPos.y = yMidNpcPos;
+                    nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.H1);
+                    //H2 Position
+                    npcPos.x = xRightNpcPos; npcPos.y = xRightNpcPos;
+                    nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.H2);
+                    //M1 Position
+                    npcPos.x = xLeftNpcPos; npcPos.y = yBotNpcPos;
+                    nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.M1);
+                    //M2 Position
+                    npcPos.x = xRightNpcPos; npcPos.y = yBotNpcPos;
+                    nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.M2);
+                    //R1 Position
+                    npcPos.x = xLeftNpcPos; npcPos.y = yTopNpcPos;
+                    nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.R1);
+                    //R2 Position
+                    npcPos.x = xRightNpcPos; npcPos.y = yTopNpcPos;
+                    nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.R2);
+                    #endregion
+                    #endregion
+
+                    #endregion
+                }
+                // Move North
+                else if (currentFightInfo.CurrentStep == 2)
+                {
+                    #region // Move Party to North position
+                    #region // Setup position values
+                    Vector3 npcPos = new Vector3(transform.position.x, transform.position.y, 0f); // Z Position is set in the player object
+                    float npcRot = 0; float npcTime = .75f;
+                    #endregion
+                    #region // Move Party to positions
+                    //MT Position
+                    npcPos.x = -0.5f; npcPos.y = 3.1f;
+                    nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.MT);
+                    //OT Position
+                    npcPos.x = 0.5f; npcPos.y = 3.1f;
+                    nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.OT);
+                    //H1 Position
+                    npcPos.x = -.6f; npcPos.y = .5f;
+                    nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.H1);
+                    //H2 Position
+                    npcPos.x = .6f; npcPos.y = .5f;
+                    nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.H2);
+                    //M1 Position
+                    npcPos.x = -1.5f; npcPos.y = 3.5f;
+                    nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.M1);
+                    //M2 Position
+                    npcPos.x = 1.5f; npcPos.y = 3.5f;
+                    nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.M2);
+                    //R1 Position
+                    npcPos.x = -1.8f; npcPos.y = 1.5f;
+                    nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.R1);
+                    //R2 Position
+                    npcPos.x = 1.8f; npcPos.y = 1.5f;
+                    nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.R2);
+                    #endregion
+                    #endregion
                     bm.MoveBoss(new Vector3(0f, 4.8f, zp), 0, 1f);
                     WickedThunderSettings wts = bm.wickedThunderSettings;
                     bm.UpdateBossSprite(wts.Wicked_Thunder_Wings_Image, wts.Wicked_Thunder_Xscale, wts.Wicked_Thunder_Yscale);
                 }
                 // Start Lasters
-                else if (currentFightInfo.CurrentStep == 2)
+                else if (currentFightInfo.CurrentStep == 3)
                 {
                     #region // Move Boss North
                     bm.MoveBoss(new Vector3(0f, 5.1f, zp), 0, 0f);
@@ -523,14 +712,15 @@ public class FightManager : MonoBehaviour
                         em.CreateFX(Effects.WickedThunderBeam3, FxLifeTimeType.Step, new Vector3(-2.5f, 5.2f, -.4f), 0, fight, attack, step);
                         em.CreateFX(Effects.WickedThunderBeam4, FxLifeTimeType.Step, new Vector3(0.9f, 4.9f, -.4f), 0, fight, attack, step);
                         em.CreateFX(Effects.WickedThunderBeam5, FxLifeTimeType.Step, new Vector3(1.9f, 5.2f, -.4f), 0, fight, attack, step);
-                    } else
+                    }
+                    else
                     {
                         GameObject inst, inst1, inst2, inst3, inst4;
-                        inst  = em.CreateFX(Effects.WickedThunderBeam1, FxLifeTimeType.Step, new Vector3(.3f    , 4.85f, -01f), 0, fight, attack, step);
-                        inst1 = em.CreateFX(Effects.WickedThunderBeam2, FxLifeTimeType.Step, new Vector3(1.9f   , 4.90f, -.4f), 0, fight, attack, step);
-                        inst2 = em.CreateFX(Effects.WickedThunderBeam3, FxLifeTimeType.Step, new Vector3(2.6f   , 5.20f, -.4f), 0, fight, attack, step);
-                        inst3 = em.CreateFX(Effects.WickedThunderBeam4, FxLifeTimeType.Step, new Vector3(-0.8f  , 4.90f, -.4f), 0, fight, attack, step);
-                        inst4 = em.CreateFX(Effects.WickedThunderBeam5, FxLifeTimeType.Step, new Vector3(-1.8f  , 5.20f, -.4f), 0, fight, attack, step);
+                        inst = em.CreateFX(Effects.WickedThunderBeam1, FxLifeTimeType.Step, new Vector3(.3f, 4.85f, -01f), 0, fight, attack, step);
+                        inst1 = em.CreateFX(Effects.WickedThunderBeam2, FxLifeTimeType.Step, new Vector3(1.9f, 4.90f, -.4f), 0, fight, attack, step);
+                        inst2 = em.CreateFX(Effects.WickedThunderBeam3, FxLifeTimeType.Step, new Vector3(2.6f, 5.20f, -.4f), 0, fight, attack, step);
+                        inst3 = em.CreateFX(Effects.WickedThunderBeam4, FxLifeTimeType.Step, new Vector3(-0.8f, 4.90f, -.4f), 0, fight, attack, step);
+                        inst4 = em.CreateFX(Effects.WickedThunderBeam5, FxLifeTimeType.Step, new Vector3(-1.8f, 5.20f, -.4f), 0, fight, attack, step);
 
                         // Set a new local rotation using a Quaternion
                         inst.transform.localRotation = Quaternion.Euler(0, -180, 0); // Replace with desired rotation angles (x, y, z)
@@ -541,7 +731,7 @@ public class FightManager : MonoBehaviour
                     }
                     #endregion
                     #region // Spawn Elctromines
-                    int electroIan =  wts.Bf_ElctroMineRand;
+                    int electroIan = wts.Bf_ElctroMineRand;
                     if (electroIan == 0)
                     {
                         em.CreateFX(Effects.WickedThunderElectromine, FxLifeTimeType.Step, new Vector3(-5f, 2.5f, -.4f), 0, fight, attack, step);
@@ -562,8 +752,42 @@ public class FightManager : MonoBehaviour
                     #endregion
                 }
                 //Set Lines - 3
-                else if (currentFightInfo.CurrentStep == 3)
+                else if (currentFightInfo.CurrentStep == 4)
                 {
+
+                    #region // Move Party to North position
+                    #region // Setup position values
+                    Vector3 npcPos = new Vector3(transform.position.x, transform.position.y, 0f); // Z Position is set in the player object
+                    float npcRot = 0; float npcTime = .75f;
+                    #endregion
+                    #region // Move Party to positions
+                    //MT Position
+                    npcPos.x = -0.5f; npcPos.y = 3.1f;
+                    nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.MT);
+                    //OT Position
+                    npcPos.x = 0.5f; npcPos.y = 3.1f;
+                    nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.OT);
+                    //H1 Position
+                    npcPos.x = -.6f; npcPos.y = .5f;
+                    nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.H1);
+                    //H2 Position
+                    npcPos.x = .6f; npcPos.y = .5f;
+                    nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.H2);
+                    //M1 Position
+                    npcPos.x = -1.5f; npcPos.y = 3.5f;
+                    nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.M1);
+                    //M2 Position
+                    npcPos.x = 1.5f; npcPos.y = 3.5f;
+                    nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.M2);
+                    //R1 Position
+                    npcPos.x = -1.8f; npcPos.y = 1.5f;
+                    nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.R1);
+                    //R2 Position
+                    npcPos.x = 1.8f; npcPos.y = 1.5f;
+                    nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.R2);
+                    #endregion
+                    #endregion
+
                     #region // Get Wicked Thunder Settings
                     WickedThunderSettings wts = bm.wickedThunderSettings;
                     #endregion
@@ -607,9 +831,160 @@ public class FightManager : MonoBehaviour
                         dm.CreateDamageMarkerRectangle(new Vector3(-0.50f, -2.5f, zp), 9f, 1f, mineTimer);
                     }
                     #endregion
+
+                    #region // Move party based on mines
+                    #region //Bottom Mines and Near right boss clear
+                    if (laserRand == 0 && mineRand == 0)
+                    {
+                        #region // Move Party to North position
+                        #region // Setup position values
+                        npcPos = new Vector3(transform.position.x, transform.position.y, 0f); // Z Position is set in the player object
+                        npcRot = 0; npcTime = .2f;
+                        #endregion
+                        #region // Move Party to positions
+                        //MT Position
+                        npcPos.x = -1.5f; npcPos.y = 3.6f;
+                        nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.MT);
+                        //OT Position
+                        npcPos.x = 0.5f; npcPos.y = 3.6f;
+                        nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.OT);
+                        ////H1 Position
+                        npcPos.x = -1.5f; npcPos.y = 1.5f;
+                        nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.H1);
+                        ////H2 Position
+                        npcPos.x = 0.5f; npcPos.y = 1.5f;
+                        nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.H2);
+                        ////M1 Position
+                        npcPos.x = -1.5f; npcPos.y = 3.6f;
+                        nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.M1);
+                        ////M2 Position
+                        npcPos.x = 0.5f; npcPos.y = 3.6f;
+                        nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.M2);
+                        ////R1 Position
+                        npcPos.x = -1.5f; npcPos.y = 1.5f;
+                        nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.R1);
+                        ////R2 Position
+                        npcPos.x = 0.5f; npcPos.y = 1.5f;
+                        nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.R2);
+                        #endregion
+                        #endregion
+                    }
+                    #endregion
+                    #region //Bottom Mines and Near left boss clear
+                    else if (laserRand == 1 && mineRand == 0)
+                    {
+                        #region // Move Party to North position
+                        #region // Setup position values
+                        npcPos = new Vector3(transform.position.x, transform.position.y, 0f); // Z Position is set in the player object
+                        npcRot = 0; npcTime = .2f;
+                        #endregion
+                        #region // Move Party to positions
+                        //MT Position
+                        npcPos.x = -0.5f; npcPos.y = 3.6f;
+                        nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.MT);
+                        //OT Position
+                        npcPos.x = 1.5f; npcPos.y = 3.6f;
+                        nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.OT);
+                        ////H1 Position
+                        npcPos.x = -0.5f; npcPos.y = 1.5f;
+                        nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.H1);
+                        ////H2 Position
+                        npcPos.x = 1.5f; npcPos.y = 1.5f;
+                        nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.H2);
+                        ////M1 Position
+                        npcPos.x = -0.5f; npcPos.y = 3.6f;
+                        nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.M1);
+                        ////M2 Position
+                        npcPos.x = 1.5f; npcPos.y = 3.6f;
+                        nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.M2);
+                        ////R1 Position
+                        npcPos.x = -0.5f; npcPos.y = 1.5f;
+                        nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.R1);
+                        ////R2 Position
+                        npcPos.x = 1.5f; npcPos.y = 1.5f;
+                        nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.R2);
+                        #endregion
+                        #endregion
+                    }
+                    #endregion
+                    #region //Top Mines and Near right boss clear
+                    else if (laserRand == 0 && mineRand == 1)
+                    {
+                        #region // Move Party to North position
+                        #region // Setup position values
+                        npcPos = new Vector3(transform.position.x, transform.position.y, 0f); // Z Position is set in the player object
+                        npcRot = 0; npcTime = .2f;
+                        #endregion
+                        #region // Move Party to positions
+                        //MT Position
+                        npcPos.x = -1.5f; npcPos.y = 2.6f;
+                        nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.MT);
+                        //OT Position
+                        npcPos.x = 0.5f; npcPos.y = 2.6f;
+                        nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.OT);
+                        ////H1 Position
+                        npcPos.x = -1.5f; npcPos.y = 0.5f;
+                        nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.H1);
+                        ////H2 Position
+                        npcPos.x = 0.5f; npcPos.y = 0.5f;
+                        nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.H2);
+                        ////M1 Position
+                        npcPos.x = -1.5f; npcPos.y = 32.6f;
+                        nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.M1);
+                        ////M2 Position
+                        npcPos.x = 0.5f; npcPos.y = 2.6f;
+                        nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.M2);
+                        ////R1 Position
+                        npcPos.x = -1.5f; npcPos.y = 0.5f;
+                        nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.R1);
+                        ////R2 Position
+                        npcPos.x = 0.5f; npcPos.y = 0.5f;
+                        nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.R2);
+                        #endregion
+                        #endregion
+                    }
+                    #endregion
+                    #region //Bottom Mines and Near left boss clear
+                    else if (laserRand == 1 && mineRand == 1)
+                    {
+                        #region // Move Party to North position
+                        #region // Setup position values
+                        npcPos = new Vector3(transform.position.x, transform.position.y, 0f); // Z Position is set in the player object
+                        npcRot = 0; npcTime = .2f;
+                        #endregion
+                        #region // Move Party to positions
+                        //MT Position
+                        npcPos.x = -0.5f; npcPos.y = 2.6f;
+                        nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.MT);
+                        //OT Position
+                        npcPos.x = 1.5f; npcPos.y = 2.6f;
+                        nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.OT);
+                        ////H1 Position
+                        npcPos.x = -0.5f; npcPos.y = 0.5f;
+                        nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.H1);
+                        ////H2 Position
+                        npcPos.x = 1.5f; npcPos.y = 0.5f;
+                        nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.H2);
+                        ////M1 Position
+                        npcPos.x = -0.5f; npcPos.y = 2.6f;
+                        nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.M1);
+                        ////M2 Position
+                        npcPos.x = 1.5f; npcPos.y = 2.6f;
+                        nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.M2);
+                        ////R1 Position
+                        npcPos.x = -0.5f; npcPos.y = 0.5f;
+                        nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.R1);
+                        ////R2 Position
+                        npcPos.x = 1.5f; npcPos.y = 0.5f;
+                        nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.R2);
+                        #endregion
+                        #endregion
+                    }
+                    #endregion
+                    #endregion
                 }
                 // Move Mid, Spawn ground lines
-                else if (currentFightInfo.CurrentStep == 4)
+                else if (currentFightInfo.CurrentStep == 5)
                 {
                     #region // Move Boss back to mid
                     bm.MoveBoss(new Vector3(0f, 0f, zp), 180, 1f);
@@ -655,7 +1030,7 @@ public class FightManager : MonoBehaviour
 
                 }
                 // Player move
-                else if (currentFightInfo.CurrentStep == 5)
+                else if (currentFightInfo.CurrentStep == 6)
                 {
                     #region // Setup guide points
                     ppm.SetupGuidePoints();
@@ -696,7 +1071,7 @@ public class FightManager : MonoBehaviour
 
                     #region // Spawn Elctromines
                     int electroIan = wts.BF_ElctroMine2Rand;
-                    
+
                     if (electroIan == 0)
                     {
                         em.CreateFX(Effects.WickedThunderElectromine, FxLifeTimeType.Step, new Vector3(5f, 2.5f, zp1), 0, fight, attack, step);
@@ -715,7 +1090,7 @@ public class FightManager : MonoBehaviour
                     #endregion
                 }
                 // Ground lines flare up
-                else if (currentFightInfo.CurrentStep == 6)
+                else if (currentFightInfo.CurrentStep == 7)
                 {
                     #region // Get Wicked Thunder Settings
                     WickedThunderSettings wts = bm.wickedThunderSettings;
@@ -734,14 +1109,12 @@ public class FightManager : MonoBehaviour
                     {
                         em.CreateFX(Effects.WickedThunderGroundline, FxLifeTimeType.Step, new Vector3(-3.4f, 0f, zp1), 0, fight, attack, step);
                         em.CreateFX(Effects.WickedThunderGroundline, FxLifeTimeType.Step, new Vector3(3.80f, 0f, zp1), 0, fight, attack, step);
-
                     }
                     else
                     {
                         em.CreateFX(Effects.WickedThunderGroundline, FxLifeTimeType.Step, new Vector3(0.20f, 0f, zp1), 0, fight, attack, step);
                         em.CreateFX(Effects.WickedThunderGroundline, FxLifeTimeType.Step, new Vector3(-1.6f, 0f, zp1), 0, fight, attack, step);
                         em.CreateFX(Effects.WickedThunderGroundline, FxLifeTimeType.Step, new Vector3(2.00f, 0f, zp1), 0, fight, attack, step);
-
                     }
                     #endregion
 
@@ -751,7 +1124,7 @@ public class FightManager : MonoBehaviour
                     {
                         dm.CreateDamageMarkerRectangle(new Vector3(1.4f, -0f, zp), 4f, 8f, groundTimer);
                         dm.CreateDamageMarkerRectangle(new Vector3(-2.40f, -0f, zp), 4f, 8f, groundTimer);
-                        
+
                     }
                     else
                     {
@@ -781,6 +1154,741 @@ public class FightManager : MonoBehaviour
                         dm.CreateDamageMarkerRectangle(new Vector3(-0.50f, -2.5f, zp), 9f, 1f, mineTimer);
                     }
                     #endregion
+
+                    #region // Create Damage markers for four star
+                    int fourRand = wts.Bf_FourStar;
+                    Vector3 npcPosition;
+                    //Get player role
+                    CharacterInfo.RolePositions playerRP = pm.GetRolePosition();
+                    // Hit Supp
+                    if (fourRand == 0)
+                    {
+                        
+                        #region //Inner flares and bottom mines
+                        if (groundRand == 0 && mineRand == 0)
+                        {
+                            //Hit Supports
+                            em.CreateFX(Effects.WickedThunderFourStar, FxLifeTimeType.Step, (new Vector3(-4.2f, 1.55f, -.3f)), 0, fight, attack, step);
+                            em.CreateFX(Effects.WickedThunderFourStar, FxLifeTimeType.Step, (new Vector3(-4.2f, -2.5f, -.3f)), 0, fight, attack, step);
+                            em.CreateFX(Effects.WickedThunderFourStar, FxLifeTimeType.Step, (new Vector3(4.1f, 1.55f, -.3f)), 0, fight, attack, step);
+                            em.CreateFX(Effects.WickedThunderFourStar, FxLifeTimeType.Step, (new Vector3(4.1f, -2.5f, -.3f)), 0, fight, attack, step); 
+                        }
+                        #endregion
+                        #region //Outer flaes and bottom mines
+                        else if (groundRand == 1 && mineRand == 0)
+                        {
+                            //Hit Supports
+                            em.CreateFX(Effects.WickedThunderFourStar, FxLifeTimeType.Step, (new Vector3(-1.5f, 1.55f, -.3f)), 0, fight, attack, step);
+                            em.CreateFX(Effects.WickedThunderFourStar, FxLifeTimeType.Step, (new Vector3(-1.5f, -2.5f, -.3f)), 0, fight, attack, step);
+                            em.CreateFX(Effects.WickedThunderFourStar, FxLifeTimeType.Step, (new Vector3(1.5f, 1.55f, -.3f)), 0, fight, attack, step);
+                            em.CreateFX(Effects.WickedThunderFourStar, FxLifeTimeType.Step, (new Vector3(1.5f, -2.5f, -.3f)), 0, fight, attack, step);
+                        }
+                        #endregion
+                        #region //Inner flares and top mines
+                        else if (groundRand == 0 && mineRand == 1)
+                        {
+                            //Hit Supports
+                            em.CreateFX(Effects.WickedThunderFourStar, FxLifeTimeType.Step, (new Vector3(-4.2f, 0.55f, -.3f)), 0, fight, attack, step);
+                            em.CreateFX(Effects.WickedThunderFourStar, FxLifeTimeType.Step, (new Vector3(-4.2f, -3.5f, -.3f)), 0, fight, attack, step);
+                            em.CreateFX(Effects.WickedThunderFourStar, FxLifeTimeType.Step, (new Vector3(4.1f, 0.55f, -.3f)), 0, fight, attack, step);
+                            em.CreateFX(Effects.WickedThunderFourStar, FxLifeTimeType.Step, (new Vector3(4.1f, -3.5f, -.3f)), 0, fight, attack, step);
+                        }
+                        #endregion
+                        #region //Outer flaes and top mines
+                        else if (groundRand == 1 && mineRand == 1)
+                        {
+                            //Hit Supports
+                            em.CreateFX(Effects.WickedThunderFourStar, FxLifeTimeType.Step, (new Vector3(-1.5f, 0.55f, -.3f)), 0, fight, attack, step);
+                            em.CreateFX(Effects.WickedThunderFourStar, FxLifeTimeType.Step, (new Vector3(-1.5f, -3.5f, -.3f)), 0, fight, attack, step);
+                            em.CreateFX(Effects.WickedThunderFourStar, FxLifeTimeType.Step, (new Vector3(1.5f, 0.55f, -.3f)), 0, fight, attack, step);
+                            em.CreateFX(Effects.WickedThunderFourStar, FxLifeTimeType.Step, (new Vector3(1.5f, -3.5f, -.3f)), 0, fight, attack, step);
+                        }
+                        #endregion
+
+                    }
+                    //Hit Dps
+                    else
+                    {
+                        #region //Inner flares and bottom mines
+                        if (groundRand == 0 && mineRand == 0)
+                        {
+                            
+                            em.CreateFX(Effects.WickedThunderFourStar, FxLifeTimeType.Step, (new Vector3(-4.2f, 3.2f, -.3f)), 0, fight, attack, step);
+                            em.CreateFX(Effects.WickedThunderFourStar, FxLifeTimeType.Step, (new Vector3(-4.2f, -0.5f, -.3f)), 0, fight, attack, step);
+                            em.CreateFX(Effects.WickedThunderFourStar, FxLifeTimeType.Step, (new Vector3(4.1f, 3.2f, -.3f)), 0, fight, attack, step);
+                            em.CreateFX(Effects.WickedThunderFourStar, FxLifeTimeType.Step, (new Vector3(4.1f, -0.5f, -.3f)), 0, fight, attack, step);
+                        }
+                        #endregion
+                        #region //Outer flaes and bottom mines 
+                        else if (groundRand == 1 && mineRand == 0)
+                        {
+                            
+                            em.CreateFX(Effects.WickedThunderFourStar, FxLifeTimeType.Step, (new Vector3(-1.5f, 3.2f, -.3f)), 0, fight, attack, step);
+                            em.CreateFX(Effects.WickedThunderFourStar, FxLifeTimeType.Step, (new Vector3(-1.5f, -0.5f, -.3f)), 0, fight, attack, step);
+                            em.CreateFX(Effects.WickedThunderFourStar, FxLifeTimeType.Step, (new Vector3(1.5f, 3.2f, -.3f)), 0, fight, attack, step);
+                            em.CreateFX(Effects.WickedThunderFourStar, FxLifeTimeType.Step, (new Vector3(1.5f, -0.5f, -.3f)), 0, fight, attack, step);
+                        }
+                        #endregion
+                        #region //Inner flares and top mines
+                        else if (groundRand == 0 && mineRand == 1)
+                        {
+                            em.CreateFX(Effects.WickedThunderFourStar, FxLifeTimeType.Step, (new Vector3(-4.2f, 2.5f, -.3f)), 0, fight, attack, step);
+                            em.CreateFX(Effects.WickedThunderFourStar, FxLifeTimeType.Step, (new Vector3(-4.2f, -1.6f, -.3f)), 0, fight, attack, step);
+                            em.CreateFX(Effects.WickedThunderFourStar, FxLifeTimeType.Step, (new Vector3(4.1f, 2.5f, -.3f)), 0, fight, attack, step);
+                            em.CreateFX(Effects.WickedThunderFourStar, FxLifeTimeType.Step, (new Vector3(4.1f, -1.6f, -.3f)), 0, fight, attack, step);
+                        }
+                        #endregion
+                        #region //Outer flaes and top mines
+                        else if (groundRand == 1 && mineRand == 1)
+                        {
+                            
+                            em.CreateFX(Effects.WickedThunderFourStar, FxLifeTimeType.Step, (new Vector3(-1.5f, 2.5f, -.3f)), 0, fight, attack, step);
+                            em.CreateFX(Effects.WickedThunderFourStar, FxLifeTimeType.Step, (new Vector3(-1.5f, -1.5f, -.3f)), 0, fight, attack, step);
+                            em.CreateFX(Effects.WickedThunderFourStar, FxLifeTimeType.Step, (new Vector3(1.5f, 2.5f, -.3f)), 0, fight, attack, step);
+                            em.CreateFX(Effects.WickedThunderFourStar, FxLifeTimeType.Step, (new Vector3(1.5f, -1.5f, -.3f)), 0, fight, attack, step);
+                        }
+                        #endregion
+                    }
+                    #endregion
+
+                    #region // Create damage markers on all but player 
+                    #region //Inner flares and bottom mines
+                    if (groundRand == 0 && mineRand == 0)
+                    {
+                        //Hit Supports
+                        if (playerRP != CharacterInfo.RolePositions.MT) { dm.CreateDamageMarkerCircle((new Vector3(-3.7f, 1.55f, -.3f)), 2f, groundTimer, true); }
+                        if (playerRP != CharacterInfo.RolePositions.OT) { dm.CreateDamageMarkerCircle((new Vector3(4.7f, 1.55f, -.3f)), 2f, groundTimer , true); }
+                        if (playerRP != CharacterInfo.RolePositions.H1) { dm.CreateDamageMarkerCircle((new Vector3(-3.7f, -2.5f, -.3f)), 2f, groundTimer, true); }
+                        if (playerRP != CharacterInfo.RolePositions.H2) { dm.CreateDamageMarkerCircle((new Vector3(4.7f, -2.5f, -.3f)), 2f, groundTimer , true); }
+                        //Hit Dps                                                                                                                         truealse
+                        if (playerRP != CharacterInfo.RolePositions.R1) { dm.CreateDamageMarkerCircle((new Vector3(-3.7f, 3.55f, -.3f)), 2f, groundTimer, true); }
+                        if (playerRP != CharacterInfo.RolePositions.R2) { dm.CreateDamageMarkerCircle((new Vector3(4.7f, 3.55f, -.3f)), 2f, groundTimer , true); }
+                        if (playerRP != CharacterInfo.RolePositions.M1) { dm.CreateDamageMarkerCircle((new Vector3(-3.7f, -0.5f, -.3f)), 2f, groundTimer, true); }
+                        if (playerRP != CharacterInfo.RolePositions.M2) { dm.CreateDamageMarkerCircle((new Vector3(4.7f, -0.5f, -.3f)), 2f, groundTimer , true); }
+                    }
+                    #endregion
+                    #region //Outer flaes and bottom mines
+                    else if (groundRand == 1 && mineRand == 0)
+                    {
+                        //Hit Supports
+                        if (playerRP != CharacterInfo.RolePositions.MT) { dm.CreateDamageMarkerCircle((new Vector3(-1.2f, 1.55f, -.3f)), 2f, groundTimer, true); }
+                        if (playerRP != CharacterInfo.RolePositions.OT) { dm.CreateDamageMarkerCircle((new Vector3(2.2f, 1.55f, -.3f)), 2f, groundTimer, true); }
+                        if (playerRP != CharacterInfo.RolePositions.H1) { dm.CreateDamageMarkerCircle((new Vector3(-1.2f, -2.5f, -.3f)), 2f, groundTimer, true); }
+                        if (playerRP != CharacterInfo.RolePositions.H2) { dm.CreateDamageMarkerCircle((new Vector3(2.2f, -2.5f, -.3f)), 2f, groundTimer, true); }
+                        //Hit Dps                                                                                                                             true
+                        if (playerRP != CharacterInfo.RolePositions.R1) { dm.CreateDamageMarkerCircle((new Vector3(-1.2f, 3.55f, -.3f)), 2f, groundTimer, true); }
+                        if (playerRP != CharacterInfo.RolePositions.R2) { dm.CreateDamageMarkerCircle((new Vector3(2.2f, 3.55f, -.3f)), 2f, groundTimer, true); }
+                        if (playerRP != CharacterInfo.RolePositions.M1) { dm.CreateDamageMarkerCircle((new Vector3(-1.2f, -0.5f, -.3f)), 2f, groundTimer, true); }
+                        if (playerRP != CharacterInfo.RolePositions.M2) { dm.CreateDamageMarkerCircle((new Vector3(2.2f, -0.5f, -.3f)), 2f, groundTimer, true); }
+                    }
+                    #endregion
+                    #region //Inner flares and top mines
+                    else if (groundRand == 0 && mineRand == 1)
+                    {
+                        //Hit Supports
+                        if (playerRP != CharacterInfo.RolePositions.MT) { dm.CreateDamageMarkerCircle((new Vector3(-3.7f, 0.55f, -.3f)), 2f, groundTimer, true); }
+                        if (playerRP != CharacterInfo.RolePositions.OT) { dm.CreateDamageMarkerCircle((new Vector3(4.7f, 0.55f, -.3f)), 2f, groundTimer, true); }
+                        if (playerRP != CharacterInfo.RolePositions.H1) { dm.CreateDamageMarkerCircle((new Vector3(-3.7f, -3.5f, -.3f)), 2f, groundTimer, true); }
+                        if (playerRP != CharacterInfo.RolePositions.H2) { dm.CreateDamageMarkerCircle((new Vector3(4.7f, -3.5f, -.3f)), 2f, groundTimer, true); }
+                        //Hit Dps                                                                                                                         true
+                        if (playerRP != CharacterInfo.RolePositions.R1) { dm.CreateDamageMarkerCircle((new Vector3(-3.7f, 2.55f, -.3f)), 2f, groundTimer, true); }
+                        if (playerRP != CharacterInfo.RolePositions.R2) { dm.CreateDamageMarkerCircle((new Vector3(4.7f, 2.55f, -.3f)), 2f, groundTimer, true); }
+                        if (playerRP != CharacterInfo.RolePositions.M1) { dm.CreateDamageMarkerCircle((new Vector3(-3.7f, -1.5f, -.3f)), 2f, groundTimer, true); }
+                        if (playerRP != CharacterInfo.RolePositions.M2) { dm.CreateDamageMarkerCircle((new Vector3(4.7f, -1.5f, -.3f)), 2f, groundTimer, true); }
+                    }
+                    #endregion
+                    #region //Outer flaes and top mines
+                    else if (groundRand == 1 && mineRand == 1)
+                    {
+                        //Hit Supports
+                        if (playerRP != CharacterInfo.RolePositions.MT) { dm.CreateDamageMarkerCircle((new Vector3(-1.2f, 0.55f, -.3f)), 2f, groundTimer, true); }
+                        if (playerRP != CharacterInfo.RolePositions.OT) { dm.CreateDamageMarkerCircle((new Vector3(2.2f, 0.55f, -.3f)), 2f, groundTimer, true); }
+                        if (playerRP != CharacterInfo.RolePositions.H1) { dm.CreateDamageMarkerCircle((new Vector3(-1.2f, -3.5f, -.3f)), 2f, groundTimer, true); }
+                        if (playerRP != CharacterInfo.RolePositions.H2) { dm.CreateDamageMarkerCircle((new Vector3(2.2f, -3.5f, -.3f)), 2f, groundTimer, true); }
+                        //Hit Dps                                                                                                                              true
+                        if (playerRP != CharacterInfo.RolePositions.R1) { dm.CreateDamageMarkerCircle((new Vector3(-1.2f, 2.55f, -.3f)), 2f, groundTimer, true); }
+                        if (playerRP != CharacterInfo.RolePositions.R2) { dm.CreateDamageMarkerCircle((new Vector3(2.2f, 2.55f, -.3f)), 2f, groundTimer, true); }
+                        if (playerRP != CharacterInfo.RolePositions.M1) { dm.CreateDamageMarkerCircle((new Vector3(-1.2f, -1.5f, -.3f)), 2f, groundTimer, true); }
+                        if (playerRP != CharacterInfo.RolePositions.M2) { dm.CreateDamageMarkerCircle((new Vector3(2.2f, -1.5f, -.3f)), 2f, groundTimer, true); }
+                    }
+                    #endregion
+                    #endregion
+
+                    #region // Create near or far marker
+                    int nfRand = wts.Bf_NearFarRand;
+                    if (nfRand == 0)
+                    {
+                        em.CreateFX(Effects.WickedThunderNearMark, FxLifeTimeType.Step, new Vector3(0f, 0f, -.3f), 0, fight, attack, step);
+                    } 
+                    else
+                    {
+                        em.CreateFX(Effects.WickedThunderFarMark, FxLifeTimeType.Step, new Vector3(0f, 0f, -.3f), 0, fight, attack, step);
+                    }
+                    #endregion
+
+                    #region // Move party based on flareups
+                    Vector3 npcPos = new Vector3(transform.position.x, transform.position.y, 0f); // Z Position is set in the player object
+                    float npcRot = 0; float npcTime = .2f;
+                    #region //Inner flares and bottom mines
+                    if (groundRand == 0 && mineRand == 0)
+                    {
+                        #region // Move Party to North position
+                        #region // Setup position values
+                        #endregion
+                        #region // Move Party to positions
+                        //MT Position
+                        npcPos.x = -4.2f; npcPos.y = 1.55f;
+                        nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.MT);
+                        //OT Position
+                        npcPos.x = 4.2f; npcPos.y = 1.55f;
+                        nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.OT);
+                        ////H1 Position
+                        npcPos.x = -4.2f; npcPos.y = -2.5f;
+                        nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.H1);
+                        ////H2 Position
+                        npcPos.x = 4.2f; npcPos.y = -2.5f;
+                        nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.H2);
+                        ////M1 Position
+                        npcPos.x = -4.2f; npcPos.y = -0.55f;
+                        nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.M1);
+                        ////M2 Position
+                        npcPos.x = 4.2f; npcPos.y = -0.55f;
+                        nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.M2);
+                        ////R1 Position
+                        npcPos.x = -4.2f; npcPos.y = 3.5f;
+                        nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.R1);
+                        ////R2 Position
+                        npcPos.x = 4.2f; npcPos.y = 3.5f;
+                        nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.R2);
+                        #endregion
+                        #endregion
+                    }
+                    #endregion
+                    #region //Outer flaes and bottom mines
+                    else if (groundRand == 1 && mineRand == 0)
+                    {
+                        #region // Move Party to North position
+                        #region // Setup position values
+                        npcPos = new Vector3(transform.position.x, transform.position.y, 0f); // Z Position is set in the player object
+                        npcRot = 0; npcTime = .2f;
+                        #endregion
+                        #region // Move Party to positions
+                        //MT Position
+                        npcPos.x = -1.4f; npcPos.y = 1.55f;
+                        nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.MT);
+                        //OT Position
+                        npcPos.x = 1.5f; npcPos.y = 1.55f;
+                        nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.OT);
+                        ////H1 Position
+                        npcPos.x = -1.4f; npcPos.y = -2.5f;
+                        nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.H1);
+                        ////H2 Position
+                        npcPos.x = 1.5f; npcPos.y = -2.5f;
+                        nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.H2);
+                        ////M1 Position
+                        npcPos.x = -1.4f; npcPos.y = -0.55f;
+                        nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.M1);
+                        ////M2 Position
+                        npcPos.x = 1.5f; npcPos.y = -0.55f;
+                        nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.M2);
+                        ////R1 Position
+                        npcPos.x = -1.4f; npcPos.y = 3.5f;
+                        nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.R1);
+                        ////R2 Position
+                        npcPos.x = 1.5f; npcPos.y = 3.5f;
+                        nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.R2);
+                        #endregion
+                        #endregion
+                    }
+                    #endregion
+                    #region //Inner flares and top mines
+                    else if (groundRand == 0 && mineRand == 1)
+                    {
+                        #region // Move Party to North position
+                        #region // Setup position values
+                        npcPos = new Vector3(transform.position.x, transform.position.y, 0f); // Z Position is set in the player object
+                        npcRot = 0; npcTime = .2f;
+                        #endregion
+                        #region // Move Party to positions
+                        //MT Position
+                        npcPos.x = -4.2f; npcPos.y = 0.55f;
+                        nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.MT);
+                        //OT Position
+                        npcPos.x = 4.2f; npcPos.y = 0.55f;
+                        nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.OT);
+                        ////H1 Position
+                        npcPos.x = -4.2f; npcPos.y = -3.5f;
+                        nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.H1);
+                        ////H2 Position
+                        npcPos.x = 4.2f; npcPos.y = -3.5f;
+                        nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.H2);
+                        ////M1 Position
+                        npcPos.x = -4.2f; npcPos.y = -1.55f;
+                        nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.M1);
+                        ////M2 Position
+                        npcPos.x = 4.2f; npcPos.y = -1.55f;
+                        nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.M2);
+                        ////R1 Position
+                        npcPos.x = -4.2f; npcPos.y = 2.5f;
+                        nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.R1);
+                        ////R2 Position
+                        npcPos.x = 4.2f; npcPos.y = 2.5f;
+                        nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.R2);
+                        #endregion
+                        #endregion
+                    }
+                    #endregion
+                    #region //Outer flaes and top mines
+                    else if (groundRand == 1 && mineRand == 1)
+                    {
+                        #region // Move Party to North position
+                        #region // Setup position values
+                        npcPos = new Vector3(transform.position.x, transform.position.y, 0f); // Z Position is set in the player object
+                        npcRot = 0; npcTime = .2f;
+                        #endregion
+                        #region // Move Party to positions
+                        //MT Position
+                        npcPos.x = -1.4f; npcPos.y = 0.55f;
+                        nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.MT);
+                        //OT Position
+                        npcPos.x = 1.5f; npcPos.y = 0.55f;
+                        nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.OT);
+                        ////H1 Position
+                        npcPos.x = -1.4f; npcPos.y = -3.5f;
+                        nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.H1);
+                        ////H2 Position
+                        npcPos.x = 1.5f; npcPos.y = -3.5f;
+                        nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.H2);
+                        ////M1 Position
+                        npcPos.x = -1.4f; npcPos.y = -1.55f;
+                        nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.M1);
+                        ////M2 Position
+                        npcPos.x = 1.5f; npcPos.y = -1.55f;
+                        nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.M2);
+                        ////R1 Position
+                        npcPos.x = -1.4f; npcPos.y = 2.5f;
+                        nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.R1);
+                        ////R2 Position
+                        npcPos.x = 1.5f; npcPos.y = 2.5f;
+                        nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.R2);
+                        #endregion
+                        #endregion
+                    }
+                    #endregion
+                    #endregion
+
+                }
+                // Second Ground lines flare up
+                else if (currentFightInfo.CurrentStep == 8)
+                {
+                    #region // Initalize effects vars
+                    FightEnum fight = cfi.CurrentFight;
+                    string attack = cfi.CurrentAttack;
+                    int step = cfi.CurrentStep;
+                    float zp1 = -.1f;
+                    #endregion
+                    #region // Get Wicked Thunder Settings
+                    WickedThunderSettings wts = bm.wickedThunderSettings;
+                    #endregion
+                    #region// Flare up second ground lines
+                    int groundRand = wts.Bf_LaserExplodeRand;
+                    if (groundRand == 0)
+                    {
+                        em.CreateFX(Effects.WickedThunderGlFlare, FxLifeTimeType.Step, new Vector3(-3.4f, 0f, zp1), 0, fight, attack, step);
+                        em.CreateFX(Effects.WickedThunderGlFlare, FxLifeTimeType.Step, new Vector3(3.80f, 0f, zp1), 0, fight, attack, step);
+
+                    }
+                    else
+                    {
+                        em.CreateFX(Effects.WickedThunderGlFlare, FxLifeTimeType.Step, new Vector3(0.20f, 0f, zp1), 0, fight, attack, step);
+                        em.CreateFX(Effects.WickedThunderGlFlare, FxLifeTimeType.Step, new Vector3(-1.6f, 0f, zp1), 0, fight, attack, step);
+                        em.CreateFX(Effects.WickedThunderGlFlare, FxLifeTimeType.Step, new Vector3(2.00f, 0f, zp1), 0, fight, attack, step);
+
+                    }
+                    #endregion
+                    #region // Create near or far marker
+                    int nfRand = wts.Bf_NearFarRand;
+                    if (nfRand == 0)
+                    {
+                        em.CreateFX(Effects.WickedThunderNearMark, FxLifeTimeType.Step, new Vector3(0f, 0f, -.3f), 0, fight, attack, step);
+                    }
+                    else
+                    {
+                        em.CreateFX(Effects.WickedThunderFarMark, FxLifeTimeType.Step, new Vector3(0f, 0f, -.3f), 0, fight, attack, step);
+                    }
+                    #endregion
+
+                    #region // Setup guide points
+                    ppm.SetupGuidePoints();
+                    #endregion
+                }
+                // Resolve Final Bewitching Flight
+                else if (currentFightInfo.CurrentStep == 9)
+                {
+                    #region // Initalize effects vars
+                    FightEnum fight = cfi.CurrentFight;
+                    string attack = cfi.CurrentAttack;
+                    int step = cfi.CurrentStep;
+                    float zp1 = -.1f;
+                    #endregion
+                    #region // Get Wicked Thunder Settings
+                    WickedThunderSettings wts = bm.wickedThunderSettings;
+                    #endregion
+                    #region // Create Second Damage markers for four star
+                    int groundRand = wts.Bf_LaserExplodeRand;
+                    int nfRand = wts.Bf_NearFarRand;
+                    int fourRand = wts.Bf_FourStar;
+                    Vector3 npcPosition;
+                    //Get player role
+                    CharacterInfo.RolePositions playerRP = pm.GetRolePosition();
+                    //Outer Flares + Near Marker
+                    if (groundRand == 0 && nfRand == 0)
+                    {
+                        // Hit Dps
+                        em.CreateFX(Effects.WickedThunderFourStar, FxLifeTimeType.Step, (new Vector3(-1.5f, 1.0f, -.3f)), 0, fight, attack, step);
+                        em.CreateFX(Effects.WickedThunderFourStar, FxLifeTimeType.Step, (new Vector3(-1.5f, -1.0f, -.3f)), 0, fight, attack, step);
+
+                        em.CreateFX(Effects.WickedThunderFourStar, FxLifeTimeType.Step, (new Vector3(1.5f, 1.0f, -.3f)), 0, fight, attack, step);
+                        em.CreateFX(Effects.WickedThunderFourStar, FxLifeTimeType.Step, (new Vector3(1.5f, -1.0f, -.3f)), 0, fight, attack, step);
+                    }
+                    //Inner Flare + Near Markers
+                    else if (groundRand == 1 && nfRand == 0)
+                    {
+                        // Hit Dps
+                        em.CreateFX(Effects.WickedThunderFourStar, FxLifeTimeType.Step, (new Vector3(-4.0f, 1.0f, -.3f)), 0, fight, attack, step);
+                        em.CreateFX(Effects.WickedThunderFourStar, FxLifeTimeType.Step, (new Vector3(-4.0f, -1.0f, -.3f)), 0, fight, attack, step);
+
+                        em.CreateFX(Effects.WickedThunderFourStar, FxLifeTimeType.Step, (new Vector3(4.0f, 1.0f, -.3f)), 0, fight, attack, step);
+                        em.CreateFX(Effects.WickedThunderFourStar, FxLifeTimeType.Step, (new Vector3(4.0f, -1.0f, -.3f)), 0, fight, attack, step);
+                    }
+                    //Outer Flares + Far Marker
+                    else if (groundRand == 0 && nfRand == 1)
+                    {
+                        // Hit Dps
+                        em.CreateFX(Effects.WickedThunderFourStar, FxLifeTimeType.Step, (new Vector3(-1.5f, 3.0f, -.3f)), 0, fight, attack, step);
+                        em.CreateFX(Effects.WickedThunderFourStar, FxLifeTimeType.Step, (new Vector3(-1.5f, -3.0f, -.3f)), 0, fight, attack, step);
+
+                        em.CreateFX(Effects.WickedThunderFourStar, FxLifeTimeType.Step, (new Vector3(1.5f, 3.0f, -.3f)), 0, fight, attack, step);
+                        em.CreateFX(Effects.WickedThunderFourStar, FxLifeTimeType.Step, (new Vector3(1.5f, -3.0f, -.3f)), 0, fight, attack, step);
+                    }
+                    //Inner Flare + Far Markers
+                    else if (groundRand == 1 && nfRand == 1)
+                    {
+                        // Hit Dps
+                        em.CreateFX(Effects.WickedThunderFourStar, FxLifeTimeType.Step, (new Vector3(-4.0f, 3.0f, -.3f)), 0, fight, attack, step);
+                        em.CreateFX(Effects.WickedThunderFourStar, FxLifeTimeType.Step, (new Vector3(-4.0f, -3.0f, -.3f)), 0, fight, attack, step);
+
+                        em.CreateFX(Effects.WickedThunderFourStar, FxLifeTimeType.Step, (new Vector3(4.0f, 3.0f, -.3f)), 0, fight, attack, step);
+                        em.CreateFX(Effects.WickedThunderFourStar, FxLifeTimeType.Step, (new Vector3(4.0f, -3.0f, -.3f)), 0, fight, attack, step);
+                    }
+                    #endregion
+                    #region // Create Damage makrkers for second flare ups 
+                    groundRand = wts.Bf_LaserExplodeRand;
+                    float groundTimer = 1f;
+                    if (groundRand == 1)
+                    {
+                        dm.CreateDamageMarkerRectangle(new Vector3(1.4f, -0f, zp), 4f, 8f, groundTimer);
+                        dm.CreateDamageMarkerRectangle(new Vector3(-2.40f, -0f, zp), 4f, 8f, groundTimer);
+
+                    }
+                    else
+                    {
+                        dm.CreateDamageMarkerRectangle(new Vector3(-3.7f, -0f, zp), 2.6f, 8f, groundTimer);
+                        dm.CreateDamageMarkerRectangle(new Vector3(2.7f, -0f, zp), 2.6f, 8f, groundTimer);
+                    }
+                    #endregion
+                    #region // Move party based on flareups
+                    Vector3 npcPos = new Vector3(transform.position.x, transform.position.y, 0f); // Z Position is set in the player object
+                    float npcRot = 0; float npcTime = .2f;
+                    #region //Inner flares and bottom mines
+                    //Out -> In
+                    if (groundRand == 0)
+                    {
+                        // Supps Hit first
+                        if (fourRand == 0) 
+                        {
+                            // Near Marker
+                            if (nfRand == 0)
+                            {
+                                #region // Outer->Inner / Supp 1st / Near 
+                                #region // Move Party to final Position
+                                //MT Position
+                                npcPos.x = -1.5f; npcPos.y = 3.00f;
+                                nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.MT);
+                                //OT Position
+                                npcPos.x = 1.5f; npcPos.y = 3.00f;
+                                nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.OT);
+                                ////H1 Position
+                                npcPos.x = -1.5f; npcPos.y = -3.0f;
+                                nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.H1);
+                                ////H2 Position
+                                npcPos.x = 1.5f; npcPos.y = -3.0f;
+                                nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.H2);
+                                ////M1 Position
+                                npcPos.x = -1.5f; npcPos.y = -1.0f;
+                                nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.M1);
+                                ////M2 Position
+                                npcPos.x = 1.5f; npcPos.y = -1.0f;
+                                nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.M2);
+                                ////R1 Position
+                                npcPos.x = -1.5f; npcPos.y = 1.0f;
+                                nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.R1);
+                                ////R2 Position
+                                npcPos.x = 1.5f; npcPos.y = 1.0f;
+                                nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.R2);
+                                #endregion
+                                #endregion
+                            }
+                            // Far Marker
+                            else
+                            {
+                                #region // Outer->Inner / Supp 1st / Far 
+                                #region // Move Party to final Position
+                                //MT Position
+                                npcPos.x = -1.5f; npcPos.y = 1.00f;
+                                nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.MT);
+                                //OT Position
+                                npcPos.x = 1.5f; npcPos.y = 1.00f;
+                                nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.OT);
+                                ////H1 Position
+                                npcPos.x = -1.5f; npcPos.y = -1.0f;
+                                nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.H1);
+                                ////H2 Position
+                                npcPos.x = 1.5f; npcPos.y = -1.0f;
+                                nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.H2);
+                                ////M1 Position
+                                npcPos.x = -1.5f; npcPos.y = -3.0f;
+                                nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.M1);
+                                ////M2 Position
+                                npcPos.x = 1.5f; npcPos.y = -3.0f;
+                                nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.M2);
+                                ////R1 Position
+                                npcPos.x = -1.5f; npcPos.y = 3.0f;
+                                nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.R1);
+                                ////R2 Position
+                                npcPos.x = 1.5f; npcPos.y = 3.0f;
+                                nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.R2);
+                                #endregion
+                                #endregion
+                            }
+                        }
+                        //DPS hit first
+                        else
+                        {
+                            // Near Marker
+                            if (nfRand == 0)
+                            {
+                                #region // Outer->Inner / DPS 1st / Near 
+                                #region // Move Party to final Position
+                                //MT Position
+                                npcPos.x = -1.5f; npcPos.y = 1.00f;
+                                nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.MT);
+                                //OT Position
+                                npcPos.x = 1.5f; npcPos.y = 1.00f;
+                                nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.OT);
+                                ////H1 Position
+                                npcPos.x = -1.5f; npcPos.y = -1.0f;
+                                nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.H1);
+                                ////H2 Position
+                                npcPos.x = 1.5f; npcPos.y = -1.0f;
+                                nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.H2);
+                                ////M1 Position
+                                npcPos.x = -1.5f; npcPos.y = -3.0f;
+                                nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.M1);
+                                ////M2 Position
+                                npcPos.x = 1.5f; npcPos.y = -3.0f;
+                                nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.M2);
+                                ////R1 Position
+                                npcPos.x = -1.5f; npcPos.y = 3.0f;
+                                nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.R1);
+                                ////R2 Position
+                                npcPos.x = 1.5f; npcPos.y = 3.0f;
+                                nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.R2);
+                                #endregion
+                                #endregion
+                            }
+                            // Far Marker
+                            else
+                            {
+                                #region // Outer->Inner / DPS 1st / Far 
+                                #region // Move Party to final Position
+                                //MT Position
+                                npcPos.x = -1.5f; npcPos.y = 3.00f;
+                                nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.MT);
+                                //OT Position
+                                npcPos.x = 1.5f; npcPos.y = 3.00f;
+                                nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.OT);
+                                ////H1 Position
+                                npcPos.x = -1.5f; npcPos.y = -3.0f;
+                                nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.H1);
+                                ////H2 Position
+                                npcPos.x = 1.5f; npcPos.y = -3.0f;
+                                nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.H2);
+                                ////M1 Position
+                                npcPos.x = -1.5f; npcPos.y = -1.0f;
+                                nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.M1);
+                                ////M2 Position
+                                npcPos.x = 1.5f; npcPos.y = -1.0f;
+                                nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.M2);
+                                ////R1 Position
+                                npcPos.x = -1.5f; npcPos.y = 1.0f;
+                                nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.R1);
+                                ////R2 Position
+                                npcPos.x = 1.5f; npcPos.y = 1.0f;
+                                nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.R2);
+                                #endregion
+                                #endregion
+                            }
+                        }
+                    } 
+                    #endregion
+                    #region //In -> Out
+                    else
+                    {
+                        // Supps Hit first
+                        if (fourRand == 0)
+                        {
+                            // Near Marker
+                            if (nfRand == 0)
+                            {
+                                #region // In -> Out / Supp 1st / Near 
+                                #region // Move Party to final Position
+                                //MT Position
+                                npcPos.x = -4.2f; npcPos.y = 3.2f;
+                                nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.MT);
+                                //OT Position
+                                npcPos.x = 4.2f; npcPos.y = 3.2f;
+                                nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.OT);
+                                ////H1 Position
+                                npcPos.x = -4.2f; npcPos.y = -2.5f;
+                                nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.H1);
+                                ////H2 Position
+                                npcPos.x = 4.2f; npcPos.y = -2.5f;
+                                nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.H2);
+                                ////M1 Position
+                                npcPos.x = -4.2f; npcPos.y = -0.8f;
+                                nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.M1);
+                                ////M2 Position
+                                npcPos.x = 4.2f; npcPos.y = -0.8f;
+                                nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.M2);
+                                ////R1 Position
+                                npcPos.x = -4.2f; npcPos.y = 1.2f;
+                                nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.R1);
+                                ////R2 Position
+                                npcPos.x = 4.2f; npcPos.y = 1.2f;
+                                nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.R2);
+                                #endregion
+                                #endregion
+                            }
+                            // Far Marker
+                            else
+                            {
+                                #region // Outer->Inner / Supp 1st / Far 
+                                #region // Move Party to final Position
+                                //MT Position
+                                npcPos.x = -4.2f; npcPos.y = 1.00f;
+                                nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.MT);
+                                //OT Position
+                                npcPos.x = 4.2f; npcPos.y = 1.00f;
+                                nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.OT);
+                                ////H1 Position
+                                npcPos.x = -4.2f; npcPos.y = -1.0f;
+                                nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.H1);
+                                ////H2 Position
+                                npcPos.x = 4.2f; npcPos.y = -1.0f;
+                                nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.H2);
+                                ////M1 Position
+                                npcPos.x = -4.2f; npcPos.y = -3.0f;
+                                nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.M1);
+                                ////M2 Position
+                                npcPos.x = 4.2f; npcPos.y = -3.0f;
+                                nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.M2);
+                                ////R1 Position
+                                npcPos.x = -4.2f; npcPos.y = 3.0f;
+                                nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.R1);
+                                ////R2 Position
+                                npcPos.x = 4.2f; npcPos.y = 3.0f;
+                                nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.R2);
+                                #endregion
+                                #endregion
+                            }
+                        }
+                        //DPS hit first
+                        else
+                        {
+                            // Near Marker
+                            if (nfRand == 0)
+                            {
+                                #region // In -> Out / DPS 1st / Near 
+                                #region // Move Party to final Position
+                                //MT Position
+                                npcPos.x = -4.2f; npcPos.y = 1.00f;
+                                nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.MT);
+                                //OT Position
+                                npcPos.x = 4.2f; npcPos.y = 1.00f;
+                                nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.OT);
+                                ////H1 Position
+                                npcPos.x = -4.2f; npcPos.y = -1.0f;
+                                nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.H1);
+                                ////H2 Position
+                                npcPos.x = 4.2f; npcPos.y = -1.0f;
+                                nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.H2);
+                                ////M1 Position
+                                npcPos.x = -4.2f; npcPos.y = -3.0f;
+                                nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.M1);
+                                ////M2 Position
+                                npcPos.x = 4.2f; npcPos.y = -3.0f;
+                                nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.M2);
+                                ////R1 Position
+                                npcPos.x = -4.2f; npcPos.y = 3.0f;
+                                nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.R1);
+                                ////R2 Position
+                                npcPos.x = 4.2f; npcPos.y = 3.0f;
+                                nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.R2);
+                                #endregion
+                                #endregion
+                            }
+                            // Far Marker
+                            else
+                            {
+                                #region // In -> Out / DPS 1st / Far 
+                                #region // Move Party to final Position
+                                //MT Position
+                                npcPos.x = -4.2f; npcPos.y = 3.00f;
+                                nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.MT);
+                                //OT Position
+                                npcPos.x = 4.2f; npcPos.y = 3.00f;
+                                nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.OT);
+                                ////H1 Position
+                                npcPos.x = -4.2f; npcPos.y = -3.0f;
+                                nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.H1);
+                                ////H2 Position
+                                npcPos.x = 4.2f; npcPos.y = -3.0f;
+                                nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.H2);
+                                ////M1 Position
+                                npcPos.x = -4.2f; npcPos.y = -1.0f;
+                                nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.M1);
+                                ////M2 Position
+                                npcPos.x = 4.2f; npcPos.y = -1.0f;
+                                nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.M2);
+                                ////R1 Position
+                                npcPos.x = -4.2f; npcPos.y = 1.0f;
+                                nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.R1);
+                                ////R2 Position
+                                npcPos.x = 4.2f; npcPos.y = 1.0f;
+                                nm.MoveNpc(npcPos, npcRot, npcTime, CharacterInfo.RolePositions.R2);
+                                #endregion
+                                #endregion
+                            }
+                        }
+                    }
+                    #endregion
+                    #endregion
+
+                }
+                else if (currentFightInfo.CurrentStep >= 10)
+                {
+                    ResetFight();
                 }
             }
             else if (currentFightInfo.CurrentAttack == "Witch Hunt")
@@ -826,13 +1934,13 @@ public class FightManager : MonoBehaviour
         {
             if (currentFightInfo.CurrentAttack == "Bewitching Flight")
             {
-                if (currentFightInfo.CurrentStep == 3)
+                if (currentFightInfo.CurrentStep == 4)
                 {
                     //Show pass or fail after Electro mines
                     phm.ShowPassOrFail();
 
                 }
-                else if (currentFightInfo.CurrentStep == 6)
+                else if (currentFightInfo.CurrentStep == 7)
                 {
                     //Show pass or fail after Electro mines
                     phm.ShowPassOrFail();

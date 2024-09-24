@@ -1,10 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static PlayerInfo;
+using static CharacterInfo;
 
 public class PlayerPositionManager : MonoBehaviour
-{
+{ 
     [SerializeField] private bool usingGuidePoints; // Checks if the player is allowed to pick any position (false) or only pre-chosen points (true)
     [SerializeField] private bool pickingPosition; // If the player is currently picking a position (true)
     #region // References
@@ -110,7 +110,7 @@ public class PlayerPositionManager : MonoBehaviour
         CurrentFightInfo cfi = fm.currentFightInfo;
 
         //Get Player role position
-        PlayerInfo.RolePositions rp = GetPlayerRolePosition();
+        CharacterInfo.RolePositions rp = GetPlayerRolePosition();
 
         #region // M4S
         if (GetIsDebugging()) { Debug.Log("Current Fight = " + cfi.CurrentFight); }
@@ -121,7 +121,7 @@ public class PlayerPositionManager : MonoBehaviour
             {
                 if (GetIsDebugging()) { Debug.Log("Current Fight = " + cfi.CurrentStep); }
                 // Bewitching flight North Lines
-                if (cfi.CurrentStep == 2)
+                if (cfi.CurrentStep == 3)
                 {
                     // Populate Guide Point list with instantiations of Guide point objects at set locations
                     #region Tank and Melees GPs
@@ -367,7 +367,7 @@ public class PlayerPositionManager : MonoBehaviour
                     StartPickingPosition();
                 }
                 // Bewitching flight First Ground Lines
-                else if (cfi.CurrentStep == 5)
+                else if (cfi.CurrentStep == 6)
                 {
                     // Populate Guide Point list with instantiations of Guide point objects at set locations
                     #region Tank and Melees GPs
@@ -651,6 +651,53 @@ public class PlayerPositionManager : MonoBehaviour
                     // Picking Position should be set to true
                     StartPickingPosition();
                 }
+                // Bewitching flight First Ground Lines
+                else if (cfi.CurrentStep == 8)
+                {
+                    // Populate Guide Point list with instantiations of Guide point objects at set locations
+                    #region // Main Tank and Ranged 1
+                    if (rp == RolePositions.MT || rp == RolePositions.R1)
+                    {
+                        guidePointList.Add(Instantiate(guidePointObject, new Vector3(-4.15f, 1.0f, gpz), Quaternion.identity));
+                        guidePointList.Add(Instantiate(guidePointObject, new Vector3(-1.50f, 1.0f, gpz), Quaternion.identity));
+                        guidePointList.Add(Instantiate(guidePointObject, new Vector3(-1.50f, 3.0f, gpz), Quaternion.identity));
+                        guidePointList.Add(Instantiate(guidePointObject, new Vector3(-4.15f, 3.0f, gpz), Quaternion.identity));
+                    }
+                    #endregion
+                    #region Offtank and Ranged 2 
+                    else if (rp == RolePositions.OT || rp == RolePositions.R2)
+                    {
+                        guidePointList.Add(Instantiate(guidePointObject, new Vector3(4.15f, 1.0f, gpz), Quaternion.identity));
+                        guidePointList.Add(Instantiate(guidePointObject, new Vector3(1.50f, 1.0f, gpz), Quaternion.identity));
+                        guidePointList.Add(Instantiate(guidePointObject, new Vector3(1.50f, 3.0f, gpz), Quaternion.identity));
+                        guidePointList.Add(Instantiate(guidePointObject, new Vector3(4.15f, 3.0f, gpz), Quaternion.identity));
+
+                    }
+                    #endregion
+                    #region Healer1 Ranged 1 GPs
+                    else if (rp == RolePositions.H1 || rp == RolePositions.M1)
+                    {
+                        guidePointList.Add(Instantiate(guidePointObject, new Vector3(-4.15f, -1.0f, gpz), Quaternion.identity));
+                        guidePointList.Add(Instantiate(guidePointObject, new Vector3(-1.50f, -1.0f, gpz), Quaternion.identity));
+                        guidePointList.Add(Instantiate(guidePointObject, new Vector3(-1.50f, -3.0f, gpz), Quaternion.identity));
+                        guidePointList.Add(Instantiate(guidePointObject, new Vector3(-4.15f, -3.0f, gpz), Quaternion.identity));
+
+                    }
+                    #endregion
+                    #region Healer 2 Ranged 2 GPs
+                    else if (rp == RolePositions.H2 || rp == RolePositions.M2)
+                    {
+                        guidePointList.Add(Instantiate(guidePointObject, new Vector3(4.15f  , -1.0f, gpz), Quaternion.identity));
+                        guidePointList.Add(Instantiate(guidePointObject, new Vector3(1.50f  , -1.0f, gpz), Quaternion.identity));
+                        guidePointList.Add(Instantiate(guidePointObject, new Vector3(1.50f  , -3.0f, gpz), Quaternion.identity));
+                        guidePointList.Add(Instantiate(guidePointObject, new Vector3(4.15f  , -3.0f, gpz), Quaternion.identity));
+                    }
+                    #endregion
+
+                    // Picking Position should be set to true
+                    StartPickingPosition();
+                }
+
             }
         }
         #endregion
@@ -730,7 +777,7 @@ public class PlayerPositionManager : MonoBehaviour
 
                         // Move Player to the position
                         Vector3 newPosition = new Vector3(selectedPosition.x, selectedPosition.y, player.transform.position.z);
-                        player.MovePlayer(newPosition, 0, 1f);
+                        player.MovePlayer(newPosition, 0, .1f);
 
                         // Clear guide points when one is chosen
                         ClearGuidePoints();
@@ -758,7 +805,7 @@ public class PlayerPositionManager : MonoBehaviour
 
                     // Move Player to the position
                     Vector3 newPosition = new Vector3(selectedPosition.x, selectedPosition.y, player.transform.position.z);
-                    player.MovePlayer(newPosition, 0, 1f);
+                    player.MovePlayer(newPosition, 0, .1f);
 
                     pickingPosition = false;
 
@@ -815,14 +862,14 @@ public class PlayerPositionManager : MonoBehaviour
         //Return boss position
         return playerPos;
     }
-    public PlayerInfo.RolePositions GetPlayerRolePosition()
+    public CharacterInfo.RolePositions GetPlayerRolePosition()
     {
         //Initalize role var
-        PlayerInfo.RolePositions playerRole = PlayerInfo.RolePositions.None;
+        CharacterInfo.RolePositions playerRole = CharacterInfo.RolePositions.None;
         //Find boss transform position
         if (player != null)
         {
-            playerRole = player.playerInfo.RolePosition;
+            playerRole = player.characterInfo.RolePosition;
         }
         else { Debug.LogWarning("Unable to find player role due to not finding player manager"); }
         //Return boss position

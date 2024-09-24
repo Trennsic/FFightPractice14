@@ -219,7 +219,377 @@ MonoBehaviour:
   player: {fileID: 1974555492}
   guidePointObject: {fileID: 5738729925587017759, guid: 4b964bdf471be4a4a8ae8ba1a3d27977, type: 3}
   fm: {fileID: 1592178533}
-  isDebugging: 0
+  isDebugging: 1
+--- !u!1 &296212807
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 296212808}
+  - component: {fileID: 296212809}
+  - component: {fileID: 296212811}
+  - component: {fileID: 296212810}
+  m_Layer: 0
+  m_Name: M2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &296212808
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 296212807}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1967296883}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &296212809
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 296212807}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa3439bd33c369441b83032f20ecf6b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  posX: 0
+  posY: 0
+  spriteType: 2
+  role: 2
+  job: 5
+  rolePosition: 4
+  facing: 0
+  chibiXscale: 0.25
+  chibiYscale: 0.25
+  chibiXoffset: -0.1
+  chibiYoffset: 0.1
+  iconXscale: 1.15
+  iconYscale: 1.15
+  iconXoffset: 0
+  iconYoffset: 0.05
+  roleXscale: 0.23
+  roleYscale: 0.18
+  roleXoffset: 0
+  roleYoffset: 0.05
+  chibiPLD: {fileID: 21300000, guid: 8b19eab90f822b146b3c662389a6a9c3, type: 3}
+  chibiWAR: {fileID: 21300000, guid: fccf406e92e575949be673b4a8d8c5ca, type: 3}
+  chibiDRK: {fileID: 21300000, guid: 66502eaf24ff43a45bf84f6a521aa19b, type: 3}
+  chibiGNB: {fileID: 21300000, guid: 12ee24b2ec33f474faf4f49399a0ac5c, type: 3}
+  chibiWHM: {fileID: 21300000, guid: f536cfc11a675cc4abae8a77e5fcf243, type: 3}
+  chibiSCH: {fileID: 21300000, guid: 99a78f04abacdbf47930cd38b765fe50, type: 3}
+  chibiAST: {fileID: 21300000, guid: 4069ca87f8ee185459a00d6e6e4ec2d2, type: 3}
+  chibiSGE: {fileID: 21300000, guid: 649be303876062b4daa6a5e888fa9598, type: 3}
+  chibiMNK: {fileID: 21300000, guid: 29c93271843c542408e097cb877393f0, type: 3}
+  chibiDRG: {fileID: 21300000, guid: ebfa725896ec4f545ac721b9cd82621e, type: 3}
+  chibiNIN: {fileID: 21300000, guid: 7eaaf6c53da667245a5aaf25a1c5371f, type: 3}
+  chibiSAM: {fileID: 21300000, guid: 426d331a8c3926c4aaa3b0202981b5b7, type: 3}
+  chibiRPR: {fileID: 21300000, guid: eca12f3da70f61640b094d507ac9fa3a, type: 3}
+  chibiVIP: {fileID: 21300000, guid: 29b4a2dd206d3b64f92b9a2cd5a409bb, type: 3}
+  chibiBRD: {fileID: 21300000, guid: a394d925b0fb4c543b6e76b323c4a41b, type: 3}
+  chibiMCH: {fileID: 21300000, guid: 8aff6eae04bd62a488fd55ee69523488, type: 3}
+  chibiDNC: {fileID: 21300000, guid: 37f5e259f0dc25549aafd619bebe9a11, type: 3}
+  chibiPIC: {fileID: 21300000, guid: e550592591966bf4a935e68c54161445, type: 3}
+  chibiBLM: {fileID: 21300000, guid: ac78e3501ecfa8843b16885c748898c2, type: 3}
+  chibiSMN: {fileID: 21300000, guid: 1fc10ce738d7fdd49bc21372c868263b, type: 3}
+  chibiRDM: {fileID: 21300000, guid: 8686080f3770f184fbdf6ff25b19bdc3, type: 3}
+  IconPLD: {fileID: 21300000, guid: da4117d995c3f914b9fd264b1e9e72e7, type: 3}
+  IconWAR: {fileID: 21300000, guid: 7bbda7b2e202f544bade53c644749b30, type: 3}
+  IconDRK: {fileID: 21300000, guid: 2225476fe64aea64ab4bc4e2b00aea62, type: 3}
+  IconGNB: {fileID: 21300000, guid: f6719cb3a26f60741b640d13d1cb2d7e, type: 3}
+  IconWHM: {fileID: 21300000, guid: 821ca5b3c846f5e40a35df24d1788a5a, type: 3}
+  IconSCH: {fileID: 21300000, guid: aee7e6dd76562404d84e4ae9343af0f5, type: 3}
+  IconAST: {fileID: 21300000, guid: c764f45567b824941a74c119ec410615, type: 3}
+  IconSGE: {fileID: 21300000, guid: 82070efc66c36ec41971bf83a0a3a8a4, type: 3}
+  IconMNK: {fileID: 21300000, guid: e4b6cdf611865b2438724161af627271, type: 3}
+  IconDRG: {fileID: 21300000, guid: 3fde2187b04510046ac22432a036f35d, type: 3}
+  IconNIN: {fileID: 21300000, guid: 70f4927c8f9e2e04397b96dca579b221, type: 3}
+  IconSAM: {fileID: 21300000, guid: bf0ea8addd9a81641adb038c58881e59, type: 3}
+  IconRPR: {fileID: 21300000, guid: 17ed7f4e4fc124e478f09d99799486d3, type: 3}
+  IconVIP: {fileID: 21300000, guid: 3b1d419898988804fbdaf11295dd5bbe, type: 3}
+  IconBRD: {fileID: 21300000, guid: 4032fee29bac28a4c8827a69f0a84c13, type: 3}
+  IconMCH: {fileID: 21300000, guid: 6566cb014284e084fb9ad496b0b9140e, type: 3}
+  IconDNC: {fileID: 21300000, guid: 857f4ba7129432749a506198d4a8bb0a, type: 3}
+  IconPIC: {fileID: 21300000, guid: 4af1bfb6613b0264da9da5192875fd84, type: 3}
+  IconBLM: {fileID: 21300000, guid: ac0abe77708b993458bf420d16d9b505, type: 3}
+  IconSMN: {fileID: 21300000, guid: f7665efa4d53ef744b25f0d885fb040f, type: 3}
+  IconRDM: {fileID: 21300000, guid: 2386db8886e093e4286b4b3626ae90a9, type: 3}
+  RoleIconMT: {fileID: 21300000, guid: b92430daa09f40b46ac20ca1e9918854, type: 3}
+  RoleIconOT: {fileID: 21300000, guid: 120700f73d3eb1844895a0dbb7f4a534, type: 3}
+  RoleIconH1: {fileID: 21300000, guid: 7125ab00f78a89645ba6c036974ac31c, type: 3}
+  RoleIconH2: {fileID: 21300000, guid: ce1fd76889fec8446a0d6f74354dbd6a, type: 3}
+  RoleIconM1: {fileID: 21300000, guid: ccfcfb07c9a976444ba610a4ce0db3d9, type: 3}
+  RoleIconM2: {fileID: 21300000, guid: d0f7a677ad242ed4cac6df1b8626748f, type: 3}
+  RoleIconR1: {fileID: 21300000, guid: 3591be9f1968f594e86d4dc380a69591, type: 3}
+  RoleIconR2: {fileID: 21300000, guid: b9f04172f18627141aa07138e8ea3b41, type: 3}
+  IconNone: {fileID: 21300000, guid: f09659d0af182d4468ee803c7ac14273, type: 3}
+--- !u!212 &296212810
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 296212807}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 1, y: 1}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 0
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
+--- !u!114 &296212811
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 296212807}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df837d1acd26b924c96b09543a0185f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  debugInfo:
+    isDebugging: 1
+  NpcManager: {fileID: 0}
+  NpcInfo: {fileID: 0}
+  spriteRenderer: {fileID: 0}
+--- !u!1 &300170742
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 300170743}
+  - component: {fileID: 300170744}
+  - component: {fileID: 300170746}
+  - component: {fileID: 300170745}
+  m_Layer: 0
+  m_Name: OT
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &300170743
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 300170742}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1967296883}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &300170744
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 300170742}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa3439bd33c369441b83032f20ecf6b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  posX: 0
+  posY: 0
+  spriteType: 2
+  role: 2
+  job: 5
+  rolePosition: 4
+  facing: 0
+  chibiXscale: 0.25
+  chibiYscale: 0.25
+  chibiXoffset: -0.1
+  chibiYoffset: 0.1
+  iconXscale: 1.15
+  iconYscale: 1.15
+  iconXoffset: 0
+  iconYoffset: 0.05
+  roleXscale: 0.23
+  roleYscale: 0.18
+  roleXoffset: 0
+  roleYoffset: 0.05
+  chibiPLD: {fileID: 21300000, guid: 8b19eab90f822b146b3c662389a6a9c3, type: 3}
+  chibiWAR: {fileID: 21300000, guid: fccf406e92e575949be673b4a8d8c5ca, type: 3}
+  chibiDRK: {fileID: 21300000, guid: 66502eaf24ff43a45bf84f6a521aa19b, type: 3}
+  chibiGNB: {fileID: 21300000, guid: 12ee24b2ec33f474faf4f49399a0ac5c, type: 3}
+  chibiWHM: {fileID: 21300000, guid: f536cfc11a675cc4abae8a77e5fcf243, type: 3}
+  chibiSCH: {fileID: 21300000, guid: 99a78f04abacdbf47930cd38b765fe50, type: 3}
+  chibiAST: {fileID: 21300000, guid: 4069ca87f8ee185459a00d6e6e4ec2d2, type: 3}
+  chibiSGE: {fileID: 21300000, guid: 649be303876062b4daa6a5e888fa9598, type: 3}
+  chibiMNK: {fileID: 21300000, guid: 29c93271843c542408e097cb877393f0, type: 3}
+  chibiDRG: {fileID: 21300000, guid: ebfa725896ec4f545ac721b9cd82621e, type: 3}
+  chibiNIN: {fileID: 21300000, guid: 7eaaf6c53da667245a5aaf25a1c5371f, type: 3}
+  chibiSAM: {fileID: 21300000, guid: 426d331a8c3926c4aaa3b0202981b5b7, type: 3}
+  chibiRPR: {fileID: 21300000, guid: eca12f3da70f61640b094d507ac9fa3a, type: 3}
+  chibiVIP: {fileID: 21300000, guid: 29b4a2dd206d3b64f92b9a2cd5a409bb, type: 3}
+  chibiBRD: {fileID: 21300000, guid: a394d925b0fb4c543b6e76b323c4a41b, type: 3}
+  chibiMCH: {fileID: 21300000, guid: 8aff6eae04bd62a488fd55ee69523488, type: 3}
+  chibiDNC: {fileID: 21300000, guid: 37f5e259f0dc25549aafd619bebe9a11, type: 3}
+  chibiPIC: {fileID: 21300000, guid: e550592591966bf4a935e68c54161445, type: 3}
+  chibiBLM: {fileID: 21300000, guid: ac78e3501ecfa8843b16885c748898c2, type: 3}
+  chibiSMN: {fileID: 21300000, guid: 1fc10ce738d7fdd49bc21372c868263b, type: 3}
+  chibiRDM: {fileID: 21300000, guid: 8686080f3770f184fbdf6ff25b19bdc3, type: 3}
+  IconPLD: {fileID: 21300000, guid: da4117d995c3f914b9fd264b1e9e72e7, type: 3}
+  IconWAR: {fileID: 21300000, guid: 7bbda7b2e202f544bade53c644749b30, type: 3}
+  IconDRK: {fileID: 21300000, guid: 2225476fe64aea64ab4bc4e2b00aea62, type: 3}
+  IconGNB: {fileID: 21300000, guid: f6719cb3a26f60741b640d13d1cb2d7e, type: 3}
+  IconWHM: {fileID: 21300000, guid: 821ca5b3c846f5e40a35df24d1788a5a, type: 3}
+  IconSCH: {fileID: 21300000, guid: aee7e6dd76562404d84e4ae9343af0f5, type: 3}
+  IconAST: {fileID: 21300000, guid: c764f45567b824941a74c119ec410615, type: 3}
+  IconSGE: {fileID: 21300000, guid: 82070efc66c36ec41971bf83a0a3a8a4, type: 3}
+  IconMNK: {fileID: 21300000, guid: e4b6cdf611865b2438724161af627271, type: 3}
+  IconDRG: {fileID: 21300000, guid: 3fde2187b04510046ac22432a036f35d, type: 3}
+  IconNIN: {fileID: 21300000, guid: 70f4927c8f9e2e04397b96dca579b221, type: 3}
+  IconSAM: {fileID: 21300000, guid: bf0ea8addd9a81641adb038c58881e59, type: 3}
+  IconRPR: {fileID: 21300000, guid: 17ed7f4e4fc124e478f09d99799486d3, type: 3}
+  IconVIP: {fileID: 21300000, guid: 3b1d419898988804fbdaf11295dd5bbe, type: 3}
+  IconBRD: {fileID: 21300000, guid: 4032fee29bac28a4c8827a69f0a84c13, type: 3}
+  IconMCH: {fileID: 21300000, guid: 6566cb014284e084fb9ad496b0b9140e, type: 3}
+  IconDNC: {fileID: 21300000, guid: 857f4ba7129432749a506198d4a8bb0a, type: 3}
+  IconPIC: {fileID: 21300000, guid: 4af1bfb6613b0264da9da5192875fd84, type: 3}
+  IconBLM: {fileID: 21300000, guid: ac0abe77708b993458bf420d16d9b505, type: 3}
+  IconSMN: {fileID: 21300000, guid: f7665efa4d53ef744b25f0d885fb040f, type: 3}
+  IconRDM: {fileID: 21300000, guid: 2386db8886e093e4286b4b3626ae90a9, type: 3}
+  RoleIconMT: {fileID: 21300000, guid: b92430daa09f40b46ac20ca1e9918854, type: 3}
+  RoleIconOT: {fileID: 21300000, guid: 120700f73d3eb1844895a0dbb7f4a534, type: 3}
+  RoleIconH1: {fileID: 21300000, guid: 7125ab00f78a89645ba6c036974ac31c, type: 3}
+  RoleIconH2: {fileID: 21300000, guid: ce1fd76889fec8446a0d6f74354dbd6a, type: 3}
+  RoleIconM1: {fileID: 21300000, guid: ccfcfb07c9a976444ba610a4ce0db3d9, type: 3}
+  RoleIconM2: {fileID: 21300000, guid: d0f7a677ad242ed4cac6df1b8626748f, type: 3}
+  RoleIconR1: {fileID: 21300000, guid: 3591be9f1968f594e86d4dc380a69591, type: 3}
+  RoleIconR2: {fileID: 21300000, guid: b9f04172f18627141aa07138e8ea3b41, type: 3}
+  IconNone: {fileID: 21300000, guid: f09659d0af182d4468ee803c7ac14273, type: 3}
+--- !u!212 &300170745
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 300170742}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 1, y: 1}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 0
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
+--- !u!114 &300170746
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 300170742}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df837d1acd26b924c96b09543a0185f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  debugInfo:
+    isDebugging: 1
+  NpcManager: {fileID: 0}
+  NpcInfo: {fileID: 0}
+  spriteRenderer: {fileID: 0}
 --- !u!1 &380499199
 GameObject:
   m_ObjectHideFlags: 0
@@ -543,7 +913,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 1974555491}
-  isDebugging: 1
+  isDebugging: 0
   CheckedThisStep: 0
   CheckAmountOfFramesToWait: 2
   PoFDoneThisStep: 0
@@ -552,6 +922,191 @@ MonoBehaviour:
   iconLifetime: 1.5
   CheckmarkIconObject: {fileID: 5996646510269577523, guid: 27c922c931d2c1d4e90922cf18e82866, type: 3}
   XIconObject: {fileID: 5959245685934460782, guid: 7335a59c071e6df4da30f71240795faa, type: 3}
+--- !u!1 &489345146
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 489345147}
+  - component: {fileID: 489345148}
+  - component: {fileID: 489345150}
+  - component: {fileID: 489345149}
+  m_Layer: 0
+  m_Name: M1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &489345147
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 489345146}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1967296883}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &489345148
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 489345146}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa3439bd33c369441b83032f20ecf6b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  posX: 0
+  posY: 0
+  spriteType: 2
+  role: 2
+  job: 5
+  rolePosition: 4
+  facing: 0
+  chibiXscale: 0.25
+  chibiYscale: 0.25
+  chibiXoffset: -0.1
+  chibiYoffset: 0.1
+  iconXscale: 1.15
+  iconYscale: 1.15
+  iconXoffset: 0
+  iconYoffset: 0.05
+  roleXscale: 0.23
+  roleYscale: 0.18
+  roleXoffset: 0
+  roleYoffset: 0.05
+  chibiPLD: {fileID: 21300000, guid: 8b19eab90f822b146b3c662389a6a9c3, type: 3}
+  chibiWAR: {fileID: 21300000, guid: fccf406e92e575949be673b4a8d8c5ca, type: 3}
+  chibiDRK: {fileID: 21300000, guid: 66502eaf24ff43a45bf84f6a521aa19b, type: 3}
+  chibiGNB: {fileID: 21300000, guid: 12ee24b2ec33f474faf4f49399a0ac5c, type: 3}
+  chibiWHM: {fileID: 21300000, guid: f536cfc11a675cc4abae8a77e5fcf243, type: 3}
+  chibiSCH: {fileID: 21300000, guid: 99a78f04abacdbf47930cd38b765fe50, type: 3}
+  chibiAST: {fileID: 21300000, guid: 4069ca87f8ee185459a00d6e6e4ec2d2, type: 3}
+  chibiSGE: {fileID: 21300000, guid: 649be303876062b4daa6a5e888fa9598, type: 3}
+  chibiMNK: {fileID: 21300000, guid: 29c93271843c542408e097cb877393f0, type: 3}
+  chibiDRG: {fileID: 21300000, guid: ebfa725896ec4f545ac721b9cd82621e, type: 3}
+  chibiNIN: {fileID: 21300000, guid: 7eaaf6c53da667245a5aaf25a1c5371f, type: 3}
+  chibiSAM: {fileID: 21300000, guid: 426d331a8c3926c4aaa3b0202981b5b7, type: 3}
+  chibiRPR: {fileID: 21300000, guid: eca12f3da70f61640b094d507ac9fa3a, type: 3}
+  chibiVIP: {fileID: 21300000, guid: 29b4a2dd206d3b64f92b9a2cd5a409bb, type: 3}
+  chibiBRD: {fileID: 21300000, guid: a394d925b0fb4c543b6e76b323c4a41b, type: 3}
+  chibiMCH: {fileID: 21300000, guid: 8aff6eae04bd62a488fd55ee69523488, type: 3}
+  chibiDNC: {fileID: 21300000, guid: 37f5e259f0dc25549aafd619bebe9a11, type: 3}
+  chibiPIC: {fileID: 21300000, guid: e550592591966bf4a935e68c54161445, type: 3}
+  chibiBLM: {fileID: 21300000, guid: ac78e3501ecfa8843b16885c748898c2, type: 3}
+  chibiSMN: {fileID: 21300000, guid: 1fc10ce738d7fdd49bc21372c868263b, type: 3}
+  chibiRDM: {fileID: 21300000, guid: 8686080f3770f184fbdf6ff25b19bdc3, type: 3}
+  IconPLD: {fileID: 21300000, guid: da4117d995c3f914b9fd264b1e9e72e7, type: 3}
+  IconWAR: {fileID: 21300000, guid: 7bbda7b2e202f544bade53c644749b30, type: 3}
+  IconDRK: {fileID: 21300000, guid: 2225476fe64aea64ab4bc4e2b00aea62, type: 3}
+  IconGNB: {fileID: 21300000, guid: f6719cb3a26f60741b640d13d1cb2d7e, type: 3}
+  IconWHM: {fileID: 21300000, guid: 821ca5b3c846f5e40a35df24d1788a5a, type: 3}
+  IconSCH: {fileID: 21300000, guid: aee7e6dd76562404d84e4ae9343af0f5, type: 3}
+  IconAST: {fileID: 21300000, guid: c764f45567b824941a74c119ec410615, type: 3}
+  IconSGE: {fileID: 21300000, guid: 82070efc66c36ec41971bf83a0a3a8a4, type: 3}
+  IconMNK: {fileID: 21300000, guid: e4b6cdf611865b2438724161af627271, type: 3}
+  IconDRG: {fileID: 21300000, guid: 3fde2187b04510046ac22432a036f35d, type: 3}
+  IconNIN: {fileID: 21300000, guid: 70f4927c8f9e2e04397b96dca579b221, type: 3}
+  IconSAM: {fileID: 21300000, guid: bf0ea8addd9a81641adb038c58881e59, type: 3}
+  IconRPR: {fileID: 21300000, guid: 17ed7f4e4fc124e478f09d99799486d3, type: 3}
+  IconVIP: {fileID: 21300000, guid: 3b1d419898988804fbdaf11295dd5bbe, type: 3}
+  IconBRD: {fileID: 21300000, guid: 4032fee29bac28a4c8827a69f0a84c13, type: 3}
+  IconMCH: {fileID: 21300000, guid: 6566cb014284e084fb9ad496b0b9140e, type: 3}
+  IconDNC: {fileID: 21300000, guid: 857f4ba7129432749a506198d4a8bb0a, type: 3}
+  IconPIC: {fileID: 21300000, guid: 4af1bfb6613b0264da9da5192875fd84, type: 3}
+  IconBLM: {fileID: 21300000, guid: ac0abe77708b993458bf420d16d9b505, type: 3}
+  IconSMN: {fileID: 21300000, guid: f7665efa4d53ef744b25f0d885fb040f, type: 3}
+  IconRDM: {fileID: 21300000, guid: 2386db8886e093e4286b4b3626ae90a9, type: 3}
+  RoleIconMT: {fileID: 21300000, guid: b92430daa09f40b46ac20ca1e9918854, type: 3}
+  RoleIconOT: {fileID: 21300000, guid: 120700f73d3eb1844895a0dbb7f4a534, type: 3}
+  RoleIconH1: {fileID: 21300000, guid: 7125ab00f78a89645ba6c036974ac31c, type: 3}
+  RoleIconH2: {fileID: 21300000, guid: ce1fd76889fec8446a0d6f74354dbd6a, type: 3}
+  RoleIconM1: {fileID: 21300000, guid: ccfcfb07c9a976444ba610a4ce0db3d9, type: 3}
+  RoleIconM2: {fileID: 21300000, guid: d0f7a677ad242ed4cac6df1b8626748f, type: 3}
+  RoleIconR1: {fileID: 21300000, guid: 3591be9f1968f594e86d4dc380a69591, type: 3}
+  RoleIconR2: {fileID: 21300000, guid: b9f04172f18627141aa07138e8ea3b41, type: 3}
+  IconNone: {fileID: 21300000, guid: f09659d0af182d4468ee803c7ac14273, type: 3}
+--- !u!212 &489345149
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 489345146}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 1, y: 1}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 0
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
+--- !u!114 &489345150
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 489345146}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df837d1acd26b924c96b09543a0185f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  debugInfo:
+    isDebugging: 1
+  NpcManager: {fileID: 0}
+  NpcInfo: {fileID: 0}
+  spriteRenderer: {fileID: 0}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -591,6 +1146,38 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_RenderShadows: 1
+  m_RequiresDepthTextureOption: 2
+  m_RequiresOpaqueTextureOption: 2
+  m_CameraType: 0
+  m_Cameras: []
+  m_RendererIndex: -1
+  m_VolumeLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  m_VolumeTrigger: {fileID: 0}
+  m_VolumeFrameworkUpdateModeOption: 2
+  m_RenderPostProcessing: 0
+  m_Antialiasing: 0
+  m_AntialiasingQuality: 2
+  m_StopNaN: 0
+  m_Dithering: 0
+  m_ClearDepth: 1
+  m_AllowXRRendering: 1
+  m_AllowHDROutput: 1
+  m_UseScreenCoordOverride: 0
+  m_ScreenSizeOverride: {x: 0, y: 0, z: 0, w: 0}
+  m_ScreenCoordScaleBias: {x: 0, y: 0, z: 0, w: 0}
+  m_RequiresDepthTexture: 0
+  m_RequiresColorTexture: 0
+  m_Version: 2
+  m_TaaSettings:
+    m_Quality: 3
+    m_FrameInfluence: 0.1
+    m_JitterScale: 1
+    m_MipBias: 0
+    m_VarianceClampScale: 0.9
+    m_ContrastAdaptiveSharpening: 0
 --- !u!20 &519420031
 Camera:
   m_ObjectHideFlags: 0
@@ -770,6 +1357,40 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 073797afb82c5a1438f328866b10b3f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_ComponentVersion: 1
+  m_LightType: 3
+  m_BlendStyleIndex: 0
+  m_FalloffIntensity: 0.5
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Intensity: 1
+  m_LightVolumeIntensity: 1
+  m_LightVolumeIntensityEnabled: 1
+  m_ApplyToSortingLayers: 00000000
+  m_LightCookieSprite: {fileID: 0}
+  m_DeprecatedPointLightCookieSprite: {fileID: 0}
+  m_LightOrder: 0
+  m_AlphaBlendOnOverlap: 0
+  m_OverlapOperation: 0
+  m_NormalMapDistance: 3
+  m_NormalMapQuality: 2
+  m_UseNormalMap: 0
+  m_ShadowIntensityEnabled: 1
+  m_ShadowIntensity: 0.75
+  m_ShadowVolumeIntensityEnabled: 1
+  m_ShadowVolumeIntensity: 0.75
+  m_LocalBounds:
+    m_Center: {x: 0, y: -0.00000011920929, z: 0}
+    m_Extent: {x: 0.9985302, y: 0.99853027, z: 0}
+  m_PointLightInnerAngle: 360
+  m_PointLightOuterAngle: 360
+  m_PointLightInnerRadius: 0
+  m_PointLightOuterRadius: 1
+  m_ShapeLightParametricSides: 5
+  m_ShapeLightParametricAngleOffset: 0
+  m_ShapeLightParametricRadius: 1
+  m_ShapeLightFalloffSize: 0.5
+  m_ShapeLightFalloffOffset: {x: 0, y: 0}
+  m_ShapePath: []
 --- !u!4 &619394802
 Transform:
   m_ObjectHideFlags: 0
@@ -841,6 +1462,9 @@ MonoBehaviour:
     wickedThunderFX_BF_Electromine: {fileID: 6854958280339899396, guid: be46a6f64d9b9b043bbb9d4d45d63e5e, type: 3}
     wickedThunderFX_BF_Groundline: {fileID: 407488106692172761, guid: 9f3caa1e794009c4888bb0e9512d6110, type: 3}
     wickedThunderFX_BF_GlFlare: {fileID: 6032538991350625972, guid: ff2e9cf8d9b97e648893957e137bd642, type: 3}
+    wickedThunderFX_BF_FourStar: {fileID: 4145741829698673465, guid: eb0195d17d983544f894053cb23862ab, type: 3}
+    wickedThunderFX_BF_Near: {fileID: 4145741829698673465, guid: 1fa4ca63662186247a69d4daa4695736, type: 3}
+    wickedThunderFX_BF_Far: {fileID: 4145741829698673465, guid: af2e66ef232c06f48b25d765083f9ebc, type: 3}
   IsDebugging: 0
 --- !u!1 &800095358
 GameObject:
@@ -1094,6 +1718,191 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &1042724500
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1042724501}
+  - component: {fileID: 1042724502}
+  - component: {fileID: 1042724504}
+  - component: {fileID: 1042724503}
+  m_Layer: 0
+  m_Name: H1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1042724501
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1042724500}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1967296883}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1042724502
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1042724500}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa3439bd33c369441b83032f20ecf6b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  posX: 0
+  posY: 0
+  spriteType: 2
+  role: 2
+  job: 5
+  rolePosition: 4
+  facing: 0
+  chibiXscale: 0.25
+  chibiYscale: 0.25
+  chibiXoffset: -0.1
+  chibiYoffset: 0.1
+  iconXscale: 1.15
+  iconYscale: 1.15
+  iconXoffset: 0
+  iconYoffset: 0.05
+  roleXscale: 0.23
+  roleYscale: 0.18
+  roleXoffset: 0
+  roleYoffset: 0.05
+  chibiPLD: {fileID: 21300000, guid: 8b19eab90f822b146b3c662389a6a9c3, type: 3}
+  chibiWAR: {fileID: 21300000, guid: fccf406e92e575949be673b4a8d8c5ca, type: 3}
+  chibiDRK: {fileID: 21300000, guid: 66502eaf24ff43a45bf84f6a521aa19b, type: 3}
+  chibiGNB: {fileID: 21300000, guid: 12ee24b2ec33f474faf4f49399a0ac5c, type: 3}
+  chibiWHM: {fileID: 21300000, guid: f536cfc11a675cc4abae8a77e5fcf243, type: 3}
+  chibiSCH: {fileID: 21300000, guid: 99a78f04abacdbf47930cd38b765fe50, type: 3}
+  chibiAST: {fileID: 21300000, guid: 4069ca87f8ee185459a00d6e6e4ec2d2, type: 3}
+  chibiSGE: {fileID: 21300000, guid: 649be303876062b4daa6a5e888fa9598, type: 3}
+  chibiMNK: {fileID: 21300000, guid: 29c93271843c542408e097cb877393f0, type: 3}
+  chibiDRG: {fileID: 21300000, guid: ebfa725896ec4f545ac721b9cd82621e, type: 3}
+  chibiNIN: {fileID: 21300000, guid: 7eaaf6c53da667245a5aaf25a1c5371f, type: 3}
+  chibiSAM: {fileID: 21300000, guid: 426d331a8c3926c4aaa3b0202981b5b7, type: 3}
+  chibiRPR: {fileID: 21300000, guid: eca12f3da70f61640b094d507ac9fa3a, type: 3}
+  chibiVIP: {fileID: 21300000, guid: 29b4a2dd206d3b64f92b9a2cd5a409bb, type: 3}
+  chibiBRD: {fileID: 21300000, guid: a394d925b0fb4c543b6e76b323c4a41b, type: 3}
+  chibiMCH: {fileID: 21300000, guid: 8aff6eae04bd62a488fd55ee69523488, type: 3}
+  chibiDNC: {fileID: 21300000, guid: 37f5e259f0dc25549aafd619bebe9a11, type: 3}
+  chibiPIC: {fileID: 21300000, guid: e550592591966bf4a935e68c54161445, type: 3}
+  chibiBLM: {fileID: 21300000, guid: ac78e3501ecfa8843b16885c748898c2, type: 3}
+  chibiSMN: {fileID: 21300000, guid: 1fc10ce738d7fdd49bc21372c868263b, type: 3}
+  chibiRDM: {fileID: 21300000, guid: 8686080f3770f184fbdf6ff25b19bdc3, type: 3}
+  IconPLD: {fileID: 21300000, guid: da4117d995c3f914b9fd264b1e9e72e7, type: 3}
+  IconWAR: {fileID: 21300000, guid: 7bbda7b2e202f544bade53c644749b30, type: 3}
+  IconDRK: {fileID: 21300000, guid: 2225476fe64aea64ab4bc4e2b00aea62, type: 3}
+  IconGNB: {fileID: 21300000, guid: f6719cb3a26f60741b640d13d1cb2d7e, type: 3}
+  IconWHM: {fileID: 21300000, guid: 821ca5b3c846f5e40a35df24d1788a5a, type: 3}
+  IconSCH: {fileID: 21300000, guid: aee7e6dd76562404d84e4ae9343af0f5, type: 3}
+  IconAST: {fileID: 21300000, guid: c764f45567b824941a74c119ec410615, type: 3}
+  IconSGE: {fileID: 21300000, guid: 82070efc66c36ec41971bf83a0a3a8a4, type: 3}
+  IconMNK: {fileID: 21300000, guid: e4b6cdf611865b2438724161af627271, type: 3}
+  IconDRG: {fileID: 21300000, guid: 3fde2187b04510046ac22432a036f35d, type: 3}
+  IconNIN: {fileID: 21300000, guid: 70f4927c8f9e2e04397b96dca579b221, type: 3}
+  IconSAM: {fileID: 21300000, guid: bf0ea8addd9a81641adb038c58881e59, type: 3}
+  IconRPR: {fileID: 21300000, guid: 17ed7f4e4fc124e478f09d99799486d3, type: 3}
+  IconVIP: {fileID: 21300000, guid: 3b1d419898988804fbdaf11295dd5bbe, type: 3}
+  IconBRD: {fileID: 21300000, guid: 4032fee29bac28a4c8827a69f0a84c13, type: 3}
+  IconMCH: {fileID: 21300000, guid: 6566cb014284e084fb9ad496b0b9140e, type: 3}
+  IconDNC: {fileID: 21300000, guid: 857f4ba7129432749a506198d4a8bb0a, type: 3}
+  IconPIC: {fileID: 21300000, guid: 4af1bfb6613b0264da9da5192875fd84, type: 3}
+  IconBLM: {fileID: 21300000, guid: ac0abe77708b993458bf420d16d9b505, type: 3}
+  IconSMN: {fileID: 21300000, guid: f7665efa4d53ef744b25f0d885fb040f, type: 3}
+  IconRDM: {fileID: 21300000, guid: 2386db8886e093e4286b4b3626ae90a9, type: 3}
+  RoleIconMT: {fileID: 21300000, guid: b92430daa09f40b46ac20ca1e9918854, type: 3}
+  RoleIconOT: {fileID: 21300000, guid: 120700f73d3eb1844895a0dbb7f4a534, type: 3}
+  RoleIconH1: {fileID: 21300000, guid: 7125ab00f78a89645ba6c036974ac31c, type: 3}
+  RoleIconH2: {fileID: 21300000, guid: ce1fd76889fec8446a0d6f74354dbd6a, type: 3}
+  RoleIconM1: {fileID: 21300000, guid: ccfcfb07c9a976444ba610a4ce0db3d9, type: 3}
+  RoleIconM2: {fileID: 21300000, guid: d0f7a677ad242ed4cac6df1b8626748f, type: 3}
+  RoleIconR1: {fileID: 21300000, guid: 3591be9f1968f594e86d4dc380a69591, type: 3}
+  RoleIconR2: {fileID: 21300000, guid: b9f04172f18627141aa07138e8ea3b41, type: 3}
+  IconNone: {fileID: 21300000, guid: f09659d0af182d4468ee803c7ac14273, type: 3}
+--- !u!212 &1042724503
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1042724500}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 1, y: 1}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 0
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
+--- !u!114 &1042724504
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1042724500}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df837d1acd26b924c96b09543a0185f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  debugInfo:
+    isDebugging: 1
+  NpcManager: {fileID: 0}
+  NpcInfo: {fileID: 0}
+  spriteRenderer: {fileID: 0}
 --- !u!1 &1058577898
 GameObject:
   m_ObjectHideFlags: 0
@@ -1242,6 +2051,120 @@ LightingSettings:
   m_PVRTiledBaking: 0
   m_NumRaysToShootPerTexel: -1
   m_RespectSceneVisibilityWhenBakingGI: 0
+--- !u!1 &1118678420
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1118678421}
+  - component: {fileID: 1118678422}
+  m_Layer: 0
+  m_Name: PlayerInfo
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1118678421
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1118678420}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1974555494}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1118678422
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1118678420}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa3439bd33c369441b83032f20ecf6b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  posX: 0
+  posY: 0
+  spriteType: 2
+  role: 2
+  job: 5
+  rolePosition: 4
+  facing: 0
+  chibiXscale: 0.25
+  chibiYscale: 0.25
+  chibiXoffset: -0.1
+  chibiYoffset: 0.1
+  iconXscale: 1.15
+  iconYscale: 1.15
+  iconXoffset: 0
+  iconYoffset: 0.05
+  roleXscale: 0.23
+  roleYscale: 0.18
+  roleXoffset: 0
+  roleYoffset: 0.05
+  chibiPLD: {fileID: 21300000, guid: 8b19eab90f822b146b3c662389a6a9c3, type: 3}
+  chibiWAR: {fileID: 21300000, guid: fccf406e92e575949be673b4a8d8c5ca, type: 3}
+  chibiDRK: {fileID: 21300000, guid: 66502eaf24ff43a45bf84f6a521aa19b, type: 3}
+  chibiGNB: {fileID: 21300000, guid: 12ee24b2ec33f474faf4f49399a0ac5c, type: 3}
+  chibiWHM: {fileID: 21300000, guid: f536cfc11a675cc4abae8a77e5fcf243, type: 3}
+  chibiSCH: {fileID: 21300000, guid: 99a78f04abacdbf47930cd38b765fe50, type: 3}
+  chibiAST: {fileID: 21300000, guid: 4069ca87f8ee185459a00d6e6e4ec2d2, type: 3}
+  chibiSGE: {fileID: 21300000, guid: 649be303876062b4daa6a5e888fa9598, type: 3}
+  chibiMNK: {fileID: 21300000, guid: 29c93271843c542408e097cb877393f0, type: 3}
+  chibiDRG: {fileID: 21300000, guid: ebfa725896ec4f545ac721b9cd82621e, type: 3}
+  chibiNIN: {fileID: 21300000, guid: 7eaaf6c53da667245a5aaf25a1c5371f, type: 3}
+  chibiSAM: {fileID: 21300000, guid: 426d331a8c3926c4aaa3b0202981b5b7, type: 3}
+  chibiRPR: {fileID: 21300000, guid: eca12f3da70f61640b094d507ac9fa3a, type: 3}
+  chibiVIP: {fileID: 21300000, guid: 29b4a2dd206d3b64f92b9a2cd5a409bb, type: 3}
+  chibiBRD: {fileID: 21300000, guid: a394d925b0fb4c543b6e76b323c4a41b, type: 3}
+  chibiMCH: {fileID: 21300000, guid: 8aff6eae04bd62a488fd55ee69523488, type: 3}
+  chibiDNC: {fileID: 21300000, guid: 37f5e259f0dc25549aafd619bebe9a11, type: 3}
+  chibiPIC: {fileID: 21300000, guid: e550592591966bf4a935e68c54161445, type: 3}
+  chibiBLM: {fileID: 21300000, guid: ac78e3501ecfa8843b16885c748898c2, type: 3}
+  chibiSMN: {fileID: 21300000, guid: 1fc10ce738d7fdd49bc21372c868263b, type: 3}
+  chibiRDM: {fileID: 21300000, guid: 8686080f3770f184fbdf6ff25b19bdc3, type: 3}
+  IconPLD: {fileID: 21300000, guid: da4117d995c3f914b9fd264b1e9e72e7, type: 3}
+  IconWAR: {fileID: 21300000, guid: 7bbda7b2e202f544bade53c644749b30, type: 3}
+  IconDRK: {fileID: 21300000, guid: 2225476fe64aea64ab4bc4e2b00aea62, type: 3}
+  IconGNB: {fileID: 21300000, guid: f6719cb3a26f60741b640d13d1cb2d7e, type: 3}
+  IconWHM: {fileID: 21300000, guid: 821ca5b3c846f5e40a35df24d1788a5a, type: 3}
+  IconSCH: {fileID: 21300000, guid: aee7e6dd76562404d84e4ae9343af0f5, type: 3}
+  IconAST: {fileID: 21300000, guid: c764f45567b824941a74c119ec410615, type: 3}
+  IconSGE: {fileID: 21300000, guid: 82070efc66c36ec41971bf83a0a3a8a4, type: 3}
+  IconMNK: {fileID: 21300000, guid: e4b6cdf611865b2438724161af627271, type: 3}
+  IconDRG: {fileID: 21300000, guid: 3fde2187b04510046ac22432a036f35d, type: 3}
+  IconNIN: {fileID: 21300000, guid: 70f4927c8f9e2e04397b96dca579b221, type: 3}
+  IconSAM: {fileID: 21300000, guid: bf0ea8addd9a81641adb038c58881e59, type: 3}
+  IconRPR: {fileID: 21300000, guid: 17ed7f4e4fc124e478f09d99799486d3, type: 3}
+  IconVIP: {fileID: 21300000, guid: 3b1d419898988804fbdaf11295dd5bbe, type: 3}
+  IconBRD: {fileID: 21300000, guid: 4032fee29bac28a4c8827a69f0a84c13, type: 3}
+  IconMCH: {fileID: 21300000, guid: 6566cb014284e084fb9ad496b0b9140e, type: 3}
+  IconDNC: {fileID: 21300000, guid: 857f4ba7129432749a506198d4a8bb0a, type: 3}
+  IconPIC: {fileID: 21300000, guid: 4af1bfb6613b0264da9da5192875fd84, type: 3}
+  IconBLM: {fileID: 21300000, guid: ac0abe77708b993458bf420d16d9b505, type: 3}
+  IconSMN: {fileID: 21300000, guid: f7665efa4d53ef744b25f0d885fb040f, type: 3}
+  IconRDM: {fileID: 21300000, guid: 2386db8886e093e4286b4b3626ae90a9, type: 3}
+  RoleIconMT: {fileID: 21300000, guid: b92430daa09f40b46ac20ca1e9918854, type: 3}
+  RoleIconOT: {fileID: 21300000, guid: 120700f73d3eb1844895a0dbb7f4a534, type: 3}
+  RoleIconH1: {fileID: 21300000, guid: 7125ab00f78a89645ba6c036974ac31c, type: 3}
+  RoleIconH2: {fileID: 21300000, guid: ce1fd76889fec8446a0d6f74354dbd6a, type: 3}
+  RoleIconM1: {fileID: 21300000, guid: ccfcfb07c9a976444ba610a4ce0db3d9, type: 3}
+  RoleIconM2: {fileID: 21300000, guid: d0f7a677ad242ed4cac6df1b8626748f, type: 3}
+  RoleIconR1: {fileID: 21300000, guid: 3591be9f1968f594e86d4dc380a69591, type: 3}
+  RoleIconR2: {fileID: 21300000, guid: b9f04172f18627141aa07138e8ea3b41, type: 3}
+  IconNone: {fileID: 21300000, guid: f09659d0af182d4468ee803c7ac14273, type: 3}
 --- !u!1 &1118758411
 GameObject:
   m_ObjectHideFlags: 0
@@ -1326,6 +2249,191 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &1152791427
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1152791428}
+  - component: {fileID: 1152791429}
+  - component: {fileID: 1152791431}
+  - component: {fileID: 1152791430}
+  m_Layer: 0
+  m_Name: R2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1152791428
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1152791427}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1967296883}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1152791429
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1152791427}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa3439bd33c369441b83032f20ecf6b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  posX: 0
+  posY: 0
+  spriteType: 2
+  role: 2
+  job: 5
+  rolePosition: 4
+  facing: 0
+  chibiXscale: 0.25
+  chibiYscale: 0.25
+  chibiXoffset: -0.1
+  chibiYoffset: 0.1
+  iconXscale: 1.15
+  iconYscale: 1.15
+  iconXoffset: 0
+  iconYoffset: 0.05
+  roleXscale: 0.23
+  roleYscale: 0.18
+  roleXoffset: 0
+  roleYoffset: 0.05
+  chibiPLD: {fileID: 21300000, guid: 8b19eab90f822b146b3c662389a6a9c3, type: 3}
+  chibiWAR: {fileID: 21300000, guid: fccf406e92e575949be673b4a8d8c5ca, type: 3}
+  chibiDRK: {fileID: 21300000, guid: 66502eaf24ff43a45bf84f6a521aa19b, type: 3}
+  chibiGNB: {fileID: 21300000, guid: 12ee24b2ec33f474faf4f49399a0ac5c, type: 3}
+  chibiWHM: {fileID: 21300000, guid: f536cfc11a675cc4abae8a77e5fcf243, type: 3}
+  chibiSCH: {fileID: 21300000, guid: 99a78f04abacdbf47930cd38b765fe50, type: 3}
+  chibiAST: {fileID: 21300000, guid: 4069ca87f8ee185459a00d6e6e4ec2d2, type: 3}
+  chibiSGE: {fileID: 21300000, guid: 649be303876062b4daa6a5e888fa9598, type: 3}
+  chibiMNK: {fileID: 21300000, guid: 29c93271843c542408e097cb877393f0, type: 3}
+  chibiDRG: {fileID: 21300000, guid: ebfa725896ec4f545ac721b9cd82621e, type: 3}
+  chibiNIN: {fileID: 21300000, guid: 7eaaf6c53da667245a5aaf25a1c5371f, type: 3}
+  chibiSAM: {fileID: 21300000, guid: 426d331a8c3926c4aaa3b0202981b5b7, type: 3}
+  chibiRPR: {fileID: 21300000, guid: eca12f3da70f61640b094d507ac9fa3a, type: 3}
+  chibiVIP: {fileID: 21300000, guid: 29b4a2dd206d3b64f92b9a2cd5a409bb, type: 3}
+  chibiBRD: {fileID: 21300000, guid: a394d925b0fb4c543b6e76b323c4a41b, type: 3}
+  chibiMCH: {fileID: 21300000, guid: 8aff6eae04bd62a488fd55ee69523488, type: 3}
+  chibiDNC: {fileID: 21300000, guid: 37f5e259f0dc25549aafd619bebe9a11, type: 3}
+  chibiPIC: {fileID: 21300000, guid: e550592591966bf4a935e68c54161445, type: 3}
+  chibiBLM: {fileID: 21300000, guid: ac78e3501ecfa8843b16885c748898c2, type: 3}
+  chibiSMN: {fileID: 21300000, guid: 1fc10ce738d7fdd49bc21372c868263b, type: 3}
+  chibiRDM: {fileID: 21300000, guid: 8686080f3770f184fbdf6ff25b19bdc3, type: 3}
+  IconPLD: {fileID: 21300000, guid: da4117d995c3f914b9fd264b1e9e72e7, type: 3}
+  IconWAR: {fileID: 21300000, guid: 7bbda7b2e202f544bade53c644749b30, type: 3}
+  IconDRK: {fileID: 21300000, guid: 2225476fe64aea64ab4bc4e2b00aea62, type: 3}
+  IconGNB: {fileID: 21300000, guid: f6719cb3a26f60741b640d13d1cb2d7e, type: 3}
+  IconWHM: {fileID: 21300000, guid: 821ca5b3c846f5e40a35df24d1788a5a, type: 3}
+  IconSCH: {fileID: 21300000, guid: aee7e6dd76562404d84e4ae9343af0f5, type: 3}
+  IconAST: {fileID: 21300000, guid: c764f45567b824941a74c119ec410615, type: 3}
+  IconSGE: {fileID: 21300000, guid: 82070efc66c36ec41971bf83a0a3a8a4, type: 3}
+  IconMNK: {fileID: 21300000, guid: e4b6cdf611865b2438724161af627271, type: 3}
+  IconDRG: {fileID: 21300000, guid: 3fde2187b04510046ac22432a036f35d, type: 3}
+  IconNIN: {fileID: 21300000, guid: 70f4927c8f9e2e04397b96dca579b221, type: 3}
+  IconSAM: {fileID: 21300000, guid: bf0ea8addd9a81641adb038c58881e59, type: 3}
+  IconRPR: {fileID: 21300000, guid: 17ed7f4e4fc124e478f09d99799486d3, type: 3}
+  IconVIP: {fileID: 21300000, guid: 3b1d419898988804fbdaf11295dd5bbe, type: 3}
+  IconBRD: {fileID: 21300000, guid: 4032fee29bac28a4c8827a69f0a84c13, type: 3}
+  IconMCH: {fileID: 21300000, guid: 6566cb014284e084fb9ad496b0b9140e, type: 3}
+  IconDNC: {fileID: 21300000, guid: 857f4ba7129432749a506198d4a8bb0a, type: 3}
+  IconPIC: {fileID: 21300000, guid: 4af1bfb6613b0264da9da5192875fd84, type: 3}
+  IconBLM: {fileID: 21300000, guid: ac0abe77708b993458bf420d16d9b505, type: 3}
+  IconSMN: {fileID: 21300000, guid: f7665efa4d53ef744b25f0d885fb040f, type: 3}
+  IconRDM: {fileID: 21300000, guid: 2386db8886e093e4286b4b3626ae90a9, type: 3}
+  RoleIconMT: {fileID: 21300000, guid: b92430daa09f40b46ac20ca1e9918854, type: 3}
+  RoleIconOT: {fileID: 21300000, guid: 120700f73d3eb1844895a0dbb7f4a534, type: 3}
+  RoleIconH1: {fileID: 21300000, guid: 7125ab00f78a89645ba6c036974ac31c, type: 3}
+  RoleIconH2: {fileID: 21300000, guid: ce1fd76889fec8446a0d6f74354dbd6a, type: 3}
+  RoleIconM1: {fileID: 21300000, guid: ccfcfb07c9a976444ba610a4ce0db3d9, type: 3}
+  RoleIconM2: {fileID: 21300000, guid: d0f7a677ad242ed4cac6df1b8626748f, type: 3}
+  RoleIconR1: {fileID: 21300000, guid: 3591be9f1968f594e86d4dc380a69591, type: 3}
+  RoleIconR2: {fileID: 21300000, guid: b9f04172f18627141aa07138e8ea3b41, type: 3}
+  IconNone: {fileID: 21300000, guid: f09659d0af182d4468ee803c7ac14273, type: 3}
+--- !u!212 &1152791430
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1152791427}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 1, y: 1}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 0
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
+--- !u!114 &1152791431
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1152791427}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df837d1acd26b924c96b09543a0185f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  debugInfo:
+    isDebugging: 1
+  NpcManager: {fileID: 0}
+  NpcInfo: {fileID: 0}
+  spriteRenderer: {fileID: 0}
 --- !u!1 &1164627193
 GameObject:
   m_ObjectHideFlags: 0
@@ -1445,6 +2553,7 @@ MonoBehaviour:
     bf_ElctroMine2Rand: 0
     bf_LaserExplodeRand: 0
     bf_NearFarRand: 0
+    bf_FourStar: 0
   spriteRenderer: {fileID: 1260784634}
   spriteImageStage: 0
   zPosition: -0.2
@@ -1632,6 +2741,191 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &1518765744
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1518765745}
+  - component: {fileID: 1518765746}
+  - component: {fileID: 1518765748}
+  - component: {fileID: 1518765747}
+  m_Layer: 0
+  m_Name: MT
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1518765745
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1518765744}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1967296883}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1518765746
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1518765744}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa3439bd33c369441b83032f20ecf6b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  posX: 0
+  posY: 0
+  spriteType: 2
+  role: 2
+  job: 5
+  rolePosition: 4
+  facing: 0
+  chibiXscale: 0.25
+  chibiYscale: 0.25
+  chibiXoffset: -0.1
+  chibiYoffset: 0.1
+  iconXscale: 1.15
+  iconYscale: 1.15
+  iconXoffset: 0
+  iconYoffset: 0.05
+  roleXscale: 0.23
+  roleYscale: 0.18
+  roleXoffset: 0
+  roleYoffset: 0.05
+  chibiPLD: {fileID: 21300000, guid: 8b19eab90f822b146b3c662389a6a9c3, type: 3}
+  chibiWAR: {fileID: 21300000, guid: fccf406e92e575949be673b4a8d8c5ca, type: 3}
+  chibiDRK: {fileID: 21300000, guid: 66502eaf24ff43a45bf84f6a521aa19b, type: 3}
+  chibiGNB: {fileID: 21300000, guid: 12ee24b2ec33f474faf4f49399a0ac5c, type: 3}
+  chibiWHM: {fileID: 21300000, guid: f536cfc11a675cc4abae8a77e5fcf243, type: 3}
+  chibiSCH: {fileID: 21300000, guid: 99a78f04abacdbf47930cd38b765fe50, type: 3}
+  chibiAST: {fileID: 21300000, guid: 4069ca87f8ee185459a00d6e6e4ec2d2, type: 3}
+  chibiSGE: {fileID: 21300000, guid: 649be303876062b4daa6a5e888fa9598, type: 3}
+  chibiMNK: {fileID: 21300000, guid: 29c93271843c542408e097cb877393f0, type: 3}
+  chibiDRG: {fileID: 21300000, guid: ebfa725896ec4f545ac721b9cd82621e, type: 3}
+  chibiNIN: {fileID: 21300000, guid: 7eaaf6c53da667245a5aaf25a1c5371f, type: 3}
+  chibiSAM: {fileID: 21300000, guid: 426d331a8c3926c4aaa3b0202981b5b7, type: 3}
+  chibiRPR: {fileID: 21300000, guid: eca12f3da70f61640b094d507ac9fa3a, type: 3}
+  chibiVIP: {fileID: 21300000, guid: 29b4a2dd206d3b64f92b9a2cd5a409bb, type: 3}
+  chibiBRD: {fileID: 21300000, guid: a394d925b0fb4c543b6e76b323c4a41b, type: 3}
+  chibiMCH: {fileID: 21300000, guid: 8aff6eae04bd62a488fd55ee69523488, type: 3}
+  chibiDNC: {fileID: 21300000, guid: 37f5e259f0dc25549aafd619bebe9a11, type: 3}
+  chibiPIC: {fileID: 21300000, guid: e550592591966bf4a935e68c54161445, type: 3}
+  chibiBLM: {fileID: 21300000, guid: ac78e3501ecfa8843b16885c748898c2, type: 3}
+  chibiSMN: {fileID: 21300000, guid: 1fc10ce738d7fdd49bc21372c868263b, type: 3}
+  chibiRDM: {fileID: 21300000, guid: 8686080f3770f184fbdf6ff25b19bdc3, type: 3}
+  IconPLD: {fileID: 21300000, guid: da4117d995c3f914b9fd264b1e9e72e7, type: 3}
+  IconWAR: {fileID: 21300000, guid: 7bbda7b2e202f544bade53c644749b30, type: 3}
+  IconDRK: {fileID: 21300000, guid: 2225476fe64aea64ab4bc4e2b00aea62, type: 3}
+  IconGNB: {fileID: 21300000, guid: f6719cb3a26f60741b640d13d1cb2d7e, type: 3}
+  IconWHM: {fileID: 21300000, guid: 821ca5b3c846f5e40a35df24d1788a5a, type: 3}
+  IconSCH: {fileID: 21300000, guid: aee7e6dd76562404d84e4ae9343af0f5, type: 3}
+  IconAST: {fileID: 21300000, guid: c764f45567b824941a74c119ec410615, type: 3}
+  IconSGE: {fileID: 21300000, guid: 82070efc66c36ec41971bf83a0a3a8a4, type: 3}
+  IconMNK: {fileID: 21300000, guid: e4b6cdf611865b2438724161af627271, type: 3}
+  IconDRG: {fileID: 21300000, guid: 3fde2187b04510046ac22432a036f35d, type: 3}
+  IconNIN: {fileID: 21300000, guid: 70f4927c8f9e2e04397b96dca579b221, type: 3}
+  IconSAM: {fileID: 21300000, guid: bf0ea8addd9a81641adb038c58881e59, type: 3}
+  IconRPR: {fileID: 21300000, guid: 17ed7f4e4fc124e478f09d99799486d3, type: 3}
+  IconVIP: {fileID: 21300000, guid: 3b1d419898988804fbdaf11295dd5bbe, type: 3}
+  IconBRD: {fileID: 21300000, guid: 4032fee29bac28a4c8827a69f0a84c13, type: 3}
+  IconMCH: {fileID: 21300000, guid: 6566cb014284e084fb9ad496b0b9140e, type: 3}
+  IconDNC: {fileID: 21300000, guid: 857f4ba7129432749a506198d4a8bb0a, type: 3}
+  IconPIC: {fileID: 21300000, guid: 4af1bfb6613b0264da9da5192875fd84, type: 3}
+  IconBLM: {fileID: 21300000, guid: ac0abe77708b993458bf420d16d9b505, type: 3}
+  IconSMN: {fileID: 21300000, guid: f7665efa4d53ef744b25f0d885fb040f, type: 3}
+  IconRDM: {fileID: 21300000, guid: 2386db8886e093e4286b4b3626ae90a9, type: 3}
+  RoleIconMT: {fileID: 21300000, guid: b92430daa09f40b46ac20ca1e9918854, type: 3}
+  RoleIconOT: {fileID: 21300000, guid: 120700f73d3eb1844895a0dbb7f4a534, type: 3}
+  RoleIconH1: {fileID: 21300000, guid: 7125ab00f78a89645ba6c036974ac31c, type: 3}
+  RoleIconH2: {fileID: 21300000, guid: ce1fd76889fec8446a0d6f74354dbd6a, type: 3}
+  RoleIconM1: {fileID: 21300000, guid: ccfcfb07c9a976444ba610a4ce0db3d9, type: 3}
+  RoleIconM2: {fileID: 21300000, guid: d0f7a677ad242ed4cac6df1b8626748f, type: 3}
+  RoleIconR1: {fileID: 21300000, guid: 3591be9f1968f594e86d4dc380a69591, type: 3}
+  RoleIconR2: {fileID: 21300000, guid: b9f04172f18627141aa07138e8ea3b41, type: 3}
+  IconNone: {fileID: 21300000, guid: f09659d0af182d4468ee803c7ac14273, type: 3}
+--- !u!212 &1518765747
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1518765744}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 1, y: 1}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 0
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
+--- !u!114 &1518765748
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1518765744}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df837d1acd26b924c96b09543a0185f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  debugInfo:
+    isDebugging: 1
+  NpcManager: {fileID: 0}
+  NpcInfo: {fileID: 0}
+  spriteRenderer: {fileID: 0}
 --- !u!1 &1592178528
 GameObject:
   m_ObjectHideFlags: 0
@@ -1774,6 +3068,7 @@ MonoBehaviour:
   PlayerManager: {fileID: 1974555491}
   DamageMarkerManager: {fileID: 1318438277}
   PlayerHitManager: {fileID: 409650276}
+  NpcManager: {fileID: 1967296882}
   zPosition: 0
   seedValue: 12345
 --- !u!1 &1729170841
@@ -1860,6 +3155,191 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &1760936567
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1760936568}
+  - component: {fileID: 1760936569}
+  - component: {fileID: 1760936571}
+  - component: {fileID: 1760936570}
+  m_Layer: 0
+  m_Name: H2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1760936568
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1760936567}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1967296883}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1760936569
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1760936567}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa3439bd33c369441b83032f20ecf6b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  posX: 0
+  posY: 0
+  spriteType: 2
+  role: 2
+  job: 5
+  rolePosition: 4
+  facing: 0
+  chibiXscale: 0.25
+  chibiYscale: 0.25
+  chibiXoffset: -0.1
+  chibiYoffset: 0.1
+  iconXscale: 1.15
+  iconYscale: 1.15
+  iconXoffset: 0
+  iconYoffset: 0.05
+  roleXscale: 0.23
+  roleYscale: 0.18
+  roleXoffset: 0
+  roleYoffset: 0.05
+  chibiPLD: {fileID: 21300000, guid: 8b19eab90f822b146b3c662389a6a9c3, type: 3}
+  chibiWAR: {fileID: 21300000, guid: fccf406e92e575949be673b4a8d8c5ca, type: 3}
+  chibiDRK: {fileID: 21300000, guid: 66502eaf24ff43a45bf84f6a521aa19b, type: 3}
+  chibiGNB: {fileID: 21300000, guid: 12ee24b2ec33f474faf4f49399a0ac5c, type: 3}
+  chibiWHM: {fileID: 21300000, guid: f536cfc11a675cc4abae8a77e5fcf243, type: 3}
+  chibiSCH: {fileID: 21300000, guid: 99a78f04abacdbf47930cd38b765fe50, type: 3}
+  chibiAST: {fileID: 21300000, guid: 4069ca87f8ee185459a00d6e6e4ec2d2, type: 3}
+  chibiSGE: {fileID: 21300000, guid: 649be303876062b4daa6a5e888fa9598, type: 3}
+  chibiMNK: {fileID: 21300000, guid: 29c93271843c542408e097cb877393f0, type: 3}
+  chibiDRG: {fileID: 21300000, guid: ebfa725896ec4f545ac721b9cd82621e, type: 3}
+  chibiNIN: {fileID: 21300000, guid: 7eaaf6c53da667245a5aaf25a1c5371f, type: 3}
+  chibiSAM: {fileID: 21300000, guid: 426d331a8c3926c4aaa3b0202981b5b7, type: 3}
+  chibiRPR: {fileID: 21300000, guid: eca12f3da70f61640b094d507ac9fa3a, type: 3}
+  chibiVIP: {fileID: 21300000, guid: 29b4a2dd206d3b64f92b9a2cd5a409bb, type: 3}
+  chibiBRD: {fileID: 21300000, guid: a394d925b0fb4c543b6e76b323c4a41b, type: 3}
+  chibiMCH: {fileID: 21300000, guid: 8aff6eae04bd62a488fd55ee69523488, type: 3}
+  chibiDNC: {fileID: 21300000, guid: 37f5e259f0dc25549aafd619bebe9a11, type: 3}
+  chibiPIC: {fileID: 21300000, guid: e550592591966bf4a935e68c54161445, type: 3}
+  chibiBLM: {fileID: 21300000, guid: ac78e3501ecfa8843b16885c748898c2, type: 3}
+  chibiSMN: {fileID: 21300000, guid: 1fc10ce738d7fdd49bc21372c868263b, type: 3}
+  chibiRDM: {fileID: 21300000, guid: 8686080f3770f184fbdf6ff25b19bdc3, type: 3}
+  IconPLD: {fileID: 21300000, guid: da4117d995c3f914b9fd264b1e9e72e7, type: 3}
+  IconWAR: {fileID: 21300000, guid: 7bbda7b2e202f544bade53c644749b30, type: 3}
+  IconDRK: {fileID: 21300000, guid: 2225476fe64aea64ab4bc4e2b00aea62, type: 3}
+  IconGNB: {fileID: 21300000, guid: f6719cb3a26f60741b640d13d1cb2d7e, type: 3}
+  IconWHM: {fileID: 21300000, guid: 821ca5b3c846f5e40a35df24d1788a5a, type: 3}
+  IconSCH: {fileID: 21300000, guid: aee7e6dd76562404d84e4ae9343af0f5, type: 3}
+  IconAST: {fileID: 21300000, guid: c764f45567b824941a74c119ec410615, type: 3}
+  IconSGE: {fileID: 21300000, guid: 82070efc66c36ec41971bf83a0a3a8a4, type: 3}
+  IconMNK: {fileID: 21300000, guid: e4b6cdf611865b2438724161af627271, type: 3}
+  IconDRG: {fileID: 21300000, guid: 3fde2187b04510046ac22432a036f35d, type: 3}
+  IconNIN: {fileID: 21300000, guid: 70f4927c8f9e2e04397b96dca579b221, type: 3}
+  IconSAM: {fileID: 21300000, guid: bf0ea8addd9a81641adb038c58881e59, type: 3}
+  IconRPR: {fileID: 21300000, guid: 17ed7f4e4fc124e478f09d99799486d3, type: 3}
+  IconVIP: {fileID: 21300000, guid: 3b1d419898988804fbdaf11295dd5bbe, type: 3}
+  IconBRD: {fileID: 21300000, guid: 4032fee29bac28a4c8827a69f0a84c13, type: 3}
+  IconMCH: {fileID: 21300000, guid: 6566cb014284e084fb9ad496b0b9140e, type: 3}
+  IconDNC: {fileID: 21300000, guid: 857f4ba7129432749a506198d4a8bb0a, type: 3}
+  IconPIC: {fileID: 21300000, guid: 4af1bfb6613b0264da9da5192875fd84, type: 3}
+  IconBLM: {fileID: 21300000, guid: ac0abe77708b993458bf420d16d9b505, type: 3}
+  IconSMN: {fileID: 21300000, guid: f7665efa4d53ef744b25f0d885fb040f, type: 3}
+  IconRDM: {fileID: 21300000, guid: 2386db8886e093e4286b4b3626ae90a9, type: 3}
+  RoleIconMT: {fileID: 21300000, guid: b92430daa09f40b46ac20ca1e9918854, type: 3}
+  RoleIconOT: {fileID: 21300000, guid: 120700f73d3eb1844895a0dbb7f4a534, type: 3}
+  RoleIconH1: {fileID: 21300000, guid: 7125ab00f78a89645ba6c036974ac31c, type: 3}
+  RoleIconH2: {fileID: 21300000, guid: ce1fd76889fec8446a0d6f74354dbd6a, type: 3}
+  RoleIconM1: {fileID: 21300000, guid: ccfcfb07c9a976444ba610a4ce0db3d9, type: 3}
+  RoleIconM2: {fileID: 21300000, guid: d0f7a677ad242ed4cac6df1b8626748f, type: 3}
+  RoleIconR1: {fileID: 21300000, guid: 3591be9f1968f594e86d4dc380a69591, type: 3}
+  RoleIconR2: {fileID: 21300000, guid: b9f04172f18627141aa07138e8ea3b41, type: 3}
+  IconNone: {fileID: 21300000, guid: f09659d0af182d4468ee803c7ac14273, type: 3}
+--- !u!212 &1760936570
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1760936567}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 1, y: 1}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 0
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
+--- !u!114 &1760936571
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1760936567}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df837d1acd26b924c96b09543a0185f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  debugInfo:
+    isDebugging: 1
+  NpcManager: {fileID: 0}
+  NpcInfo: {fileID: 0}
+  spriteRenderer: {fileID: 0}
 --- !u!1 &1967296882
 GameObject:
   m_ObjectHideFlags: 0
@@ -1871,7 +3351,7 @@ GameObject:
   - component: {fileID: 1967296883}
   - component: {fileID: 1967296884}
   m_Layer: 0
-  m_Name: NPCs
+  m_Name: Npcs
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1889,7 +3369,15 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1518765745}
+  - {fileID: 300170743}
+  - {fileID: 1042724501}
+  - {fileID: 1760936568}
+  - {fileID: 489345147}
+  - {fileID: 296212808}
+  - {fileID: 2032530434}
+  - {fileID: 1152791428}
   m_Father: {fileID: 1592178532}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1967296884
@@ -1904,48 +3392,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a6c28edc89ceab4e8cca3a0d5600036, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  chibiPLD: {fileID: 0}
-  chibiWAR: {fileID: 0}
-  chibiDRK: {fileID: 0}
-  chibiGNB: {fileID: 0}
-  chibiWHM: {fileID: 0}
-  chibiSCH: {fileID: 0}
-  chibiAST: {fileID: 0}
-  chibiSGE: {fileID: 0}
-  chibiMNK: {fileID: 0}
-  chibiDRG: {fileID: 0}
-  chibiNIN: {fileID: 0}
-  chibiSAM: {fileID: 0}
-  chibiRPR: {fileID: 0}
-  chibiVIP: {fileID: 0}
-  chibiBRD: {fileID: 0}
-  chibiMCH: {fileID: 0}
-  chibiDNC: {fileID: 0}
-  chibiPIC: {fileID: 0}
-  chibiBLM: {fileID: 0}
-  chibiSMN: {fileID: 0}
-  chibiRDM: {fileID: 0}
-  IconPLD: {fileID: 0}
-  IconWAR: {fileID: 0}
-  IconDRK: {fileID: 0}
-  IconGNB: {fileID: 0}
-  IconWHM: {fileID: 0}
-  IconSCH: {fileID: 0}
-  IconAST: {fileID: 0}
-  IconSGE: {fileID: 0}
-  IconMNK: {fileID: 0}
-  IconDRG: {fileID: 0}
-  IconNIN: {fileID: 0}
-  IconSAM: {fileID: 0}
-  IconRPR: {fileID: 0}
-  IconVIP: {fileID: 0}
-  IconBRD: {fileID: 0}
-  IconMCH: {fileID: 0}
-  IconDNC: {fileID: 0}
-  IconPIC: {fileID: 0}
-  IconBLM: {fileID: 0}
-  IconSMN: {fileID: 0}
-  IconRDM: {fileID: 0}
+  MtObject: {fileID: 1518765744}
+  OtObject: {fileID: 300170742}
+  H1Object: {fileID: 1042724500}
+  H2Object: {fileID: 1760936567}
+  M1Object: {fileID: 489345146}
+  M2Object: {fileID: 296212807}
+  R1Object: {fileID: 2032530433}
+  R2Object: {fileID: 1152791427}
+  debugInfo:
+    isDebugging: 1
+  zPosition: -1.5
+  PlayerRole: 0
+  PlayerJob: 0
 --- !u!1 &1974555491
 GameObject:
   m_ObjectHideFlags: 0
@@ -1976,63 +3435,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41431ed8eaea1104db0a45576d7398e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerInfo:
-    posX: 0
-    posY: 0
-    spriteType: 1
-    role: 0
-    job: 0
-    rolePosition: 0
-    chibiXscale: 0.25
-    chibiYscale: 0.25
-    iconXscale: 0.25
-    iconYscale: 0.25
-    facing: 0
+  characterInfo: {fileID: 1118678422}
   spriteRenderer: {fileID: 1974555493}
   zPosition: -2
   fm: {fileID: 1592178533}
-  chibiPLD: {fileID: 21300000, guid: 8b19eab90f822b146b3c662389a6a9c3, type: 3}
-  chibiWAR: {fileID: 21300000, guid: fccf406e92e575949be673b4a8d8c5ca, type: 3}
-  chibiDRK: {fileID: 21300000, guid: 66502eaf24ff43a45bf84f6a521aa19b, type: 3}
-  chibiGNB: {fileID: 21300000, guid: 12ee24b2ec33f474faf4f49399a0ac5c, type: 3}
-  chibiWHM: {fileID: 21300000, guid: f536cfc11a675cc4abae8a77e5fcf243, type: 3}
-  chibiSCH: {fileID: 21300000, guid: 99a78f04abacdbf47930cd38b765fe50, type: 3}
-  chibiAST: {fileID: 21300000, guid: 4069ca87f8ee185459a00d6e6e4ec2d2, type: 3}
-  chibiSGE: {fileID: 21300000, guid: 649be303876062b4daa6a5e888fa9598, type: 3}
-  chibiMNK: {fileID: 21300000, guid: 29c93271843c542408e097cb877393f0, type: 3}
-  chibiDRG: {fileID: 21300000, guid: ebfa725896ec4f545ac721b9cd82621e, type: 3}
-  chibiNIN: {fileID: 21300000, guid: 7eaaf6c53da667245a5aaf25a1c5371f, type: 3}
-  chibiSAM: {fileID: 21300000, guid: 426d331a8c3926c4aaa3b0202981b5b7, type: 3}
-  chibiRPR: {fileID: 21300000, guid: eca12f3da70f61640b094d507ac9fa3a, type: 3}
-  chibiVIP: {fileID: 21300000, guid: 29b4a2dd206d3b64f92b9a2cd5a409bb, type: 3}
-  chibiBRD: {fileID: 21300000, guid: a394d925b0fb4c543b6e76b323c4a41b, type: 3}
-  chibiMCH: {fileID: 21300000, guid: 8aff6eae04bd62a488fd55ee69523488, type: 3}
-  chibiDNC: {fileID: 21300000, guid: 37f5e259f0dc25549aafd619bebe9a11, type: 3}
-  chibiPIC: {fileID: 21300000, guid: e550592591966bf4a935e68c54161445, type: 3}
-  chibiBLM: {fileID: 21300000, guid: ac78e3501ecfa8843b16885c748898c2, type: 3}
-  chibiSMN: {fileID: 21300000, guid: 1fc10ce738d7fdd49bc21372c868263b, type: 3}
-  chibiRDM: {fileID: 21300000, guid: 8686080f3770f184fbdf6ff25b19bdc3, type: 3}
-  IconPLD: {fileID: 0}
-  IconWAR: {fileID: 0}
-  IconDRK: {fileID: 0}
-  IconGNB: {fileID: 0}
-  IconWHM: {fileID: 0}
-  IconSCH: {fileID: 0}
-  IconAST: {fileID: 0}
-  IconSGE: {fileID: 0}
-  IconMNK: {fileID: 0}
-  IconDRG: {fileID: 0}
-  IconNIN: {fileID: 0}
-  IconSAM: {fileID: 0}
-  IconRPR: {fileID: 0}
-  IconVIP: {fileID: 0}
-  IconBRD: {fileID: 0}
-  IconMCH: {fileID: 0}
-  IconDNC: {fileID: 0}
-  IconPIC: {fileID: 0}
-  IconBLM: {fileID: 0}
-  IconSMN: {fileID: 0}
-  IconRDM: {fileID: 0}
   isDebugging: 0
 --- !u!212 &1974555493
 SpriteRenderer:
@@ -2101,8 +3507,194 @@ Transform:
   m_Children:
   - {fileID: 259347628}
   - {fileID: 409650277}
+  - {fileID: 1118678421}
   m_Father: {fileID: 1592178532}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2032530433
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2032530434}
+  - component: {fileID: 2032530435}
+  - component: {fileID: 2032530437}
+  - component: {fileID: 2032530436}
+  m_Layer: 0
+  m_Name: R1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2032530434
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2032530433}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1967296883}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2032530435
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2032530433}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa3439bd33c369441b83032f20ecf6b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  posX: 0
+  posY: 0
+  spriteType: 2
+  role: 2
+  job: 5
+  rolePosition: 4
+  facing: 0
+  chibiXscale: 0.25
+  chibiYscale: 0.25
+  chibiXoffset: -0.1
+  chibiYoffset: 0.1
+  iconXscale: 1.15
+  iconYscale: 1.15
+  iconXoffset: 0
+  iconYoffset: 0.05
+  roleXscale: 0.23
+  roleYscale: 0.18
+  roleXoffset: 0
+  roleYoffset: 0.05
+  chibiPLD: {fileID: 21300000, guid: 8b19eab90f822b146b3c662389a6a9c3, type: 3}
+  chibiWAR: {fileID: 21300000, guid: fccf406e92e575949be673b4a8d8c5ca, type: 3}
+  chibiDRK: {fileID: 21300000, guid: 66502eaf24ff43a45bf84f6a521aa19b, type: 3}
+  chibiGNB: {fileID: 21300000, guid: 12ee24b2ec33f474faf4f49399a0ac5c, type: 3}
+  chibiWHM: {fileID: 21300000, guid: f536cfc11a675cc4abae8a77e5fcf243, type: 3}
+  chibiSCH: {fileID: 21300000, guid: 99a78f04abacdbf47930cd38b765fe50, type: 3}
+  chibiAST: {fileID: 21300000, guid: 4069ca87f8ee185459a00d6e6e4ec2d2, type: 3}
+  chibiSGE: {fileID: 21300000, guid: 649be303876062b4daa6a5e888fa9598, type: 3}
+  chibiMNK: {fileID: 21300000, guid: 29c93271843c542408e097cb877393f0, type: 3}
+  chibiDRG: {fileID: 21300000, guid: ebfa725896ec4f545ac721b9cd82621e, type: 3}
+  chibiNIN: {fileID: 21300000, guid: 7eaaf6c53da667245a5aaf25a1c5371f, type: 3}
+  chibiSAM: {fileID: 21300000, guid: 426d331a8c3926c4aaa3b0202981b5b7, type: 3}
+  chibiRPR: {fileID: 21300000, guid: eca12f3da70f61640b094d507ac9fa3a, type: 3}
+  chibiVIP: {fileID: 21300000, guid: 29b4a2dd206d3b64f92b9a2cd5a409bb, type: 3}
+  chibiBRD: {fileID: 21300000, guid: a394d925b0fb4c543b6e76b323c4a41b, type: 3}
+  chibiMCH: {fileID: 21300000, guid: 8aff6eae04bd62a488fd55ee69523488, type: 3}
+  chibiDNC: {fileID: 21300000, guid: 37f5e259f0dc25549aafd619bebe9a11, type: 3}
+  chibiPIC: {fileID: 21300000, guid: e550592591966bf4a935e68c54161445, type: 3}
+  chibiBLM: {fileID: 21300000, guid: ac78e3501ecfa8843b16885c748898c2, type: 3}
+  chibiSMN: {fileID: 21300000, guid: 1fc10ce738d7fdd49bc21372c868263b, type: 3}
+  chibiRDM: {fileID: 21300000, guid: 8686080f3770f184fbdf6ff25b19bdc3, type: 3}
+  IconPLD: {fileID: 21300000, guid: da4117d995c3f914b9fd264b1e9e72e7, type: 3}
+  IconWAR: {fileID: 21300000, guid: 7bbda7b2e202f544bade53c644749b30, type: 3}
+  IconDRK: {fileID: 21300000, guid: 2225476fe64aea64ab4bc4e2b00aea62, type: 3}
+  IconGNB: {fileID: 21300000, guid: f6719cb3a26f60741b640d13d1cb2d7e, type: 3}
+  IconWHM: {fileID: 21300000, guid: 821ca5b3c846f5e40a35df24d1788a5a, type: 3}
+  IconSCH: {fileID: 21300000, guid: aee7e6dd76562404d84e4ae9343af0f5, type: 3}
+  IconAST: {fileID: 21300000, guid: c764f45567b824941a74c119ec410615, type: 3}
+  IconSGE: {fileID: 21300000, guid: 82070efc66c36ec41971bf83a0a3a8a4, type: 3}
+  IconMNK: {fileID: 21300000, guid: e4b6cdf611865b2438724161af627271, type: 3}
+  IconDRG: {fileID: 21300000, guid: 3fde2187b04510046ac22432a036f35d, type: 3}
+  IconNIN: {fileID: 21300000, guid: 70f4927c8f9e2e04397b96dca579b221, type: 3}
+  IconSAM: {fileID: 21300000, guid: bf0ea8addd9a81641adb038c58881e59, type: 3}
+  IconRPR: {fileID: 21300000, guid: 17ed7f4e4fc124e478f09d99799486d3, type: 3}
+  IconVIP: {fileID: 21300000, guid: 3b1d419898988804fbdaf11295dd5bbe, type: 3}
+  IconBRD: {fileID: 21300000, guid: 4032fee29bac28a4c8827a69f0a84c13, type: 3}
+  IconMCH: {fileID: 21300000, guid: 6566cb014284e084fb9ad496b0b9140e, type: 3}
+  IconDNC: {fileID: 21300000, guid: 857f4ba7129432749a506198d4a8bb0a, type: 3}
+  IconPIC: {fileID: 21300000, guid: 4af1bfb6613b0264da9da5192875fd84, type: 3}
+  IconBLM: {fileID: 21300000, guid: ac0abe77708b993458bf420d16d9b505, type: 3}
+  IconSMN: {fileID: 21300000, guid: f7665efa4d53ef744b25f0d885fb040f, type: 3}
+  IconRDM: {fileID: 21300000, guid: 2386db8886e093e4286b4b3626ae90a9, type: 3}
+  RoleIconMT: {fileID: 21300000, guid: b92430daa09f40b46ac20ca1e9918854, type: 3}
+  RoleIconOT: {fileID: 21300000, guid: 120700f73d3eb1844895a0dbb7f4a534, type: 3}
+  RoleIconH1: {fileID: 21300000, guid: 7125ab00f78a89645ba6c036974ac31c, type: 3}
+  RoleIconH2: {fileID: 21300000, guid: ce1fd76889fec8446a0d6f74354dbd6a, type: 3}
+  RoleIconM1: {fileID: 21300000, guid: ccfcfb07c9a976444ba610a4ce0db3d9, type: 3}
+  RoleIconM2: {fileID: 21300000, guid: d0f7a677ad242ed4cac6df1b8626748f, type: 3}
+  RoleIconR1: {fileID: 21300000, guid: 3591be9f1968f594e86d4dc380a69591, type: 3}
+  RoleIconR2: {fileID: 21300000, guid: b9f04172f18627141aa07138e8ea3b41, type: 3}
+  IconNone: {fileID: 21300000, guid: f09659d0af182d4468ee803c7ac14273, type: 3}
+--- !u!212 &2032530436
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2032530433}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 1, y: 1}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 0
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
+--- !u!114 &2032530437
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2032530433}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df837d1acd26b924c96b09543a0185f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  debugInfo:
+    isDebugging: 1
+  NpcManager: {fileID: 0}
+  NpcInfo: {fileID: 0}
+  spriteRenderer: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

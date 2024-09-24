@@ -10,6 +10,7 @@ public class DamageMarkerAddon : MonoBehaviour
     [SerializeField] public GameObject damageMarkerSphereObject; // Reference to Circle object
     [SerializeField] public GameObject damageMarkerBoxObject; // Reference to Box object
     [SerializeField] public GameObject damageMarkerPrismObject; // Reference to Prism object
+    [SerializeField] public GameObject damageMarkerDonutObject; // Reference to Prism object
 
     [SerializeField] private MarkerTypes dmMarkerType; // Reference to Circle object
 
@@ -20,6 +21,7 @@ public class DamageMarkerAddon : MonoBehaviour
         Circle,
         Rectangle,
         Cone,
+        Donut,
     }
 
     // Start is called before the first frame update
@@ -136,6 +138,9 @@ public class DamageMarkerAddon : MonoBehaviour
                 break;
             case MarkerTypes.Cone:
                 damageMarkerPrismObject.SetActive(true);
+                break;
+            case MarkerTypes.Donut:
+                damageMarkerDonutObject.SetActive(true);
                 break;
             default:
                 if (isDebugging)

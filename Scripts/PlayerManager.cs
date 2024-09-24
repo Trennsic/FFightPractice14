@@ -1,154 +1,27 @@
-using System.Collections;
+using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
-using UnityEngine.Rendering.VirtualTexturing;
-using static PlayerInfo;
-
-[System.Serializable]
-public class PlayerInfo
-{
-    public enum SpriteTypes
-    {
-        Icon,
-        Chibi
-    }
-    public enum Roles
-    {
-        None,
-        Tank,
-        Healer,
-        MeleeDps,
-        RangedDps,
-    }
-    public enum Jobs
-    {
-        None,
-        PLD,
-        WAR,
-        DRK,
-        GNB,
-
-        WHM,
-        SCH,
-        AST,
-        SGE,
-
-        MNK,
-        DRG,
-        NIN,
-        SAM,
-        RPR,
-        VIP,
-
-        BRD,
-        MCH,
-        DNC,
-
-        PIC,
-        BLM,
-        SMN,
-        RDM,
-    }
-    public enum RolePositions
-    {
-        None    ,
-        MT      ,
-        OT      ,
-        H1      ,
-        H2      ,
-        M1      ,
-        M2      ,
-        R1      ,
-        R2
-    }
-    public enum FacingDirections
-    {
-        Left,
-        Right
-    }
-
-    [SerializeField] private float posX;
-    [SerializeField] private float posY;
-    [SerializeField] private SpriteTypes spriteType = SpriteTypes.Chibi;
-    [SerializeField] private Roles role = Roles.None;
-    [SerializeField] private Jobs job = Jobs.None;
-    [SerializeField] private RolePositions rolePosition = RolePositions.None;
-    [SerializeField] private float chibiXscale = .25f;
-    [SerializeField] private float chibiYscale = .25f;
-    [SerializeField] private float iconXscale = .25f;
-    [SerializeField] private float iconYscale = .25f;
-    [SerializeField] private FacingDirections facing = FacingDirections.Left;
-
-    public float PosX => posX;
-    public float PosY => posY;
-    public SpriteTypes SpriteType => spriteType;
-    public Roles Role => role;
-    public Jobs Job => job;
-    public RolePositions RolePosition => rolePosition;
-    public FacingDirections Facing => facing;
-    public float ChibiXscale => chibiXscale;
-    public float ChibiYscale => chibiYscale;
-    public float IconXscale => iconXscale;
-    public float IconYscale => iconYscale;
-
-    public void SetSpriteType(SpriteTypes whichSpriteType) { spriteType = whichSpriteType; }
-    public void SetRole(Roles whichRoles) { role = whichRoles; }
-    public void SetJob(Jobs whichJob) { job = whichJob; }
-    public void SetRolePosition(RolePositions whichRolePos) { rolePosition = whichRolePos; }
-    public void SetFacing(FacingDirections facingDirection) { facing = facingDirection; }
-}
+using static EffectsManager;
+using UnityEngine.UIElements;
+using static FightManager;
+using static BossManager;
+using System.Collections;
+using System.Collections.Generic;
+using TMPro;
+using UnityEngine;
+using static EffectsManager;
+using UnityEngine.UIElements;
+using static FightManager;
+using static BossManager;
+using System.Collections;
 
 public class PlayerManager : MonoBehaviour
 {
     #region // References
-    public PlayerInfo playerInfo = new PlayerInfo();
+    public CharacterInfo characterInfo;
     [SerializeField] private SpriteRenderer spriteRenderer;
-    [SerializeField] private float zPosition = -2f;
+    [SerializeField] private float zPosition = -2f; // Set the desired Z position for the player
     [SerializeField] private FightManager fm;
-    #endregion
-    #region // Sprites
-    [SerializeField] Sprite chibiPLD;
-    [SerializeField] Sprite chibiWAR;
-    [SerializeField] Sprite chibiDRK;
-    [SerializeField] Sprite chibiGNB;
-    [SerializeField] Sprite chibiWHM;
-    [SerializeField] Sprite chibiSCH;
-    [SerializeField] Sprite chibiAST;
-    [SerializeField] Sprite chibiSGE;
-    [SerializeField] Sprite chibiMNK;
-    [SerializeField] Sprite chibiDRG;
-    [SerializeField] Sprite chibiNIN;
-    [SerializeField] Sprite chibiSAM;
-    [SerializeField] Sprite chibiRPR;
-    [SerializeField] Sprite chibiVIP;
-    [SerializeField] Sprite chibiBRD;
-    [SerializeField] Sprite chibiMCH;
-    [SerializeField] Sprite chibiDNC;
-    [SerializeField] Sprite chibiPIC;
-    [SerializeField] Sprite chibiBLM;
-    [SerializeField] Sprite chibiSMN;
-    [SerializeField] Sprite chibiRDM;
-
-    [SerializeField] Sprite IconPLD;
-    [SerializeField] Sprite IconWAR;
-    [SerializeField] Sprite IconDRK;
-    [SerializeField] Sprite IconGNB;
-    [SerializeField] Sprite IconWHM;
-    [SerializeField] Sprite IconSCH;
-    [SerializeField] Sprite IconAST;
-    [SerializeField] Sprite IconSGE;
-    [SerializeField] Sprite IconMNK;
-    [SerializeField] Sprite IconDRG;
-    [SerializeField] Sprite IconNIN;
-    [SerializeField] Sprite IconSAM;
-    [SerializeField] Sprite IconRPR;
-    [SerializeField] Sprite IconVIP;
-    [SerializeField] Sprite IconBRD;
-    [SerializeField] Sprite IconMCH;
-    [SerializeField] Sprite IconDNC;
-    [SerializeField] Sprite IconPIC;
-    [SerializeField] Sprite IconBLM;
-    [SerializeField] Sprite IconSMN;
-    [SerializeField] Sprite IconRDM;
     #endregion
 
     private Vector3 targetPosition;
@@ -157,6 +30,14 @@ public class PlayerManager : MonoBehaviour
     private float moveStartTime;
 
     [SerializeField] private bool isDebugging;
+
+    // Store previous values to detect changes
+    private CharacterInfo.SpriteTypes previousSpriteType;
+    private CharacterInfo.Jobs previousJob;
+    private CharacterInfo.RolePositions previousRolePosition;
+
+    // Keep track of the base position separately
+    private Vector3 basePosition;
 
     // Start is called before the first frame update
     void Start()
@@ -168,52 +49,81 @@ public class PlayerManager : MonoBehaviour
             spriteRenderer = gameObject.AddComponent<SpriteRenderer>();
         }
         #endregion
+
         #region // Set the Z position
-        transform.position = new Vector3(transform.position.x, transform.position.y, zPosition);
+        transform.position = new Vector3(transform.position.x, transform.position.y, zPosition); // Ensure initial Z position
         #endregion
+
+        // Store the initial position as the base position
+        basePosition = new Vector3(transform.position.x, transform.position.y, zPosition);
+
+        if (isDebugging)
+        {
+            Debug.Log($"Initial base position set to: {basePosition}");
+            Debug.Log("Initializing with Chibi icons.");
+        }
+
         // Start with chibi icons
-        playerInfo.SetSpriteType(PlayerInfo.SpriteTypes.Chibi);
+        characterInfo.SetSpriteType(CharacterInfo.SpriteTypes.Chibi);
+
+        // Initialize previous values
+        previousSpriteType = characterInfo.SpriteType;
+        previousJob = characterInfo.Job;
+        previousRolePosition = characterInfo.RolePosition;
+
+        // Initial update
+        UpdatePlayerSprite();
     }
 
     // Update is called once per frame
     void Update()
     {
-        // Additional updates can go here
+        // Check if SpriteType, Job, or RolePosition has changed
+        if (previousSpriteType != characterInfo.SpriteType ||
+            previousJob != characterInfo.Job ||
+            previousRolePosition != characterInfo.RolePosition)
+        {
+            if (isDebugging)
+            {
+                Debug.Log($"SpriteType or job or role position changed: {previousSpriteType} -> {characterInfo.SpriteType}, {previousJob} -> {characterInfo.Job}, {previousRolePosition} -> {characterInfo.RolePosition}");
+            }
+
+            // Update sprite
+            UpdatePlayerSprite();
+
+            // Update stored values
+            previousSpriteType = characterInfo.SpriteType;
+            previousJob = characterInfo.Job;
+            previousRolePosition = characterInfo.RolePosition;
+        }
     }
 
-    public void SetupPlayer(PlayerInfo.Jobs whichJob, PlayerInfo.RolePositions whichRolePos)
+    public void SetupPlayer(CharacterInfo.Jobs whichJob, CharacterInfo.RolePositions whichRolePos)
     {
+        if (isDebugging)
+        {
+            Debug.Log($"Setting up player: Job = {whichJob}, Role Position = {whichRolePos}");
+        }
+
         // Set Starting Info
-        playerInfo.SetJob(whichJob);
-        playerInfo.SetRolePosition(whichRolePos);
+        characterInfo.SetJob(whichJob);
+        characterInfo.SetRolePosition(whichRolePos);
+
         // Update the sprite based on the info
         UpdatePlayerSprite();
 
-        //Move player to starting postion
-        Vector3 startPos = new Vector3(transform.position.x, transform.position.y, transform.position.z);
-        float startRot = 0;
-        switch (whichRolePos)
-        {
-            case PlayerInfo.RolePositions.MT: startPos.x = -.1f;    startPos.y = 2.2f;      playerInfo.SetFacing(PlayerInfo.FacingDirections.Left);   break;
-            case PlayerInfo.RolePositions.OT: startPos.x = -.1f;    startPos.y = -2.0f;     playerInfo.SetFacing(PlayerInfo.FacingDirections.Right);   break;
-            case PlayerInfo.RolePositions.H1: startPos.x = -2.35f;  startPos.y = .1f;       playerInfo.SetFacing(PlayerInfo.FacingDirections.Right);   break;
-            case PlayerInfo.RolePositions.H2: startPos.x = 2.15f;   startPos.y = .1f;       playerInfo.SetFacing(PlayerInfo.FacingDirections.Left);   break;
-            case PlayerInfo.RolePositions.M1: startPos.x = -2.35f;  startPos.y = -2.0f;     playerInfo.SetFacing(PlayerInfo.FacingDirections.Right);   break;
-            case PlayerInfo.RolePositions.M2: startPos.x = 2.15f;   startPos.y = -2.0f;     playerInfo.SetFacing(PlayerInfo.FacingDirections.Left);   break;
-            case PlayerInfo.RolePositions.R1: startPos.x = -2.35f;  startPos.y = 2.2f;      playerInfo.SetFacing(PlayerInfo.FacingDirections.Right);   break;
-            case PlayerInfo.RolePositions.R2: startPos.x = 2.15f;   startPos.y = 2.2f;      playerInfo.SetFacing(PlayerInfo.FacingDirections.Left); break;
-        }
-        //Move player to starting position
-        MovePlayer(startPos, startRot, 0f);
-
-        //Update the facing
-        UpdatePlayerSprite();
     }
 
     public void MovePlayer(Vector3 goalPosition, float goalRotation, float duration)
     {
-        // Remove Z value from goal position 
-        goalPosition = new Vector3(goalPosition.x, goalPosition.y, transform.position.z);
+        if (isDebugging)
+        {
+            Debug.Log($"Starting to move player to: {goalPosition} with rotation: {goalRotation} over duration: {duration}");
+        }
+
+        // Ensure the Z position remains fixed
+        goalPosition = new Vector3(goalPosition.x, goalPosition.y, zPosition);
+
         // Initialize target values
         targetPosition = goalPosition;
         targetRotation = goalRotation;
@@ -223,6 +133,7 @@ public class PlayerManager : MonoBehaviour
         // Start the coroutine to move the player
         StartCoroutine(MovePlayerCoroutine());
     }
+
     // Helper function to update player's facing direction based on position relative to the boss
     private void UpdateFacingDirection()
     {
@@ -232,41 +143,70 @@ public class PlayerManager : MonoBehaviour
         if (playerPos.x < bossPos.x)
         {
             // Player is to the left of the boss, so face right
-            playerInfo.SetFacing(FacingDirections.Right);
+            characterInfo.SetFacing(CharacterInfo.FacingDirections.Right);
         }
         else if (playerPos.x > bossPos.x)
         {
             // Player is to the right of the boss, so face left
-            playerInfo.SetFacing(FacingDirections.Left);
+            characterInfo.SetFacing(CharacterInfo.FacingDirections.Left);
         }
-        //Update the sprite
+
+        // Update the sprite
         UpdatePlayerSprite();
+
         if (isDebugging)
         {
             Debug.Log($"Player position: {playerPos}, Boss position: {bossPos}");
             Debug.Log($"Player is now facing: {(playerPos.x < bossPos.x ? "Right" : "Left")}");
         }
     }
+
     public void UpdatePlayerSprite()
     {
         Sprite selectedSprite = null;
-        PlayerInfo.SpriteTypes spriteType = playerInfo.SpriteType;
-        PlayerInfo.Jobs job = playerInfo.Job;
+        CharacterInfo.SpriteTypes spriteType = characterInfo.SpriteType;
+        CharacterInfo.Jobs job = characterInfo.Job;
+        CharacterInfo.RolePositions rolePosition = characterInfo.RolePosition;
+
+        if (isDebugging)
+        {
+            Debug.Log($"Updating player sprite: SpriteType = {spriteType}, Job = {job}, RolePosition = {rolePosition}");
+        }
+
+        if (characterInfo != null)
+        {
+            selectedSprite = characterInfo.GetSprite(spriteType, job, rolePosition);
+        }
 
         // Determine the sprite based on the job and sprite type
-        if (spriteType == PlayerInfo.SpriteTypes.Chibi)
+        Vector3 offset = Vector3.zero;
+
+        if (spriteType == CharacterInfo.SpriteTypes.Chibi)
         {
-            selectedSprite = GetChibiSprite(job);
-            transform.localScale = new Vector3(playerInfo.ChibiXscale, playerInfo.ChibiYscale, 1);
+            transform.localScale = new Vector3(characterInfo.ChibiXscale, characterInfo.ChibiYscale, 1);
+            offset = new Vector3(characterInfo.ChibiXoffset, characterInfo.ChibiYoffset, 0f); // Apply Chibi offsets
         }
-        else if (spriteType == PlayerInfo.SpriteTypes.Icon)
+        else if (spriteType == CharacterInfo.SpriteTypes.Icon)
         {
-            selectedSprite = GetIconSprite(job);
-            transform.localScale = new Vector3(playerInfo.IconXscale, playerInfo.IconYscale, 1);
+            transform.localScale = new Vector3(characterInfo.IconXscale, characterInfo.IconYscale, 1);
+            offset = new Vector3(characterInfo.IconXoffset, characterInfo.IconYoffset, 0f); // Apply Icon offsets
+        }
+        else if (spriteType == CharacterInfo.SpriteTypes.Role)
+        {
+            transform.localScale = new Vector3(characterInfo.RoleXscale, characterInfo.RoleYscale, 1);
+            offset = new Vector3(characterInfo.RoleXoffset, characterInfo.RoleYoffset, 0f); // Apply Role offsets
+        }
+
+        // Apply the base position plus offset as the new local position
+        transform.localPosition = basePosition + offset;
+
+        if (isDebugging)
+        {
+            Debug.Log($"Applied offsets: Base position = {basePosition}, Offset = {offset}, New position = {transform.localPosition}");
         }
 
         // Flip the sprite if the player is facing right
-        if (playerInfo.Facing == PlayerInfo.FacingDirections.Right)
+        if (characterInfo.Facing == CharacterInfo.FacingDirections.Right)
         {
             // Flip the sprite by inverting the X scale
             transform.localScale = new Vector3(-Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
@@ -275,6 +215,11 @@ public class PlayerManager : MonoBehaviour
         {
             // Ensure the sprite is not flipped when facing left
             transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
+        }
+
+        if (isDebugging)
+        {
+            Debug.Log($"Sprite facing: {characterInfo.Facing}");
         }
 
         // Set the sprite renderer to the selected sprite
@@ -288,71 +233,17 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
-
-    private Sprite GetChibiSprite(PlayerInfo.Jobs job)
-    {
-        switch (job)
-        {
-            case PlayerInfo.Jobs.PLD: return chibiPLD;
-            case PlayerInfo.Jobs.WAR: return chibiWAR;
-            case PlayerInfo.Jobs.DRK: return chibiDRK;
-            case PlayerInfo.Jobs.GNB: return chibiGNB;
-            case PlayerInfo.Jobs.WHM: return chibiWHM;
-            case PlayerInfo.Jobs.SCH: return chibiSCH;
-            case PlayerInfo.Jobs.AST: return chibiAST;
-            case PlayerInfo.Jobs.SGE: return chibiSGE;
-            case PlayerInfo.Jobs.MNK: return chibiMNK;
-            case PlayerInfo.Jobs.DRG: return chibiDRG;
-            case PlayerInfo.Jobs.NIN: return chibiNIN;
-            case PlayerInfo.Jobs.SAM: return chibiSAM;
-            case PlayerInfo.Jobs.RPR: return chibiRPR;
-            case PlayerInfo.Jobs.VIP: return chibiVIP;
-            case PlayerInfo.Jobs.BRD: return chibiBRD;
-            case PlayerInfo.Jobs.MCH: return chibiMCH;
-            case PlayerInfo.Jobs.DNC: return chibiDNC;
-            case PlayerInfo.Jobs.PIC: return chibiPIC;
-            case PlayerInfo.Jobs.BLM: return chibiBLM;
-            case PlayerInfo.Jobs.SMN: return chibiSMN;
-            case PlayerInfo.Jobs.RDM: return chibiRDM;
-            default: return null;
-        }
-    }
-
-    private Sprite GetIconSprite(PlayerInfo.Jobs job)
-    {
-        switch (job)
-        {
-            case PlayerInfo.Jobs.PLD: return IconPLD;
-            case PlayerInfo.Jobs.WAR: return IconWAR;
-            case PlayerInfo.Jobs.DRK: return IconDRK;
-            case PlayerInfo.Jobs.GNB: return IconGNB;
-            case PlayerInfo.Jobs.WHM: return IconWHM;
-            case PlayerInfo.Jobs.SCH: return IconSCH;
-            case PlayerInfo.Jobs.AST: return IconAST;
-            case PlayerInfo.Jobs.SGE: return IconSGE;
-            case PlayerInfo.Jobs.MNK: return IconMNK;
-            case PlayerInfo.Jobs.DRG: return IconDRG;
-            case PlayerInfo.Jobs.NIN: return IconNIN;
-            case PlayerInfo.Jobs.SAM: return IconSAM;
-            case PlayerInfo.Jobs.RPR: return IconRPR;
-            case PlayerInfo.Jobs.VIP: return IconVIP;
-            case PlayerInfo.Jobs.BRD: return IconBRD;
-            case PlayerInfo.Jobs.MCH: return IconMCH;
-            case PlayerInfo.Jobs.DNC: return IconDNC;
-            case PlayerInfo.Jobs.PIC: return IconPIC;
-            case PlayerInfo.Jobs.BLM: return IconBLM;
-            case PlayerInfo.Jobs.SMN: return IconSMN;
-            case PlayerInfo.Jobs.RDM: return IconRDM;
-            default: return null;
-        }
-    }
-
     private IEnumerator MovePlayerCoroutine()
     {
-        Vector3 initialPosition = transform.position;
+        Vector3 initialPosition = new Vector3(transform.position.x, transform.position.y, zPosition); // Ensure initial Z position is used
         Quaternion initialRotation = transform.rotation;
 
         float elapsedTime = 0f;
+
+        if (isDebugging)
+        {
+            Debug.Log($"Starting player move coroutine: Initial Position = {initialPosition}, Target Position = {targetPosition}");
+        }
 
         while (elapsedTime < moveDuration)
         {
@@ -369,32 +260,23 @@ public class PlayerManager : MonoBehaviour
         // Ensure final position and rotation are exactly the target values
         transform.position = targetPosition;
         transform.rotation = Quaternion.Euler(0, 0, targetRotation);
-        // After moving, check player and boss positions
+        // Set base position to new position, with correct Z position
+        basePosition = new Vector3(transform.position.x, transform.position.y, zPosition);
+        //Whenever player moves, update it's facing direction
         UpdateFacingDirection();
-    }
- 
-    // Enable or disable debugging
-    public void SetIsDebugging(bool IsDebugging)
-    {
-        isDebugging = IsDebugging;
+        if (isDebugging)
+        {
+            Debug.Log($"Player move complete: Final Position/Base Position = {transform.position}, Final Rotation = {transform.rotation.eulerAngles.z}");
+        }
     }
 
-    // Check if debugging is enabled
-    public bool GetIsDebugging()
+    // Assuming you have a way to get the boss position
+    private Vector3 GetBossPosition()
     {
-        return isDebugging;
+        // Replace this with your actual boss position retrieval logic
+        return Vector3.zero;
     }
-    public Vector3 GetBossPosition()
-    {
-        //Initalize a boss position var
-        Vector3 bossPos = new Vector3(0, 0, 0);
-        //Find boss transform position
-        if (fm != null)
-        {
-            bossPos = fm.GetBossPosition();
-        }
-        else { Debug.LogWarning("Unable to find boss position due to not finding fight manager"); }
-        //Return boss position
-        return bossPos;
-    }
+    public Vector3 GetPlayerPosition() => transform.position;
+    public CharacterInfo.RolePositions GetRolePosition() => characterInfo.RolePosition;
+    public CharacterInfo.Jobs GetJob() => characterInfo.Job;
 }

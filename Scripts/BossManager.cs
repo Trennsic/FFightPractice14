@@ -17,6 +17,7 @@ public class WickedThunderSettings
     [SerializeField] private int bf_ElctroMine2Rand = 0;
     [SerializeField] private int bf_LaserExplodeRand = 0;
     [SerializeField] private int bf_NearFarRand = 0;
+    [SerializeField] private int bf_FourStar = 0;
 
 
 
@@ -30,16 +31,23 @@ public class WickedThunderSettings
     public int BF_ElctroMine2Rand => bf_ElctroMine2Rand;
     public int Bf_LaserExplodeRand => bf_LaserExplodeRand;
     public int Bf_NearFarRand => bf_NearFarRand;
+    public int Bf_FourStar => bf_FourStar;
 
     public void WickedThunderRandomize()
     {
 
         // Bewitching Flight
         bf_LaserDashRand    = Random.Range(0, 2);
-        bf_ElctroMineRand   = Random.Range(0, 2);
-        bf_LaserExplodeRand = Random.Range(0, 2);
-        bf_ElctroMine2Rand  = Random.Range(0, 2);
+        bf_ElctroMineRand   = Random.Range(0, 2); // 0 = Bottom, 1 Top
+        bf_LaserExplodeRand = Random.Range(0, 2); // 0 = Inner, 1 Outer
+        bf_ElctroMine2Rand  = Random.Range(0, 2); // 0 = Bottom, 1 Top
         bf_NearFarRand      = Random.Range(0, 2);
+        bf_FourStar         = Random.Range(0, 2); // = 0 Supports, 1 Dps
+
+        //bf_LaserExplodeRand = 1 ;
+        //bf_ElctroMine2Rand  = 0 ;
+        //bf_NearFarRand      = 1;
+        //bf_FourStar         = 1; // = 0 Supports, 1 Dps
     }
 }
 

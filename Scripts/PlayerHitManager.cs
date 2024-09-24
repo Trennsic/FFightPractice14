@@ -96,7 +96,8 @@ public class PlayerHitManager : MonoBehaviour
                 yield break; // Exit the coroutine early if the icons are not set
             }
         }
-        Debug.Log($"Player was not Hit by anything");
+        if (isDebugging)
+            Debug.Log($"Player was not Hit by anything");
     }
 
     public bool CheckIfPlayerWasHit()
