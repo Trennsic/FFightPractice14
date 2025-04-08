@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DamageMarkerManager : MonoBehaviour
+public class DamageMarkerManager2 : MonoBehaviour
 {
     [SerializeField] private float setPositionZ = -0.1f;
     [SerializeField] private bool isDebugging;
