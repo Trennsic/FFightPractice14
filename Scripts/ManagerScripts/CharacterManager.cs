@@ -295,6 +295,36 @@ public class CharacterManager : MonoBehaviour
             }
         }
     }
+    public CharacterAddon GetAddonByRole(RolePositions role)
+    {
+        // Pull the position by role
+        CharacterAddon character = null;
+        bool roleFound = false;
+        List<CharacterAddon> characters = GetCharacters();
+        for (int i = 0; i < characters.Count; i++)
+        {
+            // Pull the current character
+            character = characters[i];
+            // Check if it matches role
+            if (character.GetRolePosition() == role)
+            {
+                // If true leave loop;
+                roleFound = true;
+                break;
+            }
+        }
+        if (!roleFound) Debug.LogWarning($"Characters doesn't have a {role}.");
+
+
+        return character;
+    }
+    public Vector3 GetArenaPositionByRole(RolePositions role)
+    {
+        // Pull the position by role
+        CharacterAddon character = GetAddonByRole(role) ;
+
+        return character.gameObject.transform.position;
+    }
     #region // Get Random Jobs
     public Jobs GetRandomJobBasedOnRole(Roles role, HashSet<Jobs> excludedJobs = null)
     {

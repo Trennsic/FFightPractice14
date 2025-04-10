@@ -7,6 +7,7 @@ using static FightManager;
 using static BossManager;
 using System.Collections;
 using System;
+using static GameManager;
 
 [Serializable]
 public struct PermutationOption
@@ -24,8 +25,6 @@ public struct PermutationOption
 #region // Fight Manager
 public class FightManager : MonoBehaviour
 {
-    
-    
     #region // Definitions
     public enum FightEnum
     {
@@ -47,7 +46,7 @@ public class FightManager : MonoBehaviour
     [SerializeField] private GameManager gameManager;
     #endregion
 
-    [SerializeField] private DebugAddon debugObj;
+    [SerializeField] private DebugInfo debug;
 
     #region // M5S
     public enum M5SAttacks
@@ -127,6 +126,7 @@ public class FightManager : MonoBehaviour
 
     public void InitializeFightInfo(FightEnum fightEnum, int fightAttack = 0, int fightStep = 0, FightGuide fightGuide = FightGuide.Hector)
     {
+        InitializeDebug();
         SetCurrentFight(fightEnum);
         SetCurrentAttack(fightAttack);
         SetCurrentStep(fightStep);
@@ -262,8 +262,8 @@ public class FightManager : MonoBehaviour
             {M5SAttacks.Disco_Infernal_1       , 1}, // Wait
             {M5SAttacks.Funky_Floor_1          , 4}, // Position, Resolve, Position, Resolve
             {M5SAttacks.Out_In_1               , 3},
-            {M5SAttacks.Flip_AB_2              , 3},
-            {M5SAttacks.Snap_Twist_2           , 3},
+            {M5SAttacks.Flip_AB_2              , 5},
+            {M5SAttacks.Snap_Twist_2           , 4},
             {M5SAttacks.Celebrate_2            , 3},
             {M5SAttacks.Deep_Cut_2             , 3},
             // Ensemble_Assemble
@@ -311,6 +311,17 @@ public class FightManager : MonoBehaviour
 
 
         };
+        // When Initializing M5S use test mapping for Permutations
+        // Example test mapping: Funky_Floor_1 = 0, Snap_Twist_2 = 0, Flip_AB_2 = 1.
+        //var testMapping = new Dictionary<M5SAttacks, int>
+        //{
+        //    { M5SAttacks.Funky_Floor_1, 1 },
+        //    { M5SAttacks.Snap_Twist_2, 1 },
+        //    { M5SAttacks.Flip_AB_2, 0 }
+        //};
+        //// Use Test mapping for Random Generator
+        //GetGameManager().SetRandomGenerator(new TestRandomGenerator(testMapping));
+
 
         InitializeM5SPermutations();
     }
@@ -318,6 +329,9 @@ public class FightManager : MonoBehaviour
     {
         m5sAttackPermutations = new Dictionary<M5SAttacks, List<PermutationOption>>();
         m5sSelectedPermutations = new Dictionary<M5SAttacks, PermutationOption>();
+
+        // Get Generator
+        IRandomGenerator randomGenerator = GetGameManager().GetRandomGenerator();
 
         // Define permutations
         #region // Introduction
@@ -340,8 +354,8 @@ public class FightManager : MonoBehaviour
         #region // Disco Infernal 1
         m5sAttackPermutations[M5SAttacks.Disco_Infernal_1] = new List<PermutationOption>()
         {
-            new PermutationOption("Supports First"    , 1),
-            new PermutationOption("Damage First"      , 2),
+            new PermutationOption("Supports First"    , 1), // Supp short timers
+            new PermutationOption("Damage First"      , 2), // Dps short timers
         };
         m5sAttackPermutations[M5SAttacks.Funky_Floor_1] = new List<PermutationOption>()
         {
@@ -355,8 +369,8 @@ public class FightManager : MonoBehaviour
         };
         m5sAttackPermutations[M5SAttacks.Flip_AB_2] = new List<PermutationOption>()
         {
-            new PermutationOption("Flip to A Side", 1),
-            new PermutationOption("Flip to B Side", 2),
+            new PermutationOption("Flip to A Side", 1), // Roles
+            new PermutationOption("Flip to B Side", 2), // Light Parties
         };
         m5sAttackPermutations[M5SAttacks.Snap_Twist_2] = new List<PermutationOption>()
         {
@@ -369,9 +383,16 @@ public class FightManager : MonoBehaviour
         };
         #endregion 
 
-        // Use seeded RNG for deterministic randomness
-        System.Random rng = new System.Random(GetGameManager().GetSeedValue());
+        // If no random generator was injected, create one using the default implementation.
+        if (randomGenerator == null)
+        {
+            randomGenerator = new DefaultRandomGenerator(GetGameManager().GetSeedValue());
+        }
 
+
+        if (debug.GetIsDebugging()) Debug.Log("[FightManager] Initializing permutations using injected random generator...");
+
+        // Use the attack-specific random generation logic.
         foreach (var kvp in m5sAttackPermutations)
         {
             var attack = kvp.Key;
@@ -379,11 +400,29 @@ public class FightManager : MonoBehaviour
 
             if (permutations.Count > 0)
             {
-                int index = rng.Next(permutations.Count);
+                int index = randomGenerator.Next(attack, permutations.Count);
                 m5sSelectedPermutations[attack] = permutations[index];
+                if (debug.GetIsDebugging()) Debug.Log($"[FightManager] Attack {attack} selected permutation: {permutations[index].label} (value {permutations[index].value}) at index {index} out of {permutations.Count}");
+            }
+            else
+            {
+                Debug.LogWarning($"[FightManager] No permutations available for attack {attack}.");
             }
         }
     }
+    public void SetPermutation(M5SAttacks attack, PermutationOption option)
+    {
+        if (m5sAttackPermutations.ContainsKey(attack) &&
+            m5sAttackPermutations[attack].Contains(option))
+        {
+            m5sSelectedPermutations[attack] = option;
+        }
+        else
+        {
+            Debug.LogWarning($"Option {option.label} is not valid for {attack}.");
+        }
+    }
+
     public PermutationOption GetPermutationForAttack(M5SAttacks attack)
     {
         if (m5sSelectedPermutations.TryGetValue(attack, out var permutation))
@@ -398,20 +437,8 @@ public class FightManager : MonoBehaviour
     #endregion
     #region // References 
     private GameManager GetGameManager() => gameManager;
+    private void InitializeDebug(bool isDebugging = false) { debug = new DebugInfo(isDebugging); }
     #endregion
     #endregion
-
-
-
-
-
-
-
-
-
 }
-
-
-
-
 #endregion

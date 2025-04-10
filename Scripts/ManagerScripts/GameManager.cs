@@ -6,6 +6,7 @@ using UnityEngine.UIElements;
 using static FightManager;
 using static BossManager;
 using System.Collections;
+using static GameManager;
 
 
 
@@ -42,17 +43,17 @@ public class GameManager : MonoBehaviour
     [SerializeField] private const float rKeyHoldThreshold = 1.5f;
     [SerializeField] private float characterZPosition = 0f;
     [SerializeField] private int seedValue = 12345; // Your specific seed value
+    private IRandomGenerator randomGenerator;
     #endregion
     #region // Functions
     private void Awake()
     {
-        //seedValue = System.Guid.NewGuid().GetHashCode(); // Using a random GUID hash as seed
-        //Random.InitState(seedValue);
+        
+
     }
     void Start()
     {
-        InitializeManagers();
-        StartTestFight();
+        InitializeGameManager();
     }
 
     void Update()
@@ -60,7 +61,18 @@ public class GameManager : MonoBehaviour
         GetFightManager().DisplayFightInformation();
         CheckForInput();
     }
-
+    private void InitializeGameManager()
+    {
+        InitializeRandomSeed();
+        InitializeManagers();
+        StartTestFight();
+    }
+    private void InitializeRandomSeed()
+    {
+        seedValue = System.Guid.NewGuid().GetHashCode(); // Using a random GUID hash as seed
+        Random.InitState(seedValue);
+        SetRandomGenerator(new DefaultRandomGenerator(GetSeedValue()));
+    }
     void InitializeManagers()
     {
         GetCameraManager().InitializeCameraManager();
@@ -129,7 +141,7 @@ public class GameManager : MonoBehaviour
 
     public void StartTestFight()
     {
-        GetFightManager().InitializeFightInfo(FightEnum.M5S, GetFightManager().GetAttackIndexFromEnum(FightEnum.M5S,M5SAttacks.Disco_Infernal_1));
+        GetFightManager().InitializeFightInfo(FightEnum.M5S, GetFightManager().GetAttackIndexFromEnum(FightEnum.M5S,M5SAttacks.Flip_AB_2));
         GetPositionManager().UpdatePositions();
         GetCharacterManager().UpdateNpcPositions();
         GetWaymarkManager().SetWaymarkUsingSets();
@@ -189,9 +201,85 @@ public class GameManager : MonoBehaviour
     public DebugManager GetDebugManager() => debugManager;
     //public StepManager GetStepManager() => stepManager;
     #endregion
+    
+    public IRandomGenerator GetRandomGenerator() => randomGenerator;
+    public void SetRandomGenerator(IRandomGenerator generator) => randomGenerator = generator;
+    public interface IRandomGenerator
+    {
+        // Standard method (could be used for non–attack-specific calls)
+        int Next(int maxValue);
+
+        // New method for when you want a value based on the given attack
+        int Next(M5SAttacks attack, int maxValue);
+    }
+
+
     #endregion
 }
 #endregion
+public class DefaultRandomGenerator : IRandomGenerator
+{
+    private System.Random rng;
+
+    public DefaultRandomGenerator(int seed)
+    {
+        rng = new System.Random(seed);
+        //Debug.Log($"[DefaultRandomGenerator] Initialized with seed: {seed}");
+    }
+
+    public int Next(int maxValue)
+    {
+        int result = rng.Next(maxValue);
+        //Debug.Log($"[DefaultRandomGenerator] Next({maxValue}) returned {result}");
+        return result;
+    }
+
+    public int Next(M5SAttacks attack, int maxValue)
+    {
+        int result = rng.Next(maxValue);
+        //Debug.Log($"[DefaultRandomGenerator] Next for attack {attack} with maxValue {maxValue} returned {result}");
+        return result;
+    }
+}
+
+public class TestRandomGenerator : IRandomGenerator
+{
+    private readonly Dictionary<M5SAttacks, int> fixedIndices;
+
+    public TestRandomGenerator(Dictionary<M5SAttacks, int> fixedIndices)
+    {
+        this.fixedIndices = fixedIndices;
+        //Debug.Log("[TestRandomGenerator] Initialized with fixed indices:");
+        foreach (var kvp in fixedIndices)
+        {
+            //Debug.Log($"  {kvp.Key} => {kvp.Value}");
+        }
+    }
+
+    // This method is not used when attack-specific call is available.
+    public int Next(int maxValue)
+    {
+        int result = 0;
+        //Debug.Log($"[TestRandomGenerator] Next({maxValue}) returned {result}");
+        return result;
+    }
+
+    public int Next(M5SAttacks attack, int maxValue)
+    {
+        if (fixedIndices.TryGetValue(attack, out int index))
+        {
+            int result = index % maxValue;
+            //Debug.Log($"[TestRandomGenerator] Next for attack {attack} with maxValue {maxValue} returned fixed index {result}");
+            return result;
+        }
+        //Debug.Log($"[TestRandomGenerator] Next for attack {attack} with maxValue {maxValue} no fixed index found, returning 0");
+        return 0;
+    }
+}
+
+
+
+
 
 //#region // Current Fight Info
 //[System.Serializable]

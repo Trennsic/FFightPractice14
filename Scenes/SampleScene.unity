@@ -4657,7 +4657,8 @@ MonoBehaviour:
   currentStepType: 0
   permutation: 0
   gameManager: {fileID: 0}
-  debugObj: {fileID: 0}
+  debug:
+    isDebugging: 0
 --- !u!1 &1640569222
 GameObject:
   m_ObjectHideFlags: 0
@@ -4709,7 +4710,8 @@ MonoBehaviour:
   currentStepType: 0
   permutation: 0
   gameManager: {fileID: 1957070436}
-  debugObj: {fileID: 0}
+  debug:
+    isDebugging: 0
 --- !u!1 &1729170841
 GameObject:
   m_ObjectHideFlags: 0
@@ -5413,7 +5415,7 @@ MonoBehaviour:
     isDebugging: 0
   rKeyHoldTime: 0
   characterZPosition: 0
-  seedValue: 8
+  seedValue: 0
 --- !u!1 &1967296882
 GameObject:
   m_ObjectHideFlags: 0
@@ -5509,11 +5511,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41431ed8eaea1104db0a45576d7398e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterInfo: {fileID: 1118678422}
-  spriteRenderer: {fileID: 1974555493}
-  zPosition: -2
-  fm: {fileID: 1592178533}
-  isDebugging: 0
 --- !u!212 &1974555493
 SpriteRenderer:
   m_ObjectHideFlags: 0
