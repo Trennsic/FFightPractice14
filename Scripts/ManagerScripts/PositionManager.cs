@@ -1261,6 +1261,58 @@ public class PositionManager : MonoBehaviour
 
                 }
                 #endregion
+                #region // Deep Cut 2
+                else if (m5sAttack == FightManager.M5SAttacks.Deep_Cut_2.ToString())
+                {
+                    // Inital Clock Positions
+                    if (whichStep == 0)
+                    {
+                        // Fight Start Loose Stacks
+                        mtPos = ArenaPosition(50f, 35f);
+                        otPos = ArenaPosition(62f, 32f);
+                        h1Pos = ArenaPosition(35f, 23f);
+                        h2Pos = ArenaPosition(58f, 25f);
+                        m1Pos = ArenaPosition(46f, 26f);
+                        m2Pos = ArenaPosition(50f, 18f);
+                        r1Pos = ArenaPosition(40f, 16f);
+                        r2Pos = ArenaPosition(60f, 14f);
+                    }
+                    // Deep Cut Choose Pos
+                    else if (whichStep == 1)
+                    {
+                        // Setup Role Positions
+                        mtPos = ArenaPosition(50f, 65f);
+                        otPos = ArenaPosition(65f, 55f);
+
+                        h1Pos = ArenaPosition(46f, 42f);
+                        h2Pos = ArenaPosition(54f, 42f);
+
+                        m1Pos = ArenaPosition(43f, 35f);
+                        m2Pos = ArenaPosition(57f, 35f);
+
+                        r1Pos = ArenaPosition(45f, 28f);
+                        r2Pos = ArenaPosition(55f, 28f);
+                    }
+                    // Deep Cut Resolve
+                    else if (whichStep == 2)
+                    {
+                        // Setup Role Positions
+                        mtPos = ArenaPosition(50f, 65f);
+                        otPos = ArenaPosition(65f, 55f);
+
+                        h1Pos = ArenaPosition(46f, 42f);
+                        h2Pos = ArenaPosition(54f, 42f);
+
+                        m1Pos = ArenaPosition(43f, 35f);
+                        m2Pos = ArenaPosition(57f, 35f);
+
+                        r1Pos = ArenaPosition(45f, 28f);
+                        r2Pos = ArenaPosition(55f, 28f);
+
+                    }
+
+                }
+                #endregion
 
             }
         }

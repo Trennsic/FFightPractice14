@@ -26,6 +26,8 @@ public class GameManager : MonoBehaviour
     [Header("References")]
     [SerializeField] private FightManager fightManager;
     [SerializeField] private CharacterManager characterManager;
+    [SerializeField] private UiManager uiManager;
+    [SerializeField] private CastManager castManager;
     [SerializeField] private PositionManager positionManager;
     [SerializeField] private GuidePointManager guidePointManager;
     [SerializeField] private DamageMarkerManager damageMarkerManager;
@@ -77,6 +79,8 @@ public class GameManager : MonoBehaviour
     {
         GetCameraManager().InitializeCameraManager();
         GetFightManager().InitializeFightManager();
+        GetUiManager().InitializeUiManager();
+        GetCastManager().InitializeCastManager();
         GetGuidePointManager().InitializeGuidePointManager();
         GetDamageMarkerManager().InitializeDamageMarkerManager();
         GetCharacterManager().InitializeCharacterManager();
@@ -115,6 +119,8 @@ public class GameManager : MonoBehaviour
             GetPositionManager().UpdatePositions();
             // Update Npc positions
             GetCharacterManager().UpdateNpcPositions();
+            // Update Cast Bar
+            GetCastManager().UpdateAttackInfo();
         }
         // Check for R key hold to restart
         if (Input.GetKey(KeyCode.R))
@@ -141,11 +147,12 @@ public class GameManager : MonoBehaviour
 
     public void StartTestFight()
     {
-        GetFightManager().InitializeFightInfo(FightEnum.M5S, GetFightManager().GetAttackIndexFromEnum(FightEnum.M5S,M5SAttacks.Flip_AB_2));
+        GetFightManager().InitializeFightInfo(FightEnum.M5S);//, GetFightManager().GetAttackIndexFromEnum(FightEnum.M5S,M5SAttacks.Flip_AB_2));
         GetPositionManager().UpdatePositions();
         GetCharacterManager().UpdateNpcPositions();
         GetWaymarkManager().SetWaymarkUsingSets();
         GetBackgroundManager().UpdateArena();
+        GetCastManager().UpdateAttackInfo();
 
     }
     // Convert percentage to a position based on the arena width.
@@ -191,6 +198,8 @@ public class GameManager : MonoBehaviour
     #region // References
     public FightManager GetFightManager() => fightManager;
     public CharacterManager GetCharacterManager() => characterManager;
+    public UiManager GetUiManager() => uiManager;
+    public CastManager GetCastManager() => castManager;
     public PositionManager GetPositionManager() => positionManager;
     public GuidePointManager GetGuidePointManager() => guidePointManager;
     public DamageMarkerManager GetDamageMarkerManager() => damageMarkerManager;
@@ -217,6 +226,7 @@ public class GameManager : MonoBehaviour
     #endregion
 }
 #endregion
+#region // Random generator
 public class DefaultRandomGenerator : IRandomGenerator
 {
     private System.Random rng;
@@ -276,6 +286,7 @@ public class TestRandomGenerator : IRandomGenerator
         return 0;
     }
 }
+#endregion
 
 
 

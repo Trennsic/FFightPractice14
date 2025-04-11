@@ -149,7 +149,7 @@ public class BackgroundManager : MonoBehaviour
 
         backgroundFillerRenderer.transform.localScale = new Vector3(
             1000f / (spriteSize.x * parentScale.x),
-            450f / (spriteSize.y * parentScale.y),
+            600f / (spriteSize.y * parentScale.y),
             1f
         );
 

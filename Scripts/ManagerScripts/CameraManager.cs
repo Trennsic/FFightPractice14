@@ -1,9 +1,11 @@
 using Unity.VisualScripting;
 using UnityEngine;
 
-[RequireComponent(typeof(Camera))]
 public class CameraManager : MonoBehaviour
 {
+    [Header("Camera ")]
+    [SerializeField]private Camera cam;
+
     [Header("Camera Focus Settings")]
     public Transform focusTarget;             // The target to focus on
     public float zDistance = -10f;            // Z distance of the camera
@@ -12,7 +14,7 @@ public class CameraManager : MonoBehaviour
     public float targetWidth = 1000f;
     public float targetHeight = 220;
 
-    private Camera cam;
+    
 
     #region // References 
     [Header("References")]
@@ -29,7 +31,7 @@ public class CameraManager : MonoBehaviour
     {
         InitializeDebug();
 
-        cam = GetComponent<Camera>();
+        
         cam.orthographic = true; // Orthographic for precise 2D control
 
         AdjustOrthographicSize();
@@ -51,7 +53,7 @@ public class CameraManager : MonoBehaviour
         {
             Vector3 newPosition = focusTarget.position;
             newPosition.z = zDistance;
-            transform.position = newPosition;
+            cam.gameObject.transform.position = newPosition;
         }
         else
         {

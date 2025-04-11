@@ -252,18 +252,18 @@ public class FightManager : MonoBehaviour
         // Set up the max steps for the M5S fight
         m5sAttackMaxSteps = new Dictionary<M5SAttacks, int>(){
             // Setup
-            {M5SAttacks.Setup                  , 3},// Light parties x2, Colour Partners x2, Fan Spreads x2
+            {M5SAttacks.Setup                  , 5},// 5 Steps - Start Position, Pick Clock, LP Position, LP Resolve / Color Position, Color Resolve
             // Introduction
-            {M5SAttacks.Deep_Cut_1             , 2}, // Position, Resolve
-            {M5SAttacks.Flip_AB_1              , 1}, // Wait
-            {M5SAttacks.Snap_Twist_1           , 4}, // Position, Resolve, Position Resolve
-            {M5SAttacks.Celebrate_1            , 1}, // Wait
+            {M5SAttacks.Deep_Cut_1             , 3}, // 3 Steps - Start Position, DC Position, DC Resolve
+            {M5SAttacks.Flip_AB_1              , 1}, // 1 Step  - AB Wait
+            {M5SAttacks.Snap_Twist_1           , 3}, // 3 Steps - Snap Position, Snap Resolve / Position, Twist Resolve
+            {M5SAttacks.Celebrate_1            , 1}, // 1 Step  - Raidwide Wait
             // Disco Infernal
-            {M5SAttacks.Disco_Infernal_1       , 1}, // Wait
-            {M5SAttacks.Funky_Floor_1          , 4}, // Position, Resolve, Position, Resolve
-            {M5SAttacks.Out_In_1               , 3},
-            {M5SAttacks.Flip_AB_2              , 5},
-            {M5SAttacks.Snap_Twist_2           , 4},
+            {M5SAttacks.Disco_Infernal_1       , 1}, // 1 Step  - Clock Position Wait
+            {M5SAttacks.Funky_Floor_1          , 3}, // 3 Steps - Floor 1 Position, Floor 1 Resolve / Floor 2 Position, Floor 2 Resolve
+            {M5SAttacks.Out_In_1               , 3}, // 3 Steps - Oi 1 Position, Oi 1 Resolve / Oi 2 Position, Oi 1 Resolve
+            {M5SAttacks.Flip_AB_2              , 5}, // 3 Steps - Floor 3 Position, Floor 3 Resolve / Spotlight Position, Spotlight Resolve
+            {M5SAttacks.Snap_Twist_2           , 4}, // 3 Steps - Snap Position, Snap Resolve / Position, Twist Resolve
             {M5SAttacks.Celebrate_2            , 3},
             {M5SAttacks.Deep_Cut_2             , 3},
             // Ensemble_Assemble
