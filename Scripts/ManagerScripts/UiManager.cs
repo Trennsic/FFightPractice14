@@ -1,4 +1,4 @@
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
@@ -14,6 +14,11 @@ public class UiManager : MonoBehaviour
     [SerializeField] private Slider castbarSlider;
     [SerializeField] private TextMeshProUGUI castbarText;
     [SerializeField] private TextMeshProUGUI attackText;
+
+    // NEW: drag & drop the CanvasGroups for your text objects
+    [Header("Separate Text CanvasGroups")]
+    [SerializeField] private CanvasGroup castbarTextGroup;
+    [SerializeField] private CanvasGroup attackTextGroup;
 
     #region References 
     [Header("References")]
@@ -69,53 +74,114 @@ public class UiManager : MonoBehaviour
             attackText.text = text;
     }
 
-    public void SetCastDisplayType(CastDisplayType targetDisplay, float fadeDuration = 1)
+    public void SetCastDisplayType(CastDisplayType targetDisplay, bool isNewAttack = false, float fadeDuration = .25f)
     {
-        StopAllCoroutines(); // Stop any existing fade transitions
-        StartCoroutine(FadeAndToggleUiElements(targetDisplay, fadeDuration));
+        targetDisplay = CastDisplayType.CastBar;
+        bool modeChanged = (targetDisplay != currentCastDisplay);
+        bool toggleSlider = modeChanged || isNewAttack;
+
+        // 1) Slider panel toggling (no fade)
+        if (toggleSlider)
+        {
+            castBar.SetActive(targetDisplay == CastDisplayType.CastBar);
+            attackBar.SetActive(targetDisplay == CastDisplayType.AttackBar);
+            currentCastDisplay = targetDisplay;
+        }
+
+        // 2) Text fading (only on new attack)
+        if (isNewAttack)
+        {
+            // choose which text to fade in
+            var incomingText = (targetDisplay == CastDisplayType.CastBar)
+                ? castbarText
+                : attackText;
+
+            // reset alpha instantly
+            incomingText.canvasRenderer.SetAlpha(0f);
+            // then fade up
+            incomingText.CrossFadeAlpha(1f, fadeDuration, false);
+        }
+
+
     }
 
-    private IEnumerator FadeAndToggleUiElements(CastDisplayType targetDisplay, float duration)
+    private IEnumerator TransitionUI(
+        CastDisplayType targetDisplay,
+        float duration,
+        bool toggleSlider,
+        bool fadeText
+    )
     {
-        float elapsedTime = 0f;
+        // 1) Panel canvas‑groups (for slider vs attack bar)
+        var castBarCG = castBar.GetComponent<CanvasGroup>() ?? castBar.AddComponent<CanvasGroup>();
+        var attackBarCG = attackBar.GetComponent<CanvasGroup>() ?? attackBar.AddComponent<CanvasGroup>();
 
-        CanvasGroup castBarGroup = castBar.GetComponent<CanvasGroup>();
-        CanvasGroup attackBarGroup = attackBar.GetComponent<CanvasGroup>();
+        // 2) Text canvas‑groups on the existing TMP objects
+        var castTextCG = castbarText.gameObject.GetComponent<CanvasGroup>()
+                           ?? castbarText.gameObject.AddComponent<CanvasGroup>();
+        var attackTextCG = attackText.gameObject.GetComponent<CanvasGroup>()
+                           ?? attackText.gameObject.AddComponent<CanvasGroup>();
 
-        if (castBarGroup == null) castBarGroup = castBar.AddComponent<CanvasGroup>();
-        if (attackBarGroup == null) attackBarGroup = attackBar.AddComponent<CanvasGroup>();
+        bool toCastBar = (targetDisplay == CastDisplayType.CastBar);
+        float elapsed = 0f;
 
-        bool toCastBar = targetDisplay == CastDisplayType.CastBar;
-
-        // Only activate the one that needs to fade in
-        if (toCastBar && !castBar.activeSelf)
-            castBar.SetActive(true);
-        else if (!toCastBar && !attackBar.activeSelf)
-            attackBar.SetActive(true);
-
-        while (elapsedTime < duration)
+        // Activate incoming slider panel if needed
+        if (toggleSlider)
         {
-            float alpha = elapsedTime / duration;
+            if (toCastBar && !castBar.activeSelf) castBar.SetActive(true);
+            if (!toCastBar && !attackBar.activeSelf) attackBar.SetActive(true);
+        }
 
-            castBarGroup.alpha = toCastBar ? alpha : 1f - alpha;
-            attackBarGroup.alpha = toCastBar ? 1f - alpha : alpha;
+        // Prep text fade: if we're fading in new text, zero its alpha & ensure active
+        if (fadeText)
+        {
+            var incomingTextCG = toCastBar ? castTextCG : attackTextCG;
+            incomingTextCG.alpha = 0f;
+            incomingTextCG.gameObject.SetActive(true);
+        }
 
-            elapsedTime += Time.deltaTime;
+        // Cross‑fade over duration
+        while (elapsed < duration)
+        {
+            float t = elapsed / duration;
+
+            if (toggleSlider)
+            {
+                castBarCG.alpha = toCastBar ? t : 1f - t;
+                attackBarCG.alpha = toCastBar ? 1f - t : t;
+            }
+
+            if (fadeText)
+            {
+                var incomingTextCG = toCastBar ? castTextCG : attackTextCG;
+                incomingTextCG.alpha = t;
+            }
+
+            elapsed += Time.deltaTime;
             yield return null;
         }
 
-        // Final alpha values
-        castBarGroup.alpha = toCastBar ? 1f : 0f;
-        attackBarGroup.alpha = toCastBar ? 0f : 1f;
+        // Finalize slider panels
+        if (toggleSlider)
+        {
+            castBarCG.alpha = toCastBar ? 1f : 0f;
+            attackBarCG.alpha = toCastBar ? 0f : 1f;
 
-        // Deactivate the one that faded out
-        if (toCastBar)
-            attackBar.SetActive(false);
-        else
-            castBar.SetActive(false);
+            if (toCastBar) attackBar.SetActive(false);
+            else castBar.SetActive(false);
 
-        currentCastDisplay = targetDisplay;
+            currentCastDisplay = targetDisplay;
+        }
+
+        // Finalize text fade
+        if (fadeText)
+        {
+            var incomingTextCG = toCastBar ? castTextCG : attackTextCG;
+            incomingTextCG.alpha = 1f;
+        }
     }
+
+
 
 
     public void UpdateCastbarSlider(float value)

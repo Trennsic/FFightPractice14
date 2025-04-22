@@ -17,6 +17,7 @@ public class CastManager : MonoBehaviour
     [Header("Cast Settings")]
     [SerializeField] private string currentAttack;
     [SerializeField] private CastType currentCastType;
+    [SerializeField] private CastDisplayType currentDisplayType;
     [SerializeField] private float realTimeDuration;
     [SerializeField] private List<float> stepPausePoints = new List<float>();
     [SerializeField] private int currentStepIndex = 0;
@@ -27,11 +28,16 @@ public class CastManager : MonoBehaviour
     [SerializeField] private Coroutine castRoutine;
     [SerializeField] private bool isCasting = false;
 
-    private Dictionary<FightManager.M5SAttacks, CastInfo> m5sCastInfo;
+    [SerializeField] private Dictionary<FightManager.M5SAttacks, CastInfo> m5sCastInfo;
 
     [Header("References")]
     [SerializeField] private GameManager gameManager;
     [SerializeField] private DebugInfo debug;
+
+    void Update()
+    {
+        UpdateCastProgress();
+    }
 
     // Initializes CastManager, sets up initial states
     public void InitializeCastManager()
@@ -56,19 +62,16 @@ public class CastManager : MonoBehaviour
             StopCoroutine(castRoutine);
 
         GetGameManager().GetUiManager().SetAttackText(attackText);
-        GetGameManager().GetUiManager().SetCastDisplayType(castDisplayType);
+        //GetGameManager().GetUiManager().SetCastDisplayType(castDisplayType);
         castRoutine = StartCoroutine(HandleCastProgress());
     }
 
-    void Update()
-    {
-        UpdateCastProgress();
-    }
+    
 
     // Updates the cast progress bar
     private void UpdateCastProgress()
     {
-        if (!isCasting) return;
+        //if (!isCasting) return;
 
         // Smooth progress bar movement
         castProgress = Mathf.MoveTowards(castProgress, castProgressTarget, Time.deltaTime);
@@ -136,8 +139,7 @@ public class CastManager : MonoBehaviour
         int attack = fm.GetCurrentAttack();
         int step = fm.GetCurrentStep();
 
-        // Set the UI to CastBar display type
-        um.SetCastDisplayType(CastDisplayType.CastBar);
+        
 
         // Only handle M5S Hector for now
         if (fight == FightManager.FightEnum.M5S && guide == FightManager.FightGuide.Hector)
@@ -146,7 +148,7 @@ public class CastManager : MonoBehaviour
 
             if (attackEnum == M5SAttacks.Setup)
             {
-                um.SetCastDisplayType(CastDisplayType.AttackBar);
+                //um.SetCastDisplayType(CastDisplayType.AttackBar);
             }
 
             // Try to get the CastInfo for this attack
@@ -156,8 +158,9 @@ public class CastManager : MonoBehaviour
                 return;
             }
 
-            // Handle dynamic step names (e.g., permutations)
             List<string> stepNames = castInfo.stepNames;
+
+            #region// Handle dynamic step names (e.g., permutations)
             switch (attackEnum)
             {
                 case FightManager.M5SAttacks.Flip_AB_1:
@@ -209,6 +212,7 @@ public class CastManager : MonoBehaviour
                     stepNames = Enumerable.Repeat(snapText2, castInfo.stepNames.Count).ToList();
                     break;
             }
+            #endregion
 
             // Clamp step index to valid range
             int clampedStep = Mathf.Clamp(step, 0, stepNames.Count - 1);
@@ -217,13 +221,23 @@ public class CastManager : MonoBehaviour
             string attackText = stepNames[clampedStep];
             um.SetAttackText(attackText);
 
+            currentAttack = attack.ToString();
+            currentStepIndex = step;
+
             // Determine cast behavior
             currentCastType = castInfo.castType;
+            currentDisplayType = castInfo.displayType;
             stepPausePoints = castInfo.castBarPauses;
             realTimeDuration = castInfo.castTimeDuration;
-            currentStepIndex = clampedStep; // update to match fight state
-            castProgress = 0f;
+            
             castProgressTarget = 0f;
+
+            // Only Reset cast progress if it's the first step of an attack
+            bool isNewAttack = (currentStepIndex <= 0);
+            if (isNewAttack) { castProgress = 0f; }
+
+            // Set the UI to correct display type
+            um.SetCastDisplayType(currentDisplayType, isNewAttack);
 
             // Cancel any existing coroutine
             if (castRoutine != null)
@@ -248,82 +262,85 @@ public class CastManager : MonoBehaviour
     {
         m5sCastInfo = new Dictionary<FightManager.M5SAttacks, CastInfo>();
 
-        void AddCast(FightManager.M5SAttacks attack, List<string> stepNames, List<float> pauses, float castDuration, float fullDuration, CastType castType)
+        void AddCast(FightManager.M5SAttacks attack, List<string> stepNames, List<float> pauses, float castDuration, float fullDuration, CastType castType, CastDisplayType displayType)
         {
-            m5sCastInfo[attack] = new CastInfo(stepNames, pauses, castDuration, fullDuration, castType);
+            m5sCastInfo[attack] = new CastInfo(stepNames, pauses, castDuration, fullDuration, castType, displayType);
         }
 
         AddCast(FightManager.M5SAttacks.Setup,
             new List<string> { "Setup - Clock Positions", "Setup - Light Parties", "Setup - Light Parties", "Setup - Color Partners", "Setup - Color Partners" },
             new List<float> { 0f, 0.3f, 0.6f, 0.9f, 1f },
             -1f, -1f,
-            CastType.Step);
+            CastType.Step,
+            CastDisplayType.AttackBar);
 
         AddCast(FightManager.M5SAttacks.Deep_Cut_1,
             new List<string> { "Deep Cut", "Deep Cut" },
             new List<float> { 0.5f, 1f },
             2f, 2f,
-            CastType.Step);
+            CastType.Step,
+            CastDisplayType.CastBar);
 
         AddCast(FightManager.M5SAttacks.Flip_AB_1,
             new List<string> { "Flip to A side" }, // dynamic
             new List<float> { 0.9f },
             2f, 2f,
-            CastType.Step);
+            CastType.Step,
+            CastDisplayType.CastBar);
 
         AddCast(FightManager.M5SAttacks.Snap_Twist_1,
             new List<string> { "Snap Twist" },
             new List<float> { 0.5f, 1f, 1f },
             2f, 2f,
-            CastType.Step);
+            CastType.Step, CastDisplayType.CastBar);
 
         AddCast(FightManager.M5SAttacks.Celebrate_1,
             new List<string> { "Celebrate Good Times" },
             new List<float> { 0.5f },
             1f, 1f,
-            CastType.RealTime);
+            CastType.RealTime, CastDisplayType.CastBar);
 
         AddCast(FightManager.M5SAttacks.Disco_Infernal_1,
             new List<string> { "Disco Infernal" },
             new List<float> { 0.5f },
             1f, 1f,
-            CastType.RealTime);
+            CastType.RealTime, CastDisplayType.CastBar);
 
         AddCast(FightManager.M5SAttacks.Funky_Floor_1,
             new List<string> { "Funky Floor", "Funky Floor", "Funky Floor" },
             new List<float> { 0.9f, 1f, 1f },
             1f, 1f,
-            CastType.Step);
+            CastType.Step, CastDisplayType.CastBar);
 
         AddCast(FightManager.M5SAttacks.Out_In_1,
             new List<string> { "Funky Floor", "Funky Floor", "Funky Floor" }, // dynamic
             new List<float> { 0.9f, 1f, 1f },
             1f, 1f,
-            CastType.Step);
+            CastType.Step, CastDisplayType.CastBar);
 
         AddCast(FightManager.M5SAttacks.Flip_AB_2,
             new List<string> { "Flip to A side", "Flip to A side", "Flip to A side" }, // dynamic
             new List<float> { 0.9f, 1f, 1f },
             2f, 2f,
-            CastType.Step);
+            CastType.Step, CastDisplayType.CastBar);
 
         AddCast(FightManager.M5SAttacks.Snap_Twist_2,
             new List<string> { "Snap Twist" },
             new List<float> { 0.5f, 1f, 1f },
             2f, 2f,
-            CastType.Step);
+            CastType.Step, CastDisplayType.CastBar);
 
         AddCast(FightManager.M5SAttacks.Celebrate_2,
             new List<string> { "Celebrate Good Times" },
             new List<float> { 0.5f },
             1f, 1f,
-            CastType.RealTime);
+            CastType.RealTime, CastDisplayType.CastBar);
 
         AddCast(FightManager.M5SAttacks.Deep_Cut_2,
             new List<string> { "Deep Cut", "Deep Cut" },
             new List<float> { 0.5f, 1f },
             2f, 2f,
-            CastType.Step);
+            CastType.Step, CastDisplayType.CastBar);
     }
 
     public void SetCastProgressTarget(float duration, List<float> stepPauses)
@@ -366,6 +383,7 @@ public class CastInfo
     public float castTimeDuration { get; private set; }
     public float fullTimeDuration { get; private set; }
     public CastType castType { get; private set; }  // ← Added
+    public CastDisplayType displayType { get; private set; }  // ← Added
 
     public int StepCount => stepNames?.Count ?? 0;
 
@@ -374,13 +392,15 @@ public class CastInfo
         List<float> castBarPauses,
         float castTimeDuration,
         float fullTimeDuration,
-        CastType castType)  // ← Added
+        CastType castType,
+        CastDisplayType displayType)  // ← Added
     {
         this.stepNames = stepNames;
         this.castBarPauses = castBarPauses;
         this.castTimeDuration = castTimeDuration;
         this.fullTimeDuration = fullTimeDuration;
         this.castType = castType;  // ← Added
+        this.displayType = displayType;
     }
 
     // Optional: get step name safely

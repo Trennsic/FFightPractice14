@@ -63,7 +63,7 @@ public class PositionManager : MonoBehaviour
                 if (m5sAttack == FightManager.M5SAttacks.Setup.ToString())
                 {
                     // Inital Clock Positions
-                    if (whichStep == 0)
+                    if (whichStep == 0 || whichStep == 1)
                     {
                         // Setup Role Positions
                         mtPos = ArenaPosition(50f, 32f);
@@ -76,7 +76,7 @@ public class PositionManager : MonoBehaviour
                         r2Pos = ArenaPosition(60f, 32f);
                     }
                     // Light Parties
-                    else if (whichStep == 1)
+                    else if (whichStep == 2 || whichStep == 3)
                     {
                         // Setup Role Positions
                         mtPos = ArenaPosition(35f, 65f);
@@ -90,7 +90,7 @@ public class PositionManager : MonoBehaviour
                         r2Pos = ArenaPosition(71f, 35f);
                     }
                     // Color Partners
-                    else if (whichStep == 2)
+                    else if (whichStep == 4)
                     {
                         // Setup Role Positions
                         mtPos = ArenaPosition(40f, 65f);
